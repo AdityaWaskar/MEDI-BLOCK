@@ -1,0 +1,26 @@
+.infoCardContainer{
+    /* display: flex;
+    flex-wrap: wrap; */
+    margin: 15px 10%;
+}
+
+.infoCardContainer .info{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    padding: 10px 10px;
+    border: 1px solid black;
+}
+
+.infoCardContainer .info p{
+    margin: 0 10px;
+    width: 50%;
+}
+
+.infoCardContainer #Name{
+    width: 100%;
+}
+
+.infoCardContainer h4{
+    width: 100%;
+}

@@ -1,0 +1,30 @@
+card{
+    margin: 13px 18px;
+    padding: 7px 13px;
+    background-color: lightblue;
+    width: 14vw;
+    height: 20vh;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+td{
+    text-align: center;
+    padding: 6px 0;
+
+}
+
+tr:hover{
+    cursor: pointer;
+}
+
+th{
+    border-bottom: 1px solid black;
+}
+
+/* table a{
+    text-decoration: none;
+    color: black;
+} */

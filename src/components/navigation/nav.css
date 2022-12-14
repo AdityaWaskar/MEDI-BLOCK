@@ -1,0 +1,14 @@
+.title img{
+    width: 6%;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+nav{
+    margin-bottom: 20px;
+}

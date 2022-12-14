@@ -1,0 +1,14 @@
+.element, .gender{
+    margin:  20px 0;
+    width: 50%;
+}
+
+.element label, .gender label{
+    margin: 0 40px;
+}
+
+.element input, .gender select{
+    padding: 5px 18px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+}
