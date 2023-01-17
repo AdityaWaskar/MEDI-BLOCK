@@ -1,0 +1,82 @@
+.doctor_form_element{
+    margin: 15px 20px;
+    display: flex;
+    flex-direction: column;
+}
+.doctor_form_element label{
+    font-family: 'Roboto Slab', serif;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.doctor_form_element input, .doctor_form_element textarea, .doctor_form_element select{
+    border-radius: 2px;
+    border: none;
+    padding: 5px 20px;
+    width: 40%;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Roboto Slab', serif;
+    font-weight: 200; */
+
+}
+
+.doctor_form_element select{
+    width: 60%;
+    margin-bottom: 20px;
+}
+
+.gender_option{
+    margin-bottom: 12px;
+}
+
+.doctor_form_element textarea{
+    width: auto;
+}
+
+#Name input, #Age input, #Phone_No input, #Address input{
+    width: 80%;
+}
+
+.doctor_form_element span{
+    margin-top: 3px;
+    font-size: 12px;
+    color: red;
+    /* display: none; */
+}
+
+#Age input{
+    width: 22%;
+    text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}   
+
+input:focus, textarea:focus{
+    border: 1px solid rgb(49 141 130);
+}
+
+#Gender span{
+    color: black;
+}
+
+#Specialization, #Degree{
+    margin-left: 0;
+    margin-top: 0;
+}
+
+#Specialization label, #Degree label{
+    display: none;
+    margin-top: 0;
+}
+
+#Id input{
+    background-color: #dadada;
+    width: 10%;
+    text-align: center;
+}
