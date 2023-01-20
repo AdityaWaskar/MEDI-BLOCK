@@ -1,47 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./patient_home_page.css";
 import { ethers } from "ethers";
+import Footer from "../footer/Footer";
 import axios from "axios";
-import "./home.css";
-import AddPatient from "./AddPatient";
-import { abi } from "./ABI/abi.js";
-import Card from "./card/Card";
+import Report_card from "./card/Report_card";
+import AddPatient from "../home/AddPatient";
+import { abi } from "../home/ABI/abi";
+import Card from "../home/card/Card";
 import Navigation from "../navigation/Navigation";
 import { Link } from "react-router-dom";
-const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-// const contractAddress = '0xd8C83Bd39629b1bbBc7bAd437123edfDf7e05Ad2';
+import Filter from "./Filter";
+import { BiMessageSquareAdd } from "react-icons/bi";
+import { BsFillShareFill } from "react-icons/bs";
 
-const obj = [
-  [
-    "Aditya Waskar", // 0 = name
-    "aditya@gmail.com", // 1 = email
-    "abc", // 2 = medicalHistory
-    "alsdfkjalsfjls", // 3 = report_img
-    "address", // 4 = address
-    9082375004, // 5 = phone_no
-    20, // 6 = age
-    "Dr. Aditya Waskar", // 7 = doctor
-    "Male", // 8 = gender
-    "A+", // 9 = bloodGroup
-    "17/01/2023", // 10 = date
-    0, // 11 = id of patient
-  ],
-  [
-    "Himanshu Upadhyay", // 0 = name
-    "himanshu@gmail.com", // 1 = email
-    "abc", // 2 = medicalHistory
-    "alsdfkjalsfjls", // 3 = report_img
-    "address", // 4 = address
-    2035856985, // 5 = phone_no
-    20, // 6 = age
-    "Dr. Aditya Waskar", // 7 = doctor
-    "Male", // 8 = gender
-    "A+", // 9 = bloodGroup
-    "13/01/2023", // 10 = date
-    1, // 11 = id of patient
-  ],
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+
+const data = [
+  "02/04/2001",
+  "02/04/2003",
+  "02/04/2003",
+  "02/04/2003",
+  "02/04/2003",
+  "02/04/2003",
+  "02/04/2003",
+  "02/04/2003",
+  "02/04/2002",
 ];
 
-const Home = () => {
+const Patient_home_page = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState(0);
@@ -227,100 +213,19 @@ const Home = () => {
   };
 
   return (
-    <div className="homeContainer">
+    <div className="patient_home_page_container">
       <Navigation />
-
-      <div className="addIcon">
-        <img src={"/img/add.svg"} onClick={() => setAdd(true)} />
+      <Filter />
+      <div className="reports">
+        {data.map((r) => (
+          <Report_card key={r} date={r} />
+        ))}
       </div>
-
-      <div className="searchbar">
-        <input
-          type="text"
-          placeholder="Search.."
-          onChange={(e) => setSearch(e.target.value)}
-          maxLength="10"
-        />
-
-        <button
-          onClick={() => {
-            getPatientDetailsByPhoneNo();
-          }}
-        >
-          <Link
-            to={{ pathname: `/home/${particularId}` }}
-            className="link_decoration"
-          >
-            <i className="fa fa-search"></i>
-          </Link>
-        </button>
+      <div className="share_btn">
+        <BsFillShareFill onClick={() => console.log("adity")} />
       </div>
-
-      <table className="allCards">
-        <tbody>
-          <tr>
-            <th>Id</th>
-            <th>Date</th>
-            <th>Name</th>
-            <th>Phone No.</th>
-            <th>Email Id</th>
-          </tr>
-          {obj.map((data) => (
-            <Card
-              key={data[11]}
-              id={data[11]}
-              name={data[0]}
-              email={data[1]}
-              medicalHistory={data[2]}
-              phone_no={data[5]}
-              age={data[6]}
-              doctor={data[7]}
-              gender={data[8]}
-              img={data[3]}
-            />
-          ))}
-          {/* {allPatientId.map(data => (
-
-            <Card
-            key = {data[11]}
-            id = {data[11]}
-            name = {data[0]}
-            email = {data[1]}
-            medicalHistory = {data[2]}
-            phone_no = {data[5]}
-            age = {data[6]}
-            doctor = {data[7]}
-            gender = {data[8]}
-            img = {data[3]}
-            />
-            ))} */}
-        </tbody>
-      </table>
-      {add ? (
-        <AddPatient
-          setName={setName}
-          setAdd={setAdd}
-          setEmail={setEmail}
-          setPhone={setPhone}
-          setAge={setAge}
-          setAddress={setAddress}
-          setDoctorName={setDoctorName}
-          setDisease={setDisease}
-          setSymptoms={setSymptoms}
-          setMedicine_name={setMedicine_name}
-          setReport={setReport}
-          setGender={setGender}
-          setDate={setDate}
-          gender={gender}
-          setBloodGroup={setBloodGroup}
-          pushData={pushData}
-          clearInputs={clearInputs}
-          refresh={refresh}
-          add={add}
-        />
-      ) : null}
     </div>
   );
 };
 
-export default Home;
+export default Patient_home_page;
