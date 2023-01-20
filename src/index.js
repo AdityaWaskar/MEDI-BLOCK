@@ -10,6 +10,8 @@ import Home from "./components/home/Home";
 import Connection from "./components/Connection";
 import DetailInfo from "./components/detailInfo/DetailInfo";
 import Admin_home_page from "./components/Admin_home/Admin_home_page";
+import Patient_home_page from "./components/Patient_home/Patient_home_page";
+import Doctor_home_page from "./components/Doctor_home/Doctor_home_page";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -25,6 +27,18 @@ const createRoute = createBrowserRouter([
   {
     path: "/admin_page",
     element: <Admin_home_page />,
+  },
+  {
+    path: "/patient_page",
+    element: <Patient_home_page />,
+  },
+  {
+    path: "/doctor_page",
+    element: <Doctor_home_page />,
+  },
+  {
+    path: "/home",
+    element: <Home />,
   },
   {
     path: "/home/:id",
