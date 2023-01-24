@@ -4,14 +4,13 @@ import { ethers } from "ethers";
 import Footer from "../footer/Footer";
 import axios from "axios";
 import Report_card from "./card/Report_card";
-import AddPatient from "../home/AddPatient";
 import { abi } from "../home/ABI/abi";
-import Card from "../home/card/Card";
 import Navigation from "../navigation/Navigation";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Filter from "./Filter";
-import { BiMessageSquareAdd } from "react-icons/bi";
 import { BsFillShareFill } from "react-icons/bs";
+import { MdNoteAdd } from "react-icons/md";
+import Report_form from "../Doctor_home/Report_form";
 
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
@@ -28,6 +27,7 @@ const data = [
 ];
 
 const Patient_home_page = () => {
+  const params = useParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState(0);
@@ -49,6 +49,8 @@ const Patient_home_page = () => {
 
   const [refresh, setRefresh] = useState(false);
   const [add, setAdd] = useState(false);
+
+  const [cancel, setCancel] = useState(false); //use of diplaying forms
 
   useEffect(() => {
     requestAccount();
@@ -84,6 +86,7 @@ const Patient_home_page = () => {
     });
     setAccount(account[0]);
   }
+
   // data push to the blockchain
   async function pushData() {
     if (
@@ -222,8 +225,26 @@ const Patient_home_page = () => {
         ))}
       </div>
       <div className="share_btn">
-        <BsFillShareFill onClick={() => console.log("adity")} />
+        {console.log(params.role)}
+        {params.role == "true" ? (
+          // console.log("role")
+          <>
+            <BsFillShareFill onClick={() => console.log("aditya")} />
+            <span className="msg">Share your details</span>
+          </>
+        ) : (
+          <>
+            <MdNoteAdd />
+            <span className="msg" onClick={() => setCancel(true)}>
+              Add Patient Report
+            </span>
+          </>
+        )}
       </div>
+
+      {cancel ? <Report_form cancel={cancel} setCancel={setCancel} /> : null}
+
+      <Footer />
     </div>
   );
 };

@@ -256,45 +256,45 @@ const Home = () => {
         </button>
       </div>
 
-      <table className="allCards">
-        <tbody>
-          <tr>
-            <th>Id</th>
-            <th>Date</th>
-            <th>Name</th>
-            <th>Phone No.</th>
-            <th>Email Id</th>
-          </tr>
-          {obj.map((data) => (
-            <Card
-              key={data[11]}
-              id={data[11]}
-              name={data[0]}
-              email={data[1]}
-              medicalHistory={data[2]}
-              phone_no={data[5]}
-              age={data[6]}
-              doctor={data[7]}
-              gender={data[8]}
-              img={data[3]}
-            />
-          ))}
-          {/* {allPatientId.map(data => (
+        <table className="allCards">
+          <tbody>
+            <tr>
+              <th>Id</th>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Phone No.</th>
+              <th>Email Id</th>
+            </tr>
+            {obj.map((data) => (
+              <Card
+                key={data[11]}
+                id={data[11]}
+                name={data[0]}
+                email={data[1]}
+                medicalHistory={data[2]}
+                phone_no={data[5]}
+                age={data[6]}
+                doctor={data[7]}
+                gender={data[8]}
+                img={data[3]}
+              />
+            ))}
+            {/* {allPatientId.map(data => (
 
-            <Card
-            key = {data[11]}
-            id = {data[11]}
-            name = {data[0]}
-            email = {data[1]}
-            medicalHistory = {data[2]}
-            phone_no = {data[5]}
-            age = {data[6]}
-            doctor = {data[7]}
-            gender = {data[8]}
-            img = {data[3]}
-            />
-            ))} */}
-        </tbody>
+              <Card
+              key = {data[11]}
+              id = {data[11]}
+              name = {data[0]}
+              email = {data[1]}
+              medicalHistory = {data[2]}
+              phone_no = {data[5]}
+              age = {data[6]}
+              doctor = {data[7]}
+              gender = {data[8]}
+              img = {data[3]}
+              />
+              ))} */}
+          </tbody>
       </table>
       {add ? (
         <AddPatient

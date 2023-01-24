@@ -35,7 +35,7 @@
     width: auto;
 }
 
-#Name input, #Age input, #Phone_No input, #Address input{
+#d_Name input, #d_Age input, #d_Phone_No input, #d_Address input{
     width: 80%;
 }
 
@@ -46,36 +46,36 @@
     /* display: none; */
 }
 
-#Age input{
+.doctor_form_element #d_Age input{
     width: 22%;
     text-align: center;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+.doctor_form_element input::-webkit-outer-spin-button,
+.doctor_form_element input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }   
 
-input:focus, textarea:focus{
+.doctor_form_element input:focus, .doctor_form_element textarea:focus{
     border: 1px solid rgb(49 141 130);
 }
 
-#Gender span{
+.doctor_form_element span{
     color: black;
 }
 
-#Specialization, #Degree{
+.doctor_form_element #d_Specialization, #d_Degree{
     margin-left: 0;
     margin-top: 0;
 }
 
-#Specialization label, #Degree label{
+.doctor_form_element #d_Specialization label, #d_Degree label{
     display: none;
     margin-top: 0;
 }
 
-#Id input{
+.doctor_form_element #d_Id input{
     background-color: #dadada;
     width: 10%;
     text-align: center;

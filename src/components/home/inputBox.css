@@ -1,13 +1,13 @@
-.element, .gender{
+.h_element,.h_element .gender{
     margin:  20px 0;
     width: 50%;
 }
 
-.element label, .gender label{
+.h_element label,.h_element .gender label{
     margin: 0 40px;
 }
 
-.element input, .gender select{
+.h_element input,.h_element .gender select{
     padding: 5px 18px;
     border-radius: 5px;
     border: 1px solid lightgray;

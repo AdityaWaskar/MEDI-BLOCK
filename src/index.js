@@ -29,7 +29,7 @@ const createRoute = createBrowserRouter([
     element: <Admin_home_page />,
   },
   {
-    path: "/patient_page",
+    path: "/patient_page/:role",
     element: <Patient_home_page />,
   },
   {

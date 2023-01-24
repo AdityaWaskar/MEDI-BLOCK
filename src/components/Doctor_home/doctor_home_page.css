@@ -1,0 +1,6 @@
+.doctor_home_container .allCards{
+    width: 70%;
+    margin: 0 auto;
+    overflow-y:scroll ;
+    max-height: 100px;
+}

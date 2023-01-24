@@ -1,0 +1,33 @@
+.report_form_container .input_group .element{
+    width: 50%;
+    margin:  20px 0;
+} 
+.report_form_container #Gender select{
+    text-align: center;
+    width: 30%;
+}
+.report_form_container #Blood_Group select{
+    width: 20%;
+    text-align: center;
+}
+
+.report_form_container .input_group .element label,
+.report_form_container #Gender label,
+.report_form_container #Blood_Group label{
+    margin: 0 40px;
+}   
+
+.report_form_container .input_group .element input, 
+.report_form_container #Gender select,
+.report_form_container #Blood_Group select{
+    padding: 5px 18px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.report_form_container .input_group .element{
+    width: 100%;
+    margin-bottom: 25px;
+}

@@ -2,10 +2,10 @@ footer{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
     background-color: #319997;
     margin-bottom: 0;
     font-size: 15px;
     font-weight: 500;
-    min-height: 100vh;
+    /* margin-top: 10px; */
+    height:40px;
 }
