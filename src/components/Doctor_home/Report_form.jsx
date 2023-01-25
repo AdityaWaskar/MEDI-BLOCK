@@ -26,8 +26,8 @@ const Report_form = (params) => {
           </div>
         </div>
         <div className="row">
-          <Inputbox title={"age"} type={"text"} />
-          <Inputbox title={"Phone_no"} type={"text"} />
+          <Inputbox title={"Age"} type={"text"} />
+          <Inputbox title={"Phone_No"} type={"text"} />
         </div>
         <div className="row">
           <Inputbox title={"Address"} type={"text"} />
