@@ -49,7 +49,7 @@ const Report_form = (params) => {
           <Inputbox title={"Disease"} type={"text"} />
         </div>
         <div className="row">
-          <Inputbox title={"Phone_No."} type={"text"} />
+          <Inputbox title={"Phone_No"} type={"text"} />
           <Inputbox title={"Symptoms"} type={"text"} />
         </div>
         <Inputbox title={"Report"} type={"file"} />

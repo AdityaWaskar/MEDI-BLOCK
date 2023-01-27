@@ -1,8 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./inputBox.css";
+var today;
 
 const Inputbox = (props) => {
   const [errMsg, setErrMsg] = useState(null);
+  useEffect(() => {
+    // calculate the current date
+    today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+    // today = dd + "-" + mm + "-" + yyyy;
+    today = yyyy + "-" + mm + "-" + dd;
+  }, []);
 
   const infoValidation = (input, input_id) => {
     switch (input_id) {
@@ -28,7 +38,17 @@ const Inputbox = (props) => {
       case "Address":
         if (input.length == 0) {
         }
+      case "Disease":
+        if (input.includes("@") || input.includes("!") || input.includes("#")) {
+          setErrMsg("Not contains any special Character!");
+        }
+        break;
       case "Doctor_Name" || "Disease" || "Symptoms":
+        if (input.includes("@") || input.includes("!") || input.includes("#")) {
+          setErrMsg("Not contains any special Character!");
+        }
+        break;
+      case "Symptoms":
         if (input.includes("@") || input.includes("!") || input.includes("#")) {
           setErrMsg("Not contains any special Character!");
         }
@@ -73,7 +93,25 @@ const Inputbox = (props) => {
           setErrMsg(null);
         }
         break;
-      case "Doctor_Name" || "Disease" || "Symptoms":
+      case "Doctor_Name":
+        if (
+          !input.includes("@") &&
+          !input.includes("!") &&
+          !input.includes("#")
+        ) {
+          setErrMsg(null);
+        }
+        break;
+      case "Symptoms":
+        if (
+          !input.includes("@") &&
+          !input.includes("!") &&
+          !input.includes("#")
+        ) {
+          setErrMsg(null);
+        }
+        break;
+      case "Disease":
         if (
           !input.includes("@") &&
           !input.includes("!") &&
@@ -120,61 +158,67 @@ const Inputbox = (props) => {
     // <div>
     <div className="element" id={props.title}>
       <label>{props.title}</label>
-      <input
-        type={props.type}
-        required
-        onChange={(e) => {
-          if (props.title == "Name") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setName(e.target.value);
-          } else if (props.title == "Email") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setEmail(e.target.value);
-          } else if (props.title == "Phone_No") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setPhone(e.target.value);
-          } else if (props.title == "Age") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setAge(e.target.value);
-          } else if (props.title == "Address") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setAddress(e.target.value);
-          } else if (props.title == "Gender") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setGender(e.target.value);
-          } else if (props.title == "Blood_Group") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setBloodGroup(e.target.value);
-          } else if (props.title == "Doctor_Name") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setDoctorName(e.target.value);
-          } else if (props.title == "Disease") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setDisease(e.target.value);
-          } else if (props.title == "Symptoms") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setSymptoms(e.target.value);
-          } else if (props.title == "Medicine_Name") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setMedicine_name(e.target.value);
-          } else if (props.title == "Report") {
-            infoValidation(e.target.value, props.title);
-            removeInfoValidation1(e.target.value, props.title);
-            props.setReport(e.target.files[0]);
-          }
-        }}
-      />
+      {props.title != "Date" ? (
+        <input
+          type={props.type}
+          required
+          onChange={(e) => {
+            if (props.title == "Name") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setName(e.target.value);
+            } else if (props.title == "Email") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setEmail(e.target.value);
+            } else if (props.title == "Phone_No") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setPhone(e.target.value);
+            } else if (props.title == "Age") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setAge(e.target.value);
+            } else if (props.title == "Address") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setAddress(e.target.value);
+            } else if (props.title == "Gender") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setGender(e.target.value);
+            } else if (props.title == "Blood_Group") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setBloodGroup(e.target.value);
+            } else if (props.title == "Doctor_Name") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setDoctorName(e.target.value);
+            } else if (props.title == "Disease") {
+              console.log(e.target.value);
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setDisease(e.target.value);
+            } else if (props.title == "Symptoms") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setSymptoms(e.target.value);
+            } else if (props.title == "Medicine_Name") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setMedicine_name(e.target.value);
+            } else if (props.title == "Report") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              // props.setReport(e.target.files[0]);
+            }
+          }}
+        />
+      ) : (
+        <input type="date" value={today} max={today} />
+      )}
+
       <span>{errMsg}</span>
     </div>
     // </div>
