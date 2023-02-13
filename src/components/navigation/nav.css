@@ -12,3 +12,147 @@
 nav{
     margin-bottom: 20px;
 }
+
+/* -------------------------- */
+
+nav .userPhoto img{
+    height: 100%;
+    width: 100%;
+}
+
+.homeContainer .addIcon{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    padding-bottom: 20px;
+    transition: all .5s ease;
+}
+
+.homeContainer .addIcon:hover{
+    transform: scale(1.1);
+    bottom: 5px;
+}
+
+.homeContainer .addIcon img{
+    width: 100%;
+}
+
+.homeContainer .allCards{
+    width: 50%; 
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.homeContainer .searchbar{
+    width: 50vw;
+    margin: 0 25%;
+    margin-bottom: 50px;
+    padding: 6px;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    border-radius: 80px;
+    border: 1px solid black;
+    z-index: 1;
+}
+
+.homeContainer .searchbar input{
+    font-size: 1.2rem;
+    border-radius: 80px;
+    border: none;
+    width: 90%;
+    height: 100%;
+    display: inline;
+    padding: 7px 17px;
+    z-index: -1;
+}
+
+.homeContainer .searchbar button{
+    border: none;
+    background-color: inherit;
+}
+nav .menu{
+    position: fixed;
+    top:20px;
+    right:30px;
+}
+
+
+nav .menu .userPhoto{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+nav .menu ul{
+    position:absolute;
+    top: 90px;
+    right: -0px;
+    padding:10px 20px ;
+    background-color: #fff;
+    width: 150px;
+    /* box-shadow: 0 5px 25px rgba(0,0,0,0.1); */
+    border-radius: 15px;
+    transition:0.5s;
+    border: 1px solid grey;
+    box-shadow: 0px 0px 10px 0px #615c5c;
+    visibility: hidden;
+    opacity: 0;
+}
+
+nav .menu:hover .active{
+    visibility: visible;
+    opacity: 1;
+}
+/* 
+nav .menu ul::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    transform: rotate(45deg);
+} */
+nav .menu ul li{
+    list-style: none;
+    padding: 10px 0;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;   
+}
+nav .menu ul li .profileLogo{
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+    opacity: 0.5;
+    transition: 0.5s;
+    color:rgb(104, 104, 104);
+}
+nav .menu ul li:hover{
+    opacity: 1;
+}
+nav .menu ul li a{
+    display: inline-block;
+    text-decoration:none ;
+    color:rgb(104, 104, 104);
+    font-weight: 500;
+    transition: 0.5s; 
+}
+nav .menu ul li:hover a, nav .menu ul li:hover .profileLogo{
+    color: #000000;
+    font-weight: 500;
+}
+/* 
+nav .profileLogo{
+    height: 30px;
+    width: 30px;
+} */
+
+
+

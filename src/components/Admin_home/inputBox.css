@@ -35,7 +35,7 @@
     width: auto;
 }
 
-#d_Name input, #d_Age input, #d_Phone_No input, #d_Address input{
+#d_Name input, #d_Age input, #d_Phone_No input, #d_Email input{
     width: 80%;
 }
 

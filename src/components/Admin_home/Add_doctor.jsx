@@ -1,7 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./add_doctor.css";
+import { ethers } from "ethers";
+import { abi } from "../Doctor_home/doctor_info_abi";
 import InputBox from "./InputBox";
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+
 var today;
 
 const Add_doctor = () => {
@@ -10,7 +14,85 @@ const Add_doctor = () => {
   const [otherOption, setOtherOption] = useState(false);
   const [otherOption1, setOtherOption1] = useState(false);
 
+  const [account, setAccount] = useState("");
+  const [contractAddress, setContractAddress] = useState("");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [qualification, setQualification] = useState("");
+  const [d_degree, setD_degree] = useState("");
+  const [email, setEmail] = useState("");
+  const [DOR, setDOR] = useState("");
+
+  // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
+  async function initializeProvider() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    return new ethers.Contract(contractAddress, abi, signer);
+  }
+
+  // Displays a prompt for the user to select which accounts to connect
+  async function requestAccount() {
+    const account = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    setAccount(account[0]);
+  }
+
+  function clearStates() {
+    setContractAddress(null);
+    setName(null);
+    setAge(null);
+    setGender(null);
+    setPhoneNo(null);
+    setQualification(null);
+    setD_degree(null);
+    setEmail(null);
+    setDOR(null);
+  }
+
+  async function pushDocData() {
+    if (
+      contractAddress == "" ||
+      name == "" ||
+      age == "" ||
+      email == "" ||
+      phoneNo == "" ||
+      gender == "" ||
+      qualification == "" ||
+      d_degree == "" ||
+      DOR == ""
+    ) {
+      alert("Plz filled correct information.");
+    } else {
+      const contract = await initializeProvider();
+      await contract.addDoctor(
+        contractAddress,
+        `${name},${age},${gender}`,
+        phoneNo,
+        `${qualification}, ${d_degree}`,
+        email,
+        DOR
+      );
+      clearStates();
+
+      // const data = [
+      //   contractAddress,
+      //   `${name},${age},${gender}`,
+      //   phoneNo,
+      //   `${qualification},${d_degree}`,
+      //   email,
+      //   DOR,
+      // ];
+      // console.log(data);
+    }
+  }
+
   useEffect(() => {
+    requestAccount();
+    console.log("account no" + account);
+
     // Date Limit till today (can't enter the tomorrow's date)
     today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
@@ -77,28 +159,37 @@ const Add_doctor = () => {
           cancelBtnFlag ? "add_doctor_form doctor_active" : "add_doctor_form"
         }
       >
-        <InputBox title={"Id"} type={"text"} setName={true} />
+        <InputBox
+          title={"Id"}
+          type={"text"}
+          setContractAddress={setContractAddress}
+        />
         <div className="row">
-          <InputBox title={"Name"} type={"text"} setName={true} />
-          <InputBox title={"Age"} type={"number"} setName={true} />
+          <InputBox title={"Name"} type={"text"} setName={setName} />
+          <InputBox title={"Age"} type={"number"} setAge={setAge} />
         </div>
         <div className="row">
-          <InputBox title={"Address"} type={"text"} setName={true} />
-          <InputBox title={"Phone_No"} type={"text"} setName={true} />
+          <InputBox title={"Email"} type={"text"} setEmail={setEmail} />
+          <InputBox title={"Phone_No"} type={"text"} setPhoneNo={setPhoneNo} />
         </div>
         <div className="doctor_form_element" id="Gender">
           <label>Gender</label>
-          <div className="gender_option">
+          <div
+            className="gender_option"
+            onChange={(e) => {
+              setGender(e.target.value);
+            }}
+          >
             <div className="option">
-              <input type="radio" name="male" id="male" />
+              <input type="radio" value="Male" id="male" />
               <span>Male</span>
             </div>
             <div className="option">
-              <input type="radio" name="male" id="male" />
+              <input type="radio" value="Female" id="male" />
               <span>Female</span>
             </div>
             <div className="option">
-              <input type="radio" name="male" id="male" />
+              <input type="radio" value="Other" id="male" />
               <span>Other</span>
             </div>
           </div>
@@ -107,7 +198,10 @@ const Add_doctor = () => {
           <label>Qualification/Specialization</label>
           <select
             onChange={(e) => {
-              e.target.value == "other"? setOtherOption(true): setOtherOption(false);
+              setQualification(e.target.value);
+              e.target.value == "other"
+                ? setOtherOption(true)
+                : setOtherOption(false);
             }}
           >
             {Specialization.map((s) => (
@@ -117,14 +211,22 @@ const Add_doctor = () => {
             ))}
           </select>
           {otherOption ? (
-            <InputBox title={"Specialization"} type={"text"} setName={true} />
+            <InputBox
+              title={"Specialization"}
+              type={"text"}
+              setQualification={setQualification}
+            />
           ) : null}
+          {/* {console.log(qualification)}   */}
         </div>
         <div className="doctor_form_element" id="degree">
           <label>Degree</label>
           <select
             onChange={(e) => {
-              e.target.value == "other"? setOtherOption1(true): setOtherOption1(false);
+              setD_degree(e.target.value);
+              e.target.value == "other"
+                ? setOtherOption1(true)
+                : setOtherOption1(false);
             }}
           >
             {degree.map((s) => (
@@ -134,20 +236,31 @@ const Add_doctor = () => {
             ))}
           </select>
           {otherOption1 ? (
-            <InputBox title={"Degree"} type={"text"} setName={true} />
+            <InputBox
+              title={"Degree"}
+              type={"text"}
+              setD_degree={setD_degree}
+            />
           ) : null}
         </div>
         {/* <InputBox title={"Degree"} type={"text"} setName={true} /> */}
         <hr />
         <div className="doctor_form_element" id="doctor_register_date">
           <label>Data of Registration</label>
-          <input type="date" max={today} id="date" />
+          <input
+            type="date"
+            max={today}
+            id="date"
+            onChange={(e) => setDOR(e.target.value)}
+          />
         </div>
         <div className="doctor_register_btn">
           <button id="cancel_btn" onClick={() => cancel_btn(true)}>
             Cancel
           </button>
-          <button id="register_btn">Register</button>
+          <button id="register_btn" onClick={pushDocData}>
+            Register
+          </button>
         </div>
       </div>
     </section>

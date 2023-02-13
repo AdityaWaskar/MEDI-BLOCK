@@ -12,13 +12,14 @@ import DetailInfo from "./components/detailInfo/DetailInfo";
 import Admin_home_page from "./components/Admin_home/Admin_home_page";
 import Patient_home_page from "./components/Patient_home/Patient_home_page";
 import Doctor_home_page from "./components/Doctor_home/Doctor_home_page";
+import Spinner from "./components/spinner/Spinner";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const createRoute = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Spinner  />,
   },
   {
     path: "/signup",

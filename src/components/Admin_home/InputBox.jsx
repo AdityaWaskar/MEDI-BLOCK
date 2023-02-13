@@ -11,47 +11,53 @@ const InputBox = (props) => {
       case "Name":
         if (input.includes("@") || input.includes("!") || input.includes("#")) {
           setValidationMessage("Not contains any special Character!");
+          props.setname("");
         }
         break;
       case "Age":
         console.log(input);
         if (parseInt(input) < 18 || parseInt(input) > 80) {
           setValidationMessage("Age should be between 18 to 80!");
+          props.age("");
         }
         break;
       case "Phone_No":
         if (input.length != 10 && input.length > 0) {
           setValidationMessage("Invalid Phone Number!");
+          props.setPhoneNo("");
         }
         break;
-      case "Address":
-        if (input.length == 0) {
+      case "Email":
+        if (!input.includes("@")) {
+          setValidationMessage("Invalid Email!");
+          props.setEmail("");
         }
       case "Qualificaion":
         break;
       case "Specialization":
         if (input.length == 0) {
-          console.log(input.length);
           setValidationMessage("Please fill this field!");
+          props.setQualification("");
         } else if (
           input.includes("@") ||
           input.includes("!") ||
           input.includes("#")
         ) {
-          console.log("not");
           setValidationMessage("Not contains any special Character!");
+          props.setQualification("");
         }
         break;
       case "Degree":
-        console.log("0");
         if (input.length == 0) {
           setValidationMessage("Please fill this field!");
+          props.setD_degree("");
         } else if (
           input.includes("@") ||
           input.includes("!") ||
           input.includes("#")
         ) {
           setValidationMessage("Not contains any special Character!");
+          props.setD_degree("");
         }
         break;
     }
@@ -99,46 +105,55 @@ const InputBox = (props) => {
           setValidationMessage(null);
         }
         break;
+      case "Email":
+        if (input.length == 0 || input.includes("@")) {
+          setValidationMessage(null);
+        }
     }
   };
 
   return (
-    <div className="doctor_form_element" id={"d_"+props.title}>
+    <div className="doctor_form_element" id={"d_" + props.title}>
       <label>{props.title}</label>
 
-      {props.title == "Id" ? (
+      {/* {props.title == "Id" ? (
         <input type={props.type} id={props.title + "1"} readOnly value={1} />
-      ) : (
-        <input
-          type={props.type}
-          required
-          id={props.title + "1"}
-          onChange={(e) => {
-            if (props.title == "Name") {
-              infoValidation(e.target.value, "Name");
-              removeInfoValidation1(e.target.value, "Name");
-            } else if (props.title == "Phone_No") {
-              infoValidation(e.target.value, "Phone_No");
-              removeInfoValidation1(e.target.value, "Phone_No");
-            } else if (props.title == "Age") {
-              infoValidation(e.target.value, "Age");
-              removeInfoValidation1(e.target.value, "Age");
-            } else if (props.title == "Address") {
-              infoValidation(e.target.value, "Address");
-              removeInfoValidation1(e.target.value, "Address");
-            } else if (props.title == "Gender") {
-              infoValidation(e.target.value, "Gender");
-              removeInfoValidation1(e.target.value, "Gender");
-            } else if (props.title == "Specialization") {
-              infoValidation(e.target.value, "Specialization");
-              removeInfoValidation1(e.target.value, "Specialization");
-            } else if (props.title == "Degree") {
-              infoValidation(e.target.value, "Degree");
-              removeInfoValidation1(e.target.value, "Degree");
-            }
-          }}
-        />
-      )}
+      ) : ( */}
+      <input
+        type={props.type}
+        required
+        id={props.title + "1"}
+        onChange={(e) => {
+          if (props.title == "Id") {
+            props.setContractAddress(e.target.value);
+          } else if (props.title == "Name") {
+            props.setName(e.target.value);
+            infoValidation(e.target.value, "Name");
+            removeInfoValidation1(e.target.value, "Name");
+          } else if (props.title == "Phone_No") {
+            props.setPhoneNo(e.target.value);
+            infoValidation(e.target.value, "Phone_No");
+            removeInfoValidation1(e.target.value, "Phone_No");
+          } else if (props.title == "Age") {
+            props.setAge(e.target.value);
+            infoValidation(e.target.value, "Age");
+            removeInfoValidation1(e.target.value, "Age");
+          } else if (props.title == "Email") {
+            props.setEmail(e.target.value);
+            infoValidation(e.target.value, "Email");
+            removeInfoValidation1(e.target.value, "Email");
+          } else if (props.title == "Specialization") {
+            props.setQualification(e.target.value);
+            infoValidation(e.target.value, "Specialization");
+            removeInfoValidation1(e.target.value, "Specialization");
+          } else if (props.title == "Degree") {
+            props.setD_degree(e.target.value);
+            infoValidation(e.target.value, "Degree");
+            removeInfoValidation1(e.target.value, "Degree");
+          }
+        }}
+      />
+      {/* )} */}
       <span>{ValidationMessage}</span>
     </div>
   );
