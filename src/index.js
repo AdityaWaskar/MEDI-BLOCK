@@ -13,13 +13,20 @@ import Admin_home_page from "./components/Admin_home/Admin_home_page";
 import Patient_home_page from "./components/Patient_home/Patient_home_page";
 import Doctor_home_page from "./components/Doctor_home/Doctor_home_page";
 import Spinner from "./components/spinner/Spinner";
+import Login from "./components/login/Login";
+import PatientLogin from "./components/login/patient/PatientLogin";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const createRoute = createBrowserRouter([
   {
     path: "/",
-    element: <Spinner  />,
+    element: <Login />,
+    // element: <Login />,
+  },
+  {
+    path: "/patientLogin",
+    element: <PatientLogin />,
   },
   {
     path: "/signup",

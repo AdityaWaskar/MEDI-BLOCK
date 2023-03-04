@@ -1,8 +1,8 @@
-.title img{
+nav .title img{
     width: 6%;
 }
 
-.title{
+nav .title{
     display: flex;
     align-items: center;
     justify-content: center;

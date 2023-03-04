@@ -161,7 +161,7 @@ const Doctor_data = () => {
 
   useEffect(() => {
     requestAccount();
-    getAllDoctorIds();
+    // getAllDoctorIds();
   }, []);
   return (
     <div className="doctor_data_container">

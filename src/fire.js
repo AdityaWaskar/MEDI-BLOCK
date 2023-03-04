@@ -1,6 +1,10 @@
 // Import the functions you need from the SDKs you need
 // import { initializeApp } from "firebase/app";
-import firebase from 'firebase';
+import firebase from "firebase";
+// import { getAuth } from "firebase/auth";
+import "firebase/auth";
+
+// const auth = getAuth();
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -11,7 +15,7 @@ const firebaseConfig = {
   projectId: "hms-using-blockchain",
   storageBucket: "hms-using-blockchain.appspot.com",
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_API_ID
+  appId: process.env.REACT_APP_FIREBASE_API_ID,
 };
 // const firebaseConfig = {
 //   apiKey: "AIzaSyAZwt3kYzTlI5hZ8oaBfCsxmZFFGZzXEMA",
@@ -24,4 +28,4 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const fire = firebase.initializeApp(firebaseConfig);
-export default fire
+export default fire;
