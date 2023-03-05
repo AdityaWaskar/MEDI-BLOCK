@@ -85,6 +85,7 @@
 }
 
 .patientLoginSubContainer .wallentInformation{
+    padding: 0 32px;
     margin: 5vh 0px;
     display: flex;
     flex-direction: column;
@@ -94,17 +95,24 @@
 }
 
 .patientLoginSubContainer .wallentInformation span:first-child{
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-transform: uppercase;
 }
 
 .patientLoginSubContainer .wallentInformation span:last-child{
     font-size: .9rem;
     color: grey;
-    word-wrap: break-word;
-    width: calc(var(--patient_login_page_width) - 5vw);
+    /* word-wrap: break-word; */
+    /* width: calc(var(--patient_login_page_width) - 5vw); */
 }
-
+.patientLoginContainer .wallentInformation .row{
+    display: flex;
+    gap: 10px;
+}
+.patientLoginContainer .wallentInformation .accountNo{
+    max-width: 13vw;
+    word-wrap: break-word;
+}
 .patientLoginSubContainer .loginBtn{
     margin: 0 auto;
 }
