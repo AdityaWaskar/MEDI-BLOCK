@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Card from "../card/Card";
 import { ethers } from "ethers";
 import "./patient.css";
-import { ABI } from "../abi.js";
+import { hospitalABI } from "../../abi";
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
 const PatientData = () => {
@@ -14,7 +14,7 @@ const PatientData = () => {
   async function initializeProvider() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    return new ethers.Contract(contractAddress, ABI, signer);
+    return new ethers.Contract(contractAddress, hospitalABI, signer);
   }
 
   // Displays a prompt for the user to select which accounts to connect
@@ -25,13 +25,13 @@ const PatientData = () => {
     setAccount(account[0]);
   }
   console.log(account);
-
+ 
   async function getAllPatients() {
     const contract = await initializeProvider();
     const data = await contract.GetAllPatients(); //getting All Patient Details
     console.log(data);
     let patientInfo = [];
-    for (let i = data[0].length - 1; i >= data[0].length - 10; i--) {
+    for (let i = data.length - 1; i >= 0 && i >= data.length - 10; i--) {
       const data1 = [
         parseInt(data[0][1]),
         data[1][i],

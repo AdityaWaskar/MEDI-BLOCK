@@ -11,53 +11,63 @@ const InputBox = (props) => {
       case "Name":
         if (input.includes("@") || input.includes("!") || input.includes("#")) {
           setValidationMessage("Not contains any special Character!");
-          props.setname("");
+          // props.setname("");
         }
         break;
       case "Age":
         console.log(input);
         if (parseInt(input) < 18 || parseInt(input) > 80) {
           setValidationMessage("Age should be between 18 to 80!");
-          props.age("");
+          // props.setAge("");
         }
         break;
       case "Phone_No":
         if (input.length != 10 && input.length > 0) {
           setValidationMessage("Invalid Phone Number!");
-          props.setPhoneNo("");
+          // props.setPhoneNo("");
         }
         break;
       case "Email":
         if (!input.includes("@")) {
           setValidationMessage("Invalid Email!");
-          props.setEmail("");
+          // props.setEmail("");
         }
       case "Qualificaion":
         break;
       case "Specialization":
         if (input.length == 0) {
           setValidationMessage("Please fill this field!");
-          props.setQualification("");
+          // props.setQualification("");
         } else if (
           input.includes("@") ||
           input.includes("!") ||
           input.includes("#")
         ) {
           setValidationMessage("Not contains any special Character!");
-          props.setQualification("");
+          // props.setQualification("");
         }
         break;
       case "Degree":
         if (input.length == 0) {
           setValidationMessage("Please fill this field!");
-          props.setD_degree("");
+          // props.setD_degree("");
         } else if (
           input.includes("@") ||
           input.includes("!") ||
           input.includes("#")
         ) {
           setValidationMessage("Not contains any special Character!");
-          props.setD_degree("");
+          // props.setD_degree("");
+        }
+        break;
+      case "Hospital_Name":
+        if (input.includes("@") || input.includes("!") || input.includes("#")) {
+          setValidationMessage("Not contains any special Character!");
+        }
+        break;
+      case "Wallet_Address":
+        if (!input.includes("0x") || input.length != 42) {
+          setValidationMessage("Invalid Wallet Address");
         }
         break;
     }
@@ -109,6 +119,21 @@ const InputBox = (props) => {
         if (input.length == 0 || input.includes("@")) {
           setValidationMessage(null);
         }
+        break;
+      case "Wallet_Address":
+        if (input.includes("0x") && input.length == 42) {
+          setValidationMessage(null);
+        }
+        break;
+      case "Hospital_Name":
+        if (
+          !input.includes("@") &&
+          !input.includes("!") &&
+          !input.includes("#")
+        ) {
+          setValidationMessage(null);
+        }
+        break;
     }
   };
 
@@ -123,6 +148,7 @@ const InputBox = (props) => {
         type={props.type}
         required
         id={props.title + "1"}
+        value={props.value}
         onChange={(e) => {
           if (props.title == "Id") {
             props.setContractAddress(e.target.value);
@@ -143,13 +169,21 @@ const InputBox = (props) => {
             infoValidation(e.target.value, "Email");
             removeInfoValidation1(e.target.value, "Email");
           } else if (props.title == "Specialization") {
-            props.setQualification(e.target.value);
+            props.setOtherQualification(e.target.value);
             infoValidation(e.target.value, "Specialization");
             removeInfoValidation1(e.target.value, "Specialization");
           } else if (props.title == "Degree") {
-            props.setD_degree(e.target.value);
+            props.setOtherD_degree(e.target.value);
             infoValidation(e.target.value, "Degree");
             removeInfoValidation1(e.target.value, "Degree");
+          } else if (props.title == "Wallet_Address") {
+            props.setDoctorWalletAddress(e.target.value);
+            infoValidation(e.target.value, "Wallet_Address");
+            removeInfoValidation1(e.target.value, "Wallet_Address");
+          } else if (props.title == "Hospital_Name") {
+            props.setHospitalName(e.target.value);
+            infoValidation(e.target.value, "Hospital_Name");
+            removeInfoValidation1(e.target.value, "Hospital_Name");
           }
         }}
       />

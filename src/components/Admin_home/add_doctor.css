@@ -171,3 +171,26 @@
     background-color: grey;
     height: 1px;
 }
+
+.add_doctor_form #Hospital_Name1, .add_doctor_form #Wallet_Address1{
+    width: 60%;
+}
+
+#d_ID{
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+#d_ID input{
+
+    background: transparent;
+    font-weight: bold;
+    margin: 0 ;
+    padding: 0;
+    padding-top: 5px;
+}
+
+#d_ID label{
+    margin: 0;
+}

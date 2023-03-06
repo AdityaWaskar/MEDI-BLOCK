@@ -3,129 +3,9 @@ import { Link } from "react-router-dom";
 import { ethers } from "ethers";
 import "./doctor_data.css";
 import Card from "../card/Card";
-import { abi } from "../../Doctor_home/doctor_info_abi";
+import { hospitalABI } from "../../abi";
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-
-//   {
-//     inputs: [
-//       {
-//         internalType: "string",
-//         name: "_name",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_age",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_doc_address",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_phone_no",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_gender",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_qualification",
-//         type: "string",
-//       },
-//     ],
-//     name: "addDoctor",
-//     outputs: [],
-//     stateMutability: "nonpayable",
-//     type: "function",
-//   },
-//   {
-//     inputs: [],
-//     name: "doctorCount",
-//     outputs: [
-//       {
-//         internalType: "uint256",
-//         name: "",
-//         type: "uint256",
-//       },
-//     ],
-//     stateMutability: "view",
-//     type: "function",
-//   },
-//   {
-//     inputs: [
-//       {
-//         internalType: "string",
-//         name: "_phoneNo",
-//         type: "string",
-//       },
-//     ],
-//     name: "getDoctorIdByPhoneNo",
-//     outputs: [
-//       {
-//         internalType: "uint256[]",
-//         name: "",
-//         type: "uint256[]",
-//       },
-//     ],
-//     stateMutability: "view",
-//     type: "function",
-//   },
-//   {
-//     inputs: [
-//       {
-//         internalType: "string",
-//         name: "_phoneNo",
-//         type: "string",
-//       },
-//     ],
-//     name: "getDoctorInfoByPhoneNo",
-//     outputs: [
-//       {
-//         internalType: "uint256[]",
-//         name: "",
-//         type: "uint256[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//     ],
-//     stateMutability: "view",
-//     type: "function",
-//   },
-// ];
+var j = 0;
 const Doctor_data = () => {
   const [search, setSearch] = useState("");
   const [account, setAccount] = useState("");
@@ -135,7 +15,7 @@ const Doctor_data = () => {
   async function initializeProvider() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    return new ethers.Contract(contractAddress, abi, signer);
+    return new ethers.Contract(contractAddress, hospitalABI, signer);
   }
 
   // Displays a prompt for the user to select which accounts to connect
@@ -146,38 +26,61 @@ const Doctor_data = () => {
     setAccount(account[0]);
   }
 
-  async function getwDoctorData() {
+  async function getDoctorData() {
     const contract = await initializeProvider();
-    const data = await contract.getDoctorInfoByPhoneNo("45"); //getting Patient Detail
-    const data2 = await contract.doctorCount; //getting Patient Detail
-    console.log(data);
+    console.log(search);
+    // if the length is 10 than it search the doctor details by the phone number.
+    if (search.length == 10) {
+      const data = await contract.getDoctorByPhoneNo(search); //getting doctor Detail by phone no
+      setDoctorIds([data]);
+      //if lenght of search is 42 than it is search doctor info by wallet address.
+    } else if (search.length == 42 && search.includes("0x")) {
+      const data = await contract.GetDoctor(search); //Getting doctor Details by wallet Adress
+      setDoctorIds([data]);
+    }
+    // if it nither phone no nor wallet Address than it throws an error
+    else {
+      alert("Invilid Input!");
+    }
   }
 
   async function getAllDoctorIds() {
     const contract = await initializeProvider();
-    const data = await contract.getdoctorIds();
-    setDoctorIds(data);
+    //get all avaliable doctor address
+    const data = await contract.getDoctorAddress();
+
+    // creating an an array of total count of doctor and store the information in the array.
+    let doctorInfo = new Array(data.length <= 10 ? data.length : 10);
+    let j = 0;
+    for (let i = data.length - 1; i >= 0 && i >= data.length - 10; i--) {
+      console.log(data[i]);
+      const data2 = await contract.GetDoctor(data[i]);
+      doctorInfo[j++] = data2;
+    }
+    // Set the all doctors information in the setDoctorIds state
+    setDoctorIds(doctorInfo);
   }
 
   useEffect(() => {
     requestAccount();
-    // getAllDoctorIds();
+    getAllDoctorIds();
   }, []);
+
   return (
     <div className="doctor_data_container">
       <div className="searchbar">
         <input
           type="text"
           placeholder="Search.."
-          onChange={(e) => setSearch(e.target.value)}
-          maxLength="10"
+          onChange={(e) => {
+            setSearch(e.target.value);
+            if (e.target.value == 0) {
+              getAllDoctorIds();
+            }
+          }}
         />
 
-        <button
-          onClick={() => {
-            // getPatientDetailsByPhoneNo();
-          }}
-        >
+        <button onClick={getDoctorData}>
           {/* <Link to={{ pathname: `/` }} className="link_decoration"> */}
           <i className="fa fa-search"></i>
           {/* </Link> */}
@@ -196,9 +99,10 @@ const Doctor_data = () => {
             <Card
               key={data}
               id={parseInt(data)}
-              name={"Aditya"}
-              email={"Orthopedics"}
-              phone_no={"9082356225"}
+              name={data[5].split(",")[0]}
+              email={data[4].split(",")[0]}
+              phone_no={data[1]}
+              data={data[3].split(",")[1]}
             />
           ))}
         </tbody>
