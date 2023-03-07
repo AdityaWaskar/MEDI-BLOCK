@@ -127,27 +127,27 @@ const Add_doctor = () => {
         `${qualification == "other" ? otherQualification : qualification},${
           d_degree == "other" ? otherD_degree : d_degree
         }`,
-        `${email},${DOR}`,  
+        `${email},${DOR}`,
         hospitalName
       );
       clearStates();
       setCancelBtnFlag(true);
-      // console.log(
-      //   "\n",
-      //   doctorWalletAddress,
-      //   "\n",
-      //   `${name},${age},${gender}`,
-      //   "\n",
-      //   phoneNo,
-      //   "\n",
-      //   `${qualification == "other" ? otherQualification : qualification},${
-      //     d_degree == "other" ? otherD_degree : d_degree
-      //   }`,
-      //   "\n",
-      //   `${email},${DOR}`,
-      //   "\n",
-      //   hospitalName
-      // );
+      console.log(
+        //   "\n",
+        doctorWalletAddress
+        //   "\n",
+        //   `${name},${age},${gender}`,
+        //   "\n",
+        //   phoneNo,
+        //   "\n",
+        //   `${qualification == "other" ? otherQualification : qualification},${
+        //     d_degree == "other" ? otherD_degree : d_degree
+        //   }`,
+        //   "\n",
+        //   `${email},${DOR}`,
+        //   "\n",
+        //   hospitalName
+      );
     } else {
       alert("Fill all the fileds correctly.");
     }

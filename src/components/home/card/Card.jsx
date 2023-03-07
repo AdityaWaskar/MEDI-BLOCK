@@ -7,13 +7,24 @@ const Card = (params) => {
     <tr
       className="card"
       key={params.id}
-      onClick={() => (window.location.href = `/patient_page/false`)}
+      // onClick={() => (window.location.href = `/patient_page/false`)}
     >
       <td>{params.id}</td>
       <td>{params.date}</td>
       <td>{params.name}</td>
       <td>{params.phone_no}</td>
       <td>{params.email}</td>
+      <td>
+        <button
+          onClick={() => {
+            params.setSelectedPhoneNo(params.phone_no);
+            console.log(params.phone_no);
+            // params.onSignup();
+          }}
+        >
+          Get Access
+        </button>
+      </td>
     </tr>
   );
 };

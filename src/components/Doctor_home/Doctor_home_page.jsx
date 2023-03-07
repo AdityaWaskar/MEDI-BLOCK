@@ -1,142 +1,86 @@
 import React, { useEffect, useState } from "react";
 import Navigation from "../navigation/Navigation";
 import { ethers } from "ethers";
-import Footer from "../footer/Footer";
-import { abi } from "./doctor_info_abi";
+import { hospitalABI } from "../abi.js";
 import Card from "../home/card/Card";
 import "./doctor_home_page.css";
+// import { auth } from "../../firebase.config";
+// import { toast, Toaster } from "react-hot-toast";
+
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
-// const abi = [
-//   {
-//     inputs: [
-//       {
-//         internalType: "string",
-//         name: "_name",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_age",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_doc_address",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_phone_no",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_gender",
-//         type: "string",
-//       },
-//       {
-//         internalType: "string",
-//         name: "_qualification",
-//         type: "string",
-//       },
-//     ],
-//     name: "addDoctor",
-//     outputs: [],
-//     stateMutability: "nonpayable",
-//     type: "function",
-//   },
-//   {
-//     inputs: [],
-//     name: "doctorCount",
-//     outputs: [
-//       {
-//         internalType: "uint256",
-//         name: "",
-//         type: "uint256",
-//       },
-//     ],
-//     stateMutability: "view",
-//     type: "function",
-//   },
-//   {
-//     inputs: [
-//       {
-//         internalType: "string",
-//         name: "_phoneNo",
-//         type: "string",
-//       },
-//     ],
-//     name: "getDoctorIdByPhoneNo",
-//     outputs: [
-//       {
-//         internalType: "uint256[]",
-//         name: "",
-//         type: "uint256[]",
-//       },
-//     ],
-//     stateMutability: "view",
-//     type: "function",
-//   },
-//   {
-//     inputs: [
-//       {
-//         internalType: "string",
-//         name: "_phoneNo",
-//         type: "string",
-//       },
-//     ],
-//     name: "getDoctorInfoByPhoneNo",
-//     outputs: [
-//       {
-//         internalType: "uint256[]",
-//         name: "",
-//         type: "uint256[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//       {
-//         internalType: "string[]",
-//         name: "",
-//         type: "string[]",
-//       },
-//     ],
-//     stateMutability: "view",
-//     type: "function",
-//   },
-// ];
 const Doctor_home_page = () => {
   const [search, setSearch] = useState("");
   const [account, setAccount] = useState("");
+  const [patientInfo, setPatientInfo] = useState([]);
+  const [selectedphoneNo, setSelectedPhoneNo] = useState("");
+
+  // const [showOTP, setShowOTP] = useState(false);
+  // const [user, setUser] = useState(null);
+  // const [otp, setOtp] = useState("");
+  // const [ph, setPh] = useState("");
+
+  // //OTP Sent via firebase
+  // function onCaptchVerify() {
+  //   if (!window.recaptchaVerifier) {
+  //     window.recaptchaVerifier = new RecaptchaVerifier(
+  //       "recaptcha-container",
+  //       {
+  //         size: "invisible",
+  //         callback: (response) => {
+  //           onSignup();
+  //         },
+  //         "expired-callback": () => {},
+  //       },
+  //       auth
+  //     );
+  //   }
+  // }
+
+  // function onSignup() {
+  //   // setLoading(true);
+  //   onCaptchVerify();
+
+  //   const appVerifier = window.recaptchaVerifier;
+
+  //   const formatPh = "+" + "919082375004";
+
+  //   signInWithPhoneNumber(auth, formatPh, appVerifier)
+  //     .then((confirmationResult) => {
+  //       window.confirmationResult = confirmationResult;
+  //       // setLoading(false);
+  //       setShowOTP(true);
+  //       console.log("OPT Send");
+  //       // toast.success("OTP sended successfully!");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       // setLoading(false);
+  //     });
+  // }
+
+  // function onOTPVerify() {
+  //   // setLoading(true);
+  //   window.confirmationResult
+  //     .confirm(otp)
+  //     .then(async (res) => {
+  //       console.log(res);
+  //       setUser(res.user);
+  //       // setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       // setLoading(false);
+  //     });
+  // }
 
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    return new ethers.Contract(contractAddress, abi, signer);
+    return new ethers.Contract(contractAddress, hospitalABI, signer);
   }
 
   // Displays a prompt for the user to select which accounts to connect
@@ -146,7 +90,6 @@ const Doctor_home_page = () => {
     });
     setAccount(account[0]);
   }
-  console.log("account address = " + account);
 
   async function getData(id) {
     let contract = await initializeProvider();
@@ -176,25 +119,30 @@ const Doctor_home_page = () => {
   }
   // getDoctorData();
 
-  async function getPatientDetailsByPhoneNo() {
+  async function getPatientDetails() {
     try {
-      let contract = await initializeProvider();
-      let data = await contract.getDoctorInfoByPhoneNo(parseInt(search));
-      // setParticularId(parseInt(data));
-      // return parseInt(data);
+      const contract = await initializeProvider();
+      console.log(search);
+      // if the length is 10 than it search the doctor details by the phone number.
+      if (search.length == 10) {
+        const data = await contract.getDoctorByPhoneNo(search); //getting doctor Detail by phone no
+        setPatientInfo([data]);
+        //if lenght of search is 42 than it is search doctor info by wallet address.
+      } else if (search.length == 42 && search.includes("0x")) {
+        const data = await contract.GetDoctor(search); //Getting doctor Details by wallet Adress
+        setPatientInfo([data]);
+      }
+      // if it nither phone no nor wallet Address than it throws an error
+      else {
+        alert("Invilid Input!");
+      }
     } catch (error) {}
   }
 
   const data = [
-    [1, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563554"],
-    [2, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563554"],
-    [3, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563554"],
-    [3, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563554"],
-    [3, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563554"],
-    [3, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563554"],
-    [3, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563554"],
-    [3, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563554"],
-    [3, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563554"],
+    [1, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563551"],
+    [2, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563552"],
+    [3, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563553"],
   ];
 
   useEffect(() => {
@@ -204,6 +152,26 @@ const Doctor_home_page = () => {
   return (
     <div className="doctor_home_container">
       <Navigation />
+      <div className="searchbarContainer">
+        <div className="searchbar">
+          <input
+            type="text"
+            placeholder="Search.."
+            onChange={(e) => {
+              setSearch(e.target.value);
+              if (e.target.value == 0) {
+                // getAllDoctorIds();
+              }
+            }}
+          />
+
+          <button onClick={getPatientDetails}>
+            {/* <Link to={{ pathname: `/home` }} className="link_decoration"> */}
+            <i className="fa fa-search"></i>
+            {/* </Link> */}
+          </button>
+        </div>
+      </div>
       <div className="patient_list">
         <center>
           <p>Patient List</p>
@@ -216,6 +184,7 @@ const Doctor_home_page = () => {
               <th>Name</th>
               <th>Phone No.</th>
               <th>Email Id</th>
+              <th>ADD Report</th>
             </tr>
             {data.map((data) => (
               <Card
@@ -225,6 +194,8 @@ const Doctor_home_page = () => {
                 email={data[2]}
                 phone_no={data[4]}
                 date={data[3]}
+                setSelectedPhoneNo={setSelectedPhoneNo}
+                // onSignup={onSignup}
               />
             ))}
           </tbody>

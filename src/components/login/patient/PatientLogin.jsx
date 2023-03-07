@@ -51,7 +51,8 @@ const PatientLogin = () => {
       else if (doctor == true) {
         setDoctorExist(true);
         let doctorInformation = await contract.GetDoctor(account[0]);
-        setName(doctorInformation[2]);
+        console.log(doctorInformation);
+        setName(doctorInformation[5].split(',')[0]);
         console.log(doctorInformation[2]);
         setRole("Doctor");
       }

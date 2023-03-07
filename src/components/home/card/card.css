@@ -24,7 +24,14 @@ th{
     border-bottom: 1px solid black;
 }
 
-/* table a{
-    text-decoration: none;
-    color: black;
-} */
+td button{
+    background: #33b249;
+    border: none;
+    padding: 7px 11px;
+    border-radius: 2px;
+    color: white;
+}
+
+td button:hover{
+    cursor: pointer;
+}

@@ -25,7 +25,7 @@ const PatientData = () => {
     setAccount(account[0]);
   }
   console.log(account);
- 
+
   async function getAllPatients() {
     const contract = await initializeProvider();
     const data = await contract.GetAllPatients(); //getting All Patient Details
