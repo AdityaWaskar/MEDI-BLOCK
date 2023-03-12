@@ -1,0 +1,85 @@
+.OTPScreenContainer{
+    background: #E1F1F4;
+    width: 40vw;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 35%;
+    top: 30%;
+    border-radius: 4px;
+    gap: 30px;
+}
+
+.OTPScreenContainer #OTPText{
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+
+.OTPScreenContainer .resendOTPContainer{
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.OTPScreenContainer .resendOTPContainer span{
+    color: grey;
+}
+
+.OTPScreenContainer .resendOTPContainer button{
+    border: none;
+    width: 7vw;
+    padding: 5% 2%;
+    border-radius: 4px;
+    font-size: .8rem;
+    color: green;
+    border: 2px solid green;
+    position: relative;
+    overflow: hidden;
+    z-index: 3;
+    transition: color .5s;
+    font-weight: 600;
+}
+
+.OTPScreenContainer .resendOTPContainer button::before{
+    content: '';
+    position: absolute;
+    background-color: green;
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    transition: all .2s ease-in-out;
+    color: black;
+    z-index: -1;
+}
+
+.OTPScreenContainer .resendOTPContainer button:hover:before{
+    width: 100%;
+}
+
+.OTPScreenContainer .resendOTPContainer button:hover{
+    color: white;
+}
+
+
+/* cancle btn css */
+
+.OTPScreenContainer .cancleBtn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 2%;
+    width: 3vw;
+    height: 3vh;
+    color: black;
+}
+.OTPScreenContainer .cancleBtn:hover{
+    cursor: pointer;
+}

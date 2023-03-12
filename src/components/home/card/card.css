@@ -24,7 +24,7 @@ th{
     border-bottom: 1px solid black;
 }
 
-td button{
+td .greenBtn, td .yellowBtn{
     background: #33b249;
     border: none;
     padding: 7px 11px;
@@ -32,6 +32,10 @@ td button{
     color: white;
 }
 
-td button:hover{
+td .greenBtn:hover, td .yellowBtn:hover{
     cursor: pointer;
+}
+
+td .yellowBtn{
+    background: #b2b233;
 }

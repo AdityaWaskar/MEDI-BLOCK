@@ -22,22 +22,22 @@ const Navigation = () => {
         </div> */}
       <div className="menu">
         <div
-          className={profileActive ? "userInfo" : "userInfo"}
+          className="userInfo"
           onClick={() => setProfileActive(!profileActive)}
         >
           <div className="userPhoto">
             <img src={"/img/user.svg"} alt="user" />
           </div>
           <span className="user_email">abc@gmail.com</span>
-          <ul className={profileActive ? "active" : "active"}>
+          <ul className="active">
             <li>
               {/* <img src="" /> */}
-              <CgProfile className="profileLogo"/>
+              <CgProfile className="profileLogo" />
               <a href="#">MY PROFILE </a>
             </li>
             <li>
               {/* <img src="./img/log-out.png" /> */}
-              <VscSignOut className="profileLogo"/>
+              <VscSignOut className="profileLogo" />
               <a href="#">LOG OUT</a>
             </li>
           </ul>

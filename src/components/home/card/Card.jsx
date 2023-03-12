@@ -15,15 +15,31 @@ const Card = (params) => {
       <td>{params.phone_no}</td>
       <td>{params.email}</td>
       <td>
-        <button
-          onClick={() => {
-            params.setSelectedPhoneNo(params.phone_no);
-            console.log(params.phone_no);
-            // params.onSignup();
-          }}
-        >
-          Get Access
-        </button>
+        {!(params.getAccess == params.phone_no) ? (
+          <button
+            onClick={() => {
+              params.setSelectedPhoneNo(params.phone_no);
+              console.log(params.phone_no);
+              // params.setIsCancle(true);
+              params.onSignup();
+            }}
+            className="greenBtn"
+          >
+            Get Access
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              // params.setSelectedPhoneNo(params.phone_no);
+              // console.log(params.phone_no);
+              // params.setIsCancle(true);
+              // params.onSignup();
+            }}
+            className="yellowBtn"
+          >
+            Add Report
+          </button>
+        )}
       </td>
     </tr>
   );

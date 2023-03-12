@@ -4,10 +4,11 @@ import { ethers } from "ethers";
 import { hospitalABI } from "../abi.js";
 import Card from "../home/card/Card";
 import "./doctor_home_page.css";
-// import { auth } from "../../firebase.config";
-// import { toast, Toaster } from "react-hot-toast";
+import { auth } from "../../firebase.config";
+import { toast, Toaster } from "react-hot-toast";
 
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import OTPScreen from "./OTPScreen/OTPScreen";
 
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
@@ -16,65 +17,72 @@ const Doctor_home_page = () => {
   const [account, setAccount] = useState("");
   const [patientInfo, setPatientInfo] = useState([]);
   const [selectedphoneNo, setSelectedPhoneNo] = useState("");
+  const [isCancle, setIsCancle] = useState(false);
 
   // const [showOTP, setShowOTP] = useState(false);
-  // const [user, setUser] = useState(null);
-  // const [otp, setOtp] = useState("");
-  // const [ph, setPh] = useState("");
+  const [getAccess, setGetAccess] = useState("");
+  const [user, setUser] = useState(null);
+  const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState("");
 
-  // //OTP Sent via firebase
-  // function onCaptchVerify() {
-  //   if (!window.recaptchaVerifier) {
-  //     window.recaptchaVerifier = new RecaptchaVerifier(
-  //       "recaptcha-container",
-  //       {
-  //         size: "invisible",
-  //         callback: (response) => {
-  //           onSignup();
-  //         },
-  //         "expired-callback": () => {},
-  //       },
-  //       auth
-  //     );
-  //   }
-  // }
+  //OTP Sent via firebase
+  function onCaptchVerify() {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            onSignup();
+          },
+          "expired-callback": () => {},
+        },
+        auth
+      );
+    }
+  }
 
-  // function onSignup() {
-  //   // setLoading(true);
-  //   onCaptchVerify();
+  function onSignup() {
+    setLoading(true);
+    onCaptchVerify();
 
-  //   const appVerifier = window.recaptchaVerifier;
+    const appVerifier = window.recaptchaVerifier;
 
-  //   const formatPh = "+" + "919082375004";
+    const formatPh = "+91" + selectedphoneNo;
 
-  //   signInWithPhoneNumber(auth, formatPh, appVerifier)
-  //     .then((confirmationResult) => {
-  //       window.confirmationResult = confirmationResult;
-  //       // setLoading(false);
-  //       setShowOTP(true);
-  //       console.log("OPT Send");
-  //       // toast.success("OTP sended successfully!");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       // setLoading(false);
-  //     });
-  // }
+    signInWithPhoneNumber(auth, formatPh, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        setLoading(false);
+        // setShowOTP(true);
+        setIsCancle(true);
+        console.log("OPT Send");
+        toast.success("OTP sended successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("To many request! try it after some time.");
+        setLoading(false);
+      });
+  }
 
-  // function onOTPVerify() {
-  //   // setLoading(true);
-  //   window.confirmationResult
-  //     .confirm(otp)
-  //     .then(async (res) => {
-  //       console.log(res);
-  //       setUser(res.user);
-  //       // setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       // setLoading(false);
-  //     });
-  // }
+  function onOTPVerify() {
+    setLoading(true);
+    window.confirmationResult
+      .confirm(otp)
+      .then(async (res) => {
+        console.log(res);
+        setUser(res.user);
+        setGetAccess(selectedphoneNo);
+        toast.success("Access Granted");
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log("falied");
+        toast.error("Invalid OTP.");
+        setLoading(false);
+      });
+  }
 
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
@@ -134,9 +142,11 @@ const Doctor_home_page = () => {
       }
       // if it nither phone no nor wallet Address than it throws an error
       else {
-        alert("Invilid Input!");
+        toast.error("Invilid Input!");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const data = [
@@ -152,6 +162,16 @@ const Doctor_home_page = () => {
   return (
     <div className="doctor_home_container">
       <Navigation />
+      <div id="recaptcha-container"></div>
+      <Toaster position="bottom-center" toastOptions={{ duration: 4000 }} />
+      {isCancle ? (
+        <OTPScreen
+          otp={otp}
+          setOtp={setOtp}
+          onOTPVerify={onOTPVerify}
+          setIsCancle={setIsCancle}
+        />
+      ) : null}
       <div className="searchbarContainer">
         <div className="searchbar">
           <input
@@ -195,7 +215,9 @@ const Doctor_home_page = () => {
                 phone_no={data[4]}
                 date={data[3]}
                 setSelectedPhoneNo={setSelectedPhoneNo}
-                // onSignup={onSignup}
+                setIsCancle={setIsCancle}
+                onSignup={onSignup}
+                getAccess={getAccess}
               />
             ))}
           </tbody>
