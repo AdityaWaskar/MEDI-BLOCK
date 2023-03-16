@@ -6,6 +6,7 @@ import Card from "../home/card/Card";
 import "./doctor_home_page.css";
 import { auth } from "../../firebase.config";
 import { toast, Toaster } from "react-hot-toast";
+import Cookies from "js-cookie";
 
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import OTPScreen from "./OTPScreen/OTPScreen";
@@ -20,10 +21,19 @@ const Doctor_home_page = () => {
   const [isCancle, setIsCancle] = useState(false);
 
   // const [showOTP, setShowOTP] = useState(false);
-  const [getAccess, setGetAccess] = useState("");
+  const [getAccess, setGetAccess] = useState(false);
   const [user, setUser] = useState(null);
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState("");
+  const [count, setCount] = useState("");
+
+  // Cokkies
+  const current_second = () => {
+    const date = new Date();
+    let _seconds =
+      date.getHours() * 3600 + date.getMinutes() * 60 + +date.getSeconds(); // converting
+    return _seconds;
+  };
 
   //OTP Sent via firebase
   function onCaptchVerify() {
@@ -56,12 +66,15 @@ const Doctor_home_page = () => {
         setLoading(false);
         // setShowOTP(true);
         setIsCancle(true);
-        console.log("OPT Send");
-        toast.success("OTP sended successfully!");
+        toast.success("OTP sended successfully!", {
+          id: "OTPMsg",
+        });
       })
       .catch((error) => {
         console.log(error);
-        toast.error("To many request! try it after some time.");
+        toast.error("To many request! try it after some time.", {
+          id: "OTPMsg",
+        });
         setLoading(false);
       });
   }
@@ -74,16 +87,26 @@ const Doctor_home_page = () => {
         console.log(res);
         setUser(res.user);
         setGetAccess(selectedphoneNo);
-        toast.success("Access Granted");
+        toast.success("Access Granted", {
+          id: "OTPVerificationMsg",
+        });
+        setIsCancle(false);
+        Cookies.set(selectedphoneNo, current_second() + 20); // set cookie with a lifetime of 60 seconds
+        // setTimeout(() => {
+        //   console.log(selectedphoneNo);
+        //   Cookies.remove(selectedphoneNo);
+        //   setGetAccess(!getAccess);
+        // }, 10000);
         setLoading(false);
       })
       .catch((err) => {
         console.log("falied");
-        toast.error("Invalid OTP.");
+        toast.error("Invalid OTP.", {
+          id: "OTPVerificationMsg",
+        });
         setLoading(false);
       });
   }
-
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -158,6 +181,22 @@ const Doctor_home_page = () => {
   useEffect(() => {
     requestAccount();
     // storeAllPatientIdsInArray();
+    setInterval(() => {
+      const allCookies = Cookies.get();
+      for (let a in allCookies) {
+        console.log(Cookies.get(a), " == ", current_second());
+        if (Cookies.get(a) < current_second()) {
+          Cookies.remove(a);
+        }
+      }
+      // let allCookies = Cookies.get();
+      // console.log(allCookies);
+      // if (Cookies.get("timer") == current_second()) {
+      //   Cookies.remove("timer");
+      //   console.log("expire")
+      // }
+      setCount((old) => old + 1);
+    }, 5000);
   }, []);
   return (
     <div className="doctor_home_container">

@@ -13,6 +13,7 @@
     "env-cmd": "^10.1.0",
     "ethers": "^5.7.1",
     "firebase": "^9.17.2",
+    "js-cookie": "^3.0.1",
     "metamask-logo": "^2.5.0",
     "otp-input-react": "^0.3.0",
     "react": "^18.2.0",

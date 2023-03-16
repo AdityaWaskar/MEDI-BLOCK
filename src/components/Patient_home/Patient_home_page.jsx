@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./patient_home_page.css";
 import { ethers } from "ethers";
 import Footer from "../footer/Footer";
+import Cookies from "js-cookie";
 import axios from "axios";
 import Report_card from "./card/Report_card";
 import { abi } from "../home/ABI/abi";
@@ -12,6 +13,7 @@ import { BsFillShareFill } from "react-icons/bs";
 import { MdNoteAdd } from "react-icons/md";
 import Report_form from "../Doctor_home/Report_form";
 
+let i = 0;
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
 const data = [
@@ -51,10 +53,30 @@ const Patient_home_page = () => {
   const [add, setAdd] = useState(false);
 
   const [cancel, setCancel] = useState(false); //use of diplaying forms
+  const [count, setCount] = useState(0);
 
+  const current_second = () => {
+    const date = new Date();
+    let _seconds =
+      date.getHours() * 3600 + date.getMinutes() * 60 + +date.getSeconds(); // converting
+    return _seconds;
+  };
+
+  const AccessOrNot = (number) => {
+    console.log(Cookies.get(params.patientId));
+    return Cookies.get(params.patientId);
+  };
+  // if(Cookies.get(""))
   useEffect(() => {
     requestAccount();
     storeAllPatientIdsInArray();
+
+    setInterval(() => {
+      if (Cookies.get(params.patientId) == current_second()) {
+        Cookies.remove(params.patientId);
+      }
+      setCount((old) => old + 1);
+    }, 5000);
   }, []);
 
   function clearInputs() {
@@ -214,39 +236,42 @@ const Patient_home_page = () => {
       }
     }
   };
+  if (!AccessOrNot() === undefined) {
+    return <div>NOT Access</div>;
+  } else {
+    return (
+      <div className="patient_home_page_container">
+        <Navigation />
+        <Filter />
+        <div className="reports">
+          {data.map((r) => (
+            <Report_card key={i++} date={r} />
+          ))}
+        </div>
+        <div className="share_btn">
+          {console.log(params.role)}
+          {params.role == "true" ? (
+            // console.log("role")
+            <>
+              <BsFillShareFill onClick={() => console.log("aditya")} />
+              <span className="msg">Share your details</span>
+            </>
+          ) : (
+            <>
+              <MdNoteAdd />
+              <span className="msg" onClick={() => setCancel(true)}>
+                Add Patient Report
+              </span>
+            </>
+          )}
+        </div>
 
-  return (
-    <div className="patient_home_page_container">
-      <Navigation />
-      <Filter />
-      <div className="reports">
-        {data.map((r) => (
-          <Report_card key={r} date={r} />
-        ))}
+        {cancel ? <Report_form cancel={cancel} setCancel={setCancel} /> : null}
+
+        <Footer />
       </div>
-      <div className="share_btn">
-        {console.log(params.role)}
-        {params.role == "true" ? (
-          // console.log("role")
-          <>
-            <BsFillShareFill onClick={() => console.log("aditya")} />
-            <span className="msg">Share your details</span>
-          </>
-        ) : (
-          <>
-            <MdNoteAdd />
-            <span className="msg" onClick={() => setCancel(true)}>
-              Add Patient Report
-            </span>
-          </>
-        )}
-      </div>
-
-      {cancel ? <Report_form cancel={cancel} setCancel={setCancel} /> : null}
-
-      <Footer />
-    </div>
-  );
+    );
+  }
 };
 
 export default Patient_home_page;

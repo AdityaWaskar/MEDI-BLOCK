@@ -15,13 +15,14 @@ import Doctor_home_page from "./components/Doctor_home/Doctor_home_page";
 import Spinner from "./components/spinner/Spinner";
 import Login from "./components/login/Login";
 import PatientLogin from "./components/login/patient/PatientLogin";
+import Patient_register from "./components/Patient_home/Regiter Form/Patient_register";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const createRoute = createBrowserRouter([
   {
     path: "/",
-    element: <PatientLogin />, 
+    element: <PatientLogin />,
   },
   {
     path: "/patientLogin",
@@ -36,7 +37,7 @@ const createRoute = createBrowserRouter([
     element: <Admin_home_page />,
   },
   {
-    path: "/patient_page/:role",
+    path: "/patient_page/:role/:patientId",
     element: <Patient_home_page />,
   },
   {
@@ -54,6 +55,10 @@ const createRoute = createBrowserRouter([
   {
     path: "/contract",
     element: <Connection />,
+  },
+  {
+    path: "/patientRegister",
+    element: <Patient_register />,
   },
 ]);
 root.render(

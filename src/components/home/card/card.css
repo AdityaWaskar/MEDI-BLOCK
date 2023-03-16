@@ -13,7 +13,7 @@ card{
 td{
     text-align: center;
     padding: 6px 0;
-
+    position: relative;
 }
 
 tr:hover{
@@ -38,4 +38,10 @@ td .greenBtn:hover, td .yellowBtn:hover{
 
 td .yellowBtn{
     background: #b2b233;
+}
+td .timerOption span{
+    position: absolute;
+    right: -20px;
+    font-size: .8rem;
+    /* bottom: 0; */
 }
