@@ -166,57 +166,66 @@ const Inputbox = (props) => {
             if (props.title == "Name") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setName(e.target.value);
+              props.setName(e.target.value);
             } else if (props.title == "Email") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setEmail(e.target.value);
+              props.setEmail(e.target.value);
+            } else if (props.title == "Phone_No" && props.role == "doctor") {
+              infoValidation(e.target.value, props.title);
+              removeInfoValidation1(e.target.value, props.title);
+              props.setDoc_PhoneNo(e.target.value);
             } else if (props.title == "Phone_No") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setPhone(e.target.value);
+              props.setPhone(e.target.value);
             } else if (props.title == "Age") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setAge(e.target.value);
+              props.setAge(e.target.value);
             } else if (props.title == "Address") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setAddress(e.target.value);
+              props.setAddress(e.target.value);
             } else if (props.title == "Gender") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setGender(e.target.value);
+              props.setGender(e.target.value);
             } else if (props.title == "Blood_Group") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setBloodGroup(e.target.value);
+              props.setBloodGroup(e.target.value);
             } else if (props.title == "Doctor_Name") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setDoctorName(e.target.value);
+              props.setDoctorName(e.target.value);
             } else if (props.title == "Disease") {
               console.log(e.target.value);
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setDisease(e.target.value);
+              props.setDisease(e.target.value);
             } else if (props.title == "Symptoms") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setSymptoms(e.target.value);
+              props.setSymptoms(e.target.value);
             } else if (props.title == "Medicine_Name") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setMedicine_name(e.target.value);
+              props.setMedicine_name(e.target.value);
             } else if (props.title == "Report") {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
-              // props.setReport(e.target.files[0]);
+              props.setReport(e.target.files[0]);
             }
           }}
         />
       ) : (
-        <input type="date" value={today} max={today} />
+        <input
+          type="date"
+          value={props.date}
+          max={today}
+          onChange={(e) => props.setDate(e.target.value)}
+        />
       )}
 
       <span>{errMsg}</span>

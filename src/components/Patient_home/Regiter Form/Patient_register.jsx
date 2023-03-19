@@ -1,114 +1,139 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Footer from "../../footer/Footer";
 import "./patient_register.css";
-import FromInput from "./FromInput";
-
 const Patient_register = () => {
-  const [values, setValues] = useState({
-    name: "",
-    email: "",
-    phoneno: "",
-    address: "",
-    walletaddress: "",
-  });
+  const genderVal = ["Male", "Female", "Other"];
+  const bloodGroupVal = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
+  const [walletId, setWalletId] = useState("");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
 
-  const inputs = [
-    {
-      id: 1,
-      name: "name",
-      type: "text",
-      placeholder: "name",
-      errorMessage:
-        "Name should be 3 to 20 character. & shouldn't include any special character!",
-      label: "Name",
-      pattern: "([A-Za-z])+( [A-Za-z]+)",
-      required: true,
-    },
-    {
-      id: 2,
-      name: "email",
-      type: "email",
-      placeholder: "Email",
-      errorMessage: "It should be a valid email!",
-      label: "Email",
-      required: true,
-    },
-    {
-      id: 3,
-      name: "phoneno",
-      type: "text",
-      placeholder: "Phone_No",
-      errorMessage: "Number should be of 10 digits!",
-      label: "Phone No.",
-      pattern: "^[0-9]{10}$",
-      required: true,
-    },
-    {
-      id: 4,
-      name: "address",
-      type: "text",
-      placeholder: "Address",
-      label: "Address",
-    },
-    {
-      id: 5,
-      name: "walletaddress",
-      type: "text",
-      placeholder: "Wallet Address",
-      errorMessage: "Should be a valid wallet address!",
-      label: "Wallet Address",
-      pattern: "^0x[a-fA-F0-9]{40}$",
-      required: true,
-    },
-    {
-      id: 6,
-      name: "age",
-      type: "text",
-      placeholder: "Age",
-      label: "Age",
-      required: true,
-    },
-    {
-      id: 7,
-      name: "gender",
-      type: "text",
-      placeholder: "Gender",
-      label: "Gender",
-      required: true,
-    },
-    {
-      id: 8,
-      name: "bloodgr",
-      type: "text",
-      placeholder: "Blood Group",
-      label: "Blood Group",
-      required: true,
-    },
-  ];
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // const data = new FormData(e.target)
-    // console.log(Object.fromEntries(data.entries()));
+  const handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    switch (name) {
+      case "walletId":
+        setWalletId(value);
+        break;
+      case "name":
+        setName(value);
+        break;
+      case "age":
+        setAge(value);
+        break;
+      case "gender":
+        setGender(value);
+        break;
+      case "bloodGroup":
+        setBloodGroup(value);
+        break;
+      case "email":
+        setEmail(value);
+        break;
+      case "phoneNo":
+        setPhoneNo(value);
+        break;
+      default:
+        break;
+    }
   };
 
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Submit the form data to the server here
+    console.log({ walletId, name, age, gender, email, phoneNo, bloodGroup });
   };
 
   return (
-    <div className="patientRegisterContainer">
-      <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
-        {inputs.map((input) => (
-          <FromInput
-            key={input.id}
-            {...input}
-            value={values[input.name]}
-            onChange={onChange}
-          />
-        ))}
-        <button>Submit</button>
+    <section className="patient_register_main_container">
+      <form onSubmit={handleSubmit} className="patientRegisterContainer">
+        <h1>Patient registration </h1>
+        <div className="row">
+          <div className="element" id="walletid">
+            <label>Wallet ID:</label>
+            <input
+              type="text"
+              name="walletId"
+              value={walletId}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="element">
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="element">
+            <label>Age:</label>
+            <input
+              type="number"
+              name="age"
+              value={age}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="element" id="gender">
+            <label>Gender:</label>
+            <select name="gender" value={gender} onChange={handleInputChange}>
+              {genderVal.map((d) => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="element" id="bloodgrp">
+            <label>Blood Group:</label>
+            <select
+              name="bloodGroup"
+              value={bloodGroup}
+              onChange={handleInputChange}
+            >
+              {bloodGroupVal.map((d) => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="row">
+          <div className="element">
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="element">
+            <label>Phone No:</label>
+            <input
+              type="tel"
+              name="phoneNo"
+              value={phoneNo}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+        <button type="submit">Register</button>
       </form>
-    </div>
+    </section>
   );
 };
 

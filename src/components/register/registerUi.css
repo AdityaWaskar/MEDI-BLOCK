@@ -101,7 +101,7 @@
 }
 
 .regiterLoginSection .subTitle{
-    font-size: 17px;
+    font-size: 14px;
     margin: 17px 0;
 }
 
@@ -124,8 +124,7 @@
 }
 
 .regiterLoginSection input, .regiterLoginSection button{
-    /* width: 100%; */
-    width: 273px;
+    width: 100%;
     border-radius: 8px;
     height: 38px;
     border: 1px solid lightgray;
