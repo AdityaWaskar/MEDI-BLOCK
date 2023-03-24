@@ -47,7 +47,7 @@ const Doctor_data = () => {
   async function getAllDoctorIds() {
     const contract = await initializeProvider();
     //get all avaliable doctor address
-    const data = await contract.getDoctorAddress();
+    const data = await contract.GetDocAdd();
 
     // creating an an array of total count of doctor and store the information in the array.
     let doctorInfo = new Array(data.length <= 10 ? data.length : 10);
@@ -55,6 +55,7 @@ const Doctor_data = () => {
     for (let i = data.length - 1; i >= 0 && i >= data.length - 10; i--) {
       console.log(data[i]);
       const data2 = await contract.GetDoctor(data[i]);
+      console.log(data2);
       doctorInfo[j++] = data2;
     }
     // Set the all doctors information in the setDoctorIds state
@@ -97,12 +98,12 @@ const Doctor_data = () => {
           </tr>
           {doctorIds.map((data) => (
             <Card
-              key={data}
+              key={data + 1}
               id={parseInt(data)}
-              name={data[5].split(",")[0]}
-              email={data[4].split(",")[0]}
-              phone_no={data[1]}
-              data={data[3].split(",")[1]}
+              name={data[1].split(",")[0]}
+              email={data[3].split(",")[0]}
+              phone_no={data[2]}
+              data={data[4].split(",")[1]}
             />
           ))}
         </tbody>

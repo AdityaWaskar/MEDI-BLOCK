@@ -1,11 +1,21 @@
 import { ethers } from "ethers";
-const contractAddress = REACT_APP_OWNER_ADDERSS;
+const contractAddress = process.env.REACT_APP_OWNER_ADDERSS;
 
 // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
 export async function initializeProvider(abi) {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   return new ethers.Contract(contractAddress, abi, signer);
+}
+
+//get current wallet address
+export async function requestAccount() {
+  if (window.ethereum) {
+    const account = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    return account[0];
+  }
 }
 
 //  fetch the data from the database

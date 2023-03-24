@@ -11,7 +11,8 @@ import Cookies from "js-cookie";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import OTPScreen from "./OTPScreen/OTPScreen";
 
-const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+// const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+const contractAddress = "0x02d44C3B7064df83DD1277623fd3732a1f1751a3";
 
 const Doctor_home_page = () => {
   const [search, setSearch] = useState("");
@@ -156,11 +157,14 @@ const Doctor_home_page = () => {
       console.log(search);
       // if the length is 10 than it search the doctor details by the phone number.
       if (search.length == 10) {
-        const data = await contract.getDoctorByPhoneNo(search); //getting doctor Detail by phone no
+        const data = await contract.getPatientByPhoneNo(search); //getting doctor Detail by phone no
+        console.log(data);
+        console.log(Number(data[0]._hex));
         setPatientInfo([data]);
         //if lenght of search is 42 than it is search doctor info by wallet address.
       } else if (search.length == 42 && search.includes("0x")) {
-        const data = await contract.GetDoctor(search); //Getting doctor Details by wallet Adress
+        const data = await contract.GetPatient(search); //Getting doctor Details by wallet Adress
+        console.log(data);
         setPatientInfo([data]);
       }
       // if it nither phone no nor wallet Address than it throws an error
@@ -245,13 +249,13 @@ const Doctor_home_page = () => {
               <th>Email Id</th>
               <th>ADD Report</th>
             </tr>
-            {data.map((data) => (
+            {patientInfo.map((data) => (
               <Card
-                key={data[0]}
-                id={data[0]}
-                name={data[1]}
-                email={data[2]}
-                phone_no={data[4]}
+                key={Number(data[0]._hex)}
+                id={Number(data[0]._hex) + 1}
+                name={data[2].split(",")[0]}
+                email={data[5].split(",")[0]}
+                phone_no={data[3]}
                 date={data[3]}
                 setSelectedPhoneNo={setSelectedPhoneNo}
                 setIsCancle={setIsCancle}

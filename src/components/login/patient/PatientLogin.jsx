@@ -52,7 +52,7 @@ const PatientLogin = () => {
         setDoctorExist(true);
         let doctorInformation = await contract.GetDoctor(account[0]);
         console.log(doctorInformation);
-        setName(doctorInformation[5].split(",")[0]);
+        setName(doctorInformation[1].split(",")[0]);
         console.log(doctorInformation[2]);
         setRole("Doctor");
       }

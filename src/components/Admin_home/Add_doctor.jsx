@@ -120,7 +120,7 @@ const Add_doctor = () => {
       )
     ) {
       const contract = await initializeProvider();
-      await contract.AddDoctor(
+      await contract.addDoctor(
         doctorWalletAddress,
         `${name},${age},${gender}`,
         phoneNo,
@@ -155,7 +155,7 @@ const Add_doctor = () => {
 
   const getCount = async () => {
     const contract = await initializeProvider();
-    const val = await contract.getDoctorAddress();
+    const val = await contract.GetDocAdd();
     // console.log(val.length);
     setFormID(val.length);
   };

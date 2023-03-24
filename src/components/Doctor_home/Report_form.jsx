@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./report_form.css";
-
+import { ethers } from "ethers";
 import { hospitalABI } from "../abi.js";
 import Inputbox from "./InputBox/InputBox";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
+import { json } from "react-router";
 
-import { initializeProvider, requestAccount } from "../contract.js";
-const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+// const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+
+const contractAddress = "0x02d44C3B7064df83DD1277623fd3732a1f1751a3";
 
 const genderVal = ["Male", "Female", "Other"];
 const bloodGroupVal = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
@@ -26,9 +28,9 @@ const Report_form = (params) => {
   const [doc_PhoneNO, setDoc_PhoneNo] = useState("");
   const [symptoms, setSymptoms] = useState("");
   const [prescription, setPrescription] = useState("");
+  const [report, setReport] = useState("");
   const [date, setDate] = useState("");
   const [account, setAccount] = useState(null);
-  const [initialize_Provider, setInitiallize_Provide] = useState("");
 
   const cleatStates = () => {
     setEmail("");
@@ -45,25 +47,59 @@ const Report_form = (params) => {
     setDate("");
   };
 
-  const handleSubmit = () => {
-    console.log(
-      `
-      ${name},
-      ${email},
-      ${gender},
-      ${age},
-      ${phoneNo},
-      ${address},
-      ${bloodGroup},
-      ${doctorName},
-      ${disease},
-      ${doc_PhoneNO},
-      ${symptoms},
-      ${prescription},
-      ${date},
-      
-      `
+  const handleSubmit = async () => {
+    // console.log(
+    //   `
+    //   ${name},
+    //   ${email},
+    //   ${gender},
+    //   ${age},
+    //   ${phoneNo},
+    //   ${address},
+    //   ${bloodGroup},
+    //   ${doctorName},
+    //   ${disease},
+    //   ${doc_PhoneNO},
+    //   ${symptoms},
+    //   ${prescription},
+    //   ${date},
+    //   `
+    // );
+    // console.log(
+    //   JSON.stringify({
+    //     doctor_address: "0xlkjsdfljfl;lfj;lsdaj",
+    //     Disease: disease,
+    //     symptoms: symptoms,
+    //     prescription: prescription,
+    //     report: "adfasdf",
+    //     date: date,
+    //   })
+    // );
+    // const hash = await getHash("adfdfd");
+  };
+
+  const getPatientInfo = async () => {
+    let contract = await initializeProvider();
+    const data = await contract.GetPatient(
+      "0xD0e1B9C42B2a2239Ee35C986FdB0a865b0dA97C9"
     );
+    setName(data[2].split(",")[0]);
+    setEmail(data[5].split(",")[0]);
+    setAge(data[2].split(",")[1]);
+    setPhone(data[3]);
+    setAddress(data[4]);
+    setBloodGroup(data[5].split(",")[1]);
+    // console.log(data);
+  };
+
+  const getDoctorInfo = async () => {
+    let contract = await initializeProvider();
+    const data = await contract.getDoctor(
+      "0xD0e1B9C42B2a2239Ee35C986FdB0a865b0dA97C9"
+    );
+    setDoctorName(data[2].split(",")[0]);
+    setDoc_PhoneNo(data[3]);
+    // console.log(data);
   };
 
   // file is uploaded to the IPFS System and get the HASH value
@@ -95,7 +131,7 @@ const Report_form = (params) => {
     }
   };
 
-  const getHash = async () => {
+  const getHash = async (doctor_address) => {
     let fileHash = await sendFileToIPFS();
     const json_data = JSON.stringify({
       doctor_address: doctor_address,
@@ -125,7 +161,22 @@ const Report_form = (params) => {
     }
   };
 
-  const addReport = async () => {
+  // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
+  async function initializeProvider() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    return new ethers.Contract(contractAddress, hospitalABI, signer);
+  }
+
+  // Displays a prompt for the user to select which accounts to connect
+  async function requestAccount() {
+    const account = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    setAccount(account[0]);
+  }
+
+  const addReport = async (doctor_address) => {
     if (
       name != "" &&
       email != "" &&
@@ -142,7 +193,7 @@ const Report_form = (params) => {
       date != ""
     ) {
       let hashValue = getHash();
-      let contract = await initialize_Provider();
+      let contract = await initializeProvider();
       await contract.addMedicalHistory(doctor_address, hashValue);
     } else {
       console.log("filled valid Information");
@@ -157,12 +208,7 @@ const Report_form = (params) => {
     // today = dd + "-" + mm + "-" + yyyy;
     today = yyyy + "-" + mm + "-" + dd;
     setDate(today);
-
-    // initializeProvider()
-    requestAccount().then((res) => setAccount(res));
-    initializeProvider(contractAddress, hospitalABI).then((res) =>
-      setInitiallize_Provide(res)
-    );
+    getPatientInfo();
   }, []);
 
   return (
@@ -173,10 +219,15 @@ const Report_form = (params) => {
       <div className="form_sub_title">Personal Information</div>
       <div className="input_group">
         <div className="row">
-          <Inputbox title={"Email"} type={"text"} setEmail={setEmail} />
+          <Inputbox
+            title={"Email"}
+            type={"text"}
+            setEmail={setEmail}
+            value={email}
+          />
           <div className="element" id="Gender">
             <label>Gender</label>
-            <select onChange={(e) => setGender(e.target.value)}>
+            <select onChange={(e) => setGender(e.target.value)} value={gender}>
               {genderVal.map((d) => (
                 <option value={d}>{d}</option>
               ))}
@@ -184,18 +235,28 @@ const Report_form = (params) => {
           </div>
         </div>
         <div className="row">
-          <Inputbox title={"Age"} type={"text"} setAge={setAge} />
-          <Inputbox title={"Phone_No"} type={"text"} setPhone={setPhone} />
+          <Inputbox title={"Age"} type={"text"} setAge={setAge} value={age} />
+          <Inputbox
+            title={"Phone_No"}
+            type={"text"}
+            setPhone={setPhone}
+            value={phoneNo}
+          />
         </div>
         <div className="row">
-          <Inputbox title={"Address"} type={"text"} setAddress={setAddress} />
+          <Inputbox
+            title={"Address"}
+            type={"text"}
+            setAddress={setAddress}
+            value={address}
+          />
           <div
             className="element"
             id="Blood_Group"
             setBloodGroup={setBloodGroup}
           >
             <label>Blood Group</label>
-            <select>
+            <select value={bloodGroup}>
               {bloodGroupVal.map((d) => (
                 <option value={d}>{d}</option>
               ))}
@@ -220,18 +281,38 @@ const Report_form = (params) => {
             type={"text"}
             role="doctor"
             setDoc_PhoneNo={setDoc_PhoneNo}
+            value={doc_PhoneNO}
           />
           <Inputbox
             title={"Symptoms"}
             type={"text"}
             setSymptoms={setSymptoms}
+            value={symptoms}
           />
+        </div>
+        <div className="row">
+          {/* <Inputbox
+            title={"Phone_No"}
+            type={"text"}
+            role="doctor"
+            setDoc_PhoneNo={setDoc_PhoneNo}
+            value={doc_PhoneNO}
+          /> */}
+          <div className="element" id="prescription">
+            <label>Prescription</label>
+            <textarea
+              rows="5"
+              cols="60"
+              value={prescription}
+              onChange={(e) => setPrescription(e.target.value)}
+            ></textarea>
+          </div>
         </div>
         <Inputbox title={"Report"} type={"file"} />
       </div>
       <hr />
       <div className="form_sub_title">Date of Consultancy</div>
-      <div className="input_group">
+      <div className="  ">
         <Inputbox title={"Date"} type={"date"} date={date} setDate={setDate} />
       </div>
 

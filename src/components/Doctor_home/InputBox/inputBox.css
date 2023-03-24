@@ -25,7 +25,9 @@
 
 .report_form_container .input_group .element input, 
 .report_form_container #Gender select,
-.report_form_container #Blood_Group select{
+.report_form_container #Blood_Group select,
+.report_form_container .input_group .element textarea
+{
     padding: 5px 18px;
     border-radius: 5px;
     border: 1px solid lightgray;
@@ -48,4 +50,16 @@
 
 #Report label, #Date label{
     width: 10%;
+}
+
+.report_form_container .input_group .element textarea:focus{
+    outline: none;
+}
+
+.report_form_container #prescription{
+    display: flex;
+}
+
+.report_form_container #prescription label{
+    width: 15%;
 }

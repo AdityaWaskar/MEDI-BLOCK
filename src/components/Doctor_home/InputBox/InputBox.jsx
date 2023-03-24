@@ -162,6 +162,7 @@ const Inputbox = (props) => {
         <input
           type={props.type}
           required
+          value={props.value}
           onChange={(e) => {
             if (props.title == "Name") {
               infoValidation(e.target.value, props.title);
