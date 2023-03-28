@@ -9,7 +9,7 @@ const LoginUi = (props) => {
     <section className="loginUiContainer">
       <header>
         <div className="name">HMS System</div>
-        <Link to={{ pathname: `/signup` }} className="signUp">
+        <Link to={{ pathname: `/adminSignUp` }} className="signUp">
           SignUp
         </Link>
       </header>
@@ -18,7 +18,6 @@ const LoginUi = (props) => {
           <div className="section1">
             <div className="title">Admin Login</div>
             <div className="subTitle">
-              {" "}
               Hey, Enter your details to Sign in to your account
             </div>
           </div>
@@ -67,7 +66,7 @@ const LoginUi = (props) => {
             </div>
             <p>
               Don't have an account?{" "}
-              <Link to={{ pathname: `/signup` }} className="redirect">
+              <Link to={{ pathname: `/adminSignUp` }} className="redirect">
                 <b>Create new account</b>
               </Link>
             </p>

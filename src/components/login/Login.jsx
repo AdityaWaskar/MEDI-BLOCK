@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
-import fire from "../../fire.js";
+// import fire from "../../fire.js";
+import { auth } from "../../firebase.config.js";
+import toast, { Toaster } from "react-hot-toast";
+
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import Home from "../home/Home.jsx";
 import "./login.css";
 import LoginUi from "./LoginUi";
+import { useNavigate } from "react-router";
+import Spinner from "../spinner/Spinner.jsx";
 
 const Login = () => {
-  const [user, setUser] = useState("");
+  const navigate = useNavigate();
+  const [spinner, setSpinner] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
@@ -21,77 +31,73 @@ const Login = () => {
     setPasswordError("");
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     clearErrors();
-    fire
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch((err) => {
-        switch (err.code) {
-          case "auth/invalid-email":
-          case "auth/user-disable":
-          case "auth/user-not-found":
-            setEmailError(err.message);
-            alert(err.message);
-            break;
-          case "auth/wrong-password":
-            setPasswordError(err.message);
-            alert(err.message);
-            break;
-        }
-      })
-      .then((d) => {
-        if (d) {
-          window.location.href = "admin_page";
-        }
-      });
+    setSpinner(true);
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      navigate(`/admin_page/${email}`);
+    } catch (err) {
+      if (err.code === "auth/wrong-password") {
+        toast.error("Invalid Password.");
+      } else if (err.code === "auth/invalid-email") {
+        toast.error("Invalid Email");
+      } else {
+        toast.error("Invalid Credentials.");
+      }
+      // alert(err.message);
+    }
+    setSpinner(false);
   };
 
-  const handleSignup = () => {
-    clearErrors();
-    fire
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .catch((err) => {
-        switch (err.code) {
-          case "auth/email-already-use":
-          case "auth/invalid-email":
-            setEmailError(err.message);
-            alert(err.message);
-            break;
-          case "auth/weak-password":
-            setPasswordError(err.message);
-            alert(err.message);
-            break;
-        }
-      })
-      .then((val) => {
-        console.log(val);
-        console.log("account created");
-      });
-  };
+  // const handleSignup = () => {
+  //   clearErrors();
+  //   fire
+  //     .auth()
+  //     .createUserWithEmailAndPassword(email, password)
+  //     .catch((err) => {
+  //       switch (err.code) {
+  //         case "auth/email-already-use":
+  //         case "auth/invalid-email":
+  //           setEmailError(err.message);
+  //           alert(err.message);
+  //           break;
+  //         case "auth/weak-password":
+  //           setPasswordError(err.message);
+  //           alert(err.message);
+  //           break;
+  //       }
+  //     })
+  //     .then((val) => {
+  //       console.log(val);
+  //       console.log("account created");
+  //     });
+  // };
 
   const handleLogout = () => {
-    fire.auth().signOut();
+    // fire.auth().signOut();
   };
 
-  const authListner = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        clearInputs();
-        setUser(user);
-      } else {
-        setUser("");
-      }
-    });
-  };
+  // const authListner = () => {
+  //   fire.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       clearInputs();
+  //       setUser(user);
+  //     } else {
+  //       setUser("");
+  //     }
+  //   });
+  // };
 
   useEffect(() => {
-    authListner();
+    // authListner();
   }, []);
 
   return (
     <>
+      <Toaster position="bottom-center" reverseOrder={false} />
+
+      <Spinner active={spinner} />
       <LoginUi
         email={email}
         setEmail={setEmail}

@@ -3,7 +3,7 @@ import "./nav.css";
 import { CgProfile } from "react-icons/cg";
 import { VscSignOut } from "react-icons/vsc";
 
-const Navigation = () => {
+const Navigation = (props) => {
   const [profileActive, setProfileActive] = useState(false);
   return (
     <nav>
@@ -28,7 +28,7 @@ const Navigation = () => {
           <div className="userPhoto">
             <img src={"/img/user.svg"} alt="user" />
           </div>
-          <span className="user_email">abc@gmail.com</span>
+          <span className="user_email">{props.email}</span>
           <ul className="active">
             <li>
               {/* <img src="" /> */}
