@@ -217,6 +217,7 @@ const Inputbox = (props) => {
               infoValidation(e.target.value, props.title);
               removeInfoValidation1(e.target.value, props.title);
               props.setReport(e.target.files[0]);
+              console.log(e.target.files[0]);
             }
           }}
         />

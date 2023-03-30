@@ -8,7 +8,7 @@ const ShowData = () => {
 
   return (
     <div className="show_data">
-      <div className="btn_options">
+      {/* <div className="btn_options">
         <button
           className={
             btn_active == "doctor" ? "active" : "non_active" + " doctor"
@@ -25,6 +25,29 @@ const ShowData = () => {
         >
           Patient
         </button>
+      </div> */}
+
+      <div className="options">
+        <div
+          className="col"
+          id={`${btn_active == "doctor" ? "col1" : "removeCol1"}`}
+          onClick={() => {
+            // setOptionActive("col1");
+            // setSubOptions(patient);
+            setBtn_active("doctor");
+          }}
+        >
+          {/* <HiOutlineOfficeBuilding className="option_icon" /> */}
+          <div className="option_title">Doctor</div>
+        </div>
+        <div
+          className="col"
+          id={`${btn_active == "patient" ? "col2" : "removeCol2"}`}
+          onClick={() => setBtn_active("patient")}
+        >
+          {/* <RiBook2Fill className="option_icon" /> */}
+          <div className="option_title">Patient</div>
+        </div>
       </div>
       {btn_active == "patient" ? <PatientData /> : <Doctor_data />}
     </div>

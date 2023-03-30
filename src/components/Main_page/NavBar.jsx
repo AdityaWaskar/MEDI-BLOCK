@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import logo from "../../assets/logo.png";
-import "./mainPage.css";
-
+import logo from "./logo.png";
+import "bootstrap/dist/css/bootstrap.css";
+import "./navbar.css";
 export const NavBar = () => {
   const [activeLink, setActiveLink] = useState("home");
   const [scrolled, setScrolled] = useState(false);

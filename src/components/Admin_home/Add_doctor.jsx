@@ -2,9 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./add_doctor.css";
 import { ethers } from "ethers";
-// import { abi } from "../Doctor_home/doctor_info_abi";
 import { hospitalABI } from "../abi";
 import InputBox from "./InputBox";
+import img1 from "../../assets/add_doctor_image.svg";
+import img2 from "../../assets/add_symbol.svg";
+import toast, { Toaster } from "react-hot-toast";
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
 var today;
@@ -30,6 +32,8 @@ const Add_doctor = () => {
   const [DOR, setDOR] = useState("");
   const [hospitalName, setHospitalName] = useState("");
 
+  const [spinner, setSpinner] = useState(false);
+
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -39,10 +43,14 @@ const Add_doctor = () => {
 
   // Displays a prompt for the user to select which accounts to connect
   async function requestAccount() {
-    const account = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    setAccount(account[0]);
+    try {
+      const account = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAccount(account[0]);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   function clearStates() {
@@ -103,62 +111,79 @@ const Add_doctor = () => {
     return flag1;
   };
   async function pushDocData() {
-    if (
-      informationValidation(
-        name,
-        age,
-        email,
-        phoneNo,
-        gender,
-        qualification,
-        d_degree,
-        doctorWalletAddress,
-        DOR,
-        hospitalName,
-        otherQualification,
-        otherD_degree
-      )
-    ) {
-      const contract = await initializeProvider();
-      await contract.addDoctor(
-        doctorWalletAddress,
-        `${name},${age},${gender}`,
-        phoneNo,
-        `${qualification == "other" ? otherQualification : qualification},${
-          d_degree == "other" ? otherD_degree : d_degree
-        }`,
-        `${email},${DOR}`,
-        hospitalName
-      );
-      clearStates();
-      setCancelBtnFlag(true);
-      console.log(
-        //   "\n",
-        doctorWalletAddress
-        //   "\n",
-        //   `${name},${age},${gender}`,
-        //   "\n",
-        //   phoneNo,
-        //   "\n",
-        //   `${qualification == "other" ? otherQualification : qualification},${
-        //     d_degree == "other" ? otherD_degree : d_degree
-        //   }`,
-        //   "\n",
-        //   `${email},${DOR}`,
-        //   "\n",
-        //   hospitalName
-      );
-    } else {
-      alert("Fill all the fileds correctly.");
+    // setSpinner(true);
+    try {
+      if (
+        informationValidation(
+          name,
+          age,
+          email,
+          phoneNo,
+          gender,
+          qualification,
+          d_degree,
+          doctorWalletAddress,
+          DOR,
+          hospitalName,
+          otherQualification,
+          otherD_degree
+        )
+      ) {
+        const contract = await initializeProvider();
+        const promise = await contract.addDoctor(
+          doctorWalletAddress,
+          `${name},${age},${gender}`,
+          phoneNo,
+          `${qualification == "other" ? otherQualification : qualification},${
+            d_degree == "other" ? otherD_degree : d_degree
+          }`,
+          `${email},${DOR}`,
+          hospitalName
+        );
+        clearStates();
+        setCancelBtnFlag(true);
+        console.log(
+          //   "\n",
+          doctorWalletAddress
+          //   "\n",
+          //   `${name},${age},${gender}`,
+          //   "\n",
+          //   phoneNo,
+          //   "\n",
+          //   `${qualification == "other" ? otherQualification : qualification},${
+          //     d_degree == "other" ? otherD_degree : d_degree
+          //   }`,
+          //   "\n",
+          //   `${email},${DOR}`,
+          //   "\n",
+          //   hospitalName
+        );
+        toast.promise(promise, {
+          loading: "Saving...",
+          success: "Doctor Added!",
+          error: "Doctor Not Added !",
+        });
+      } else {
+        toast.error("Fill all the fileds correctly.");
+      }
+    } catch (e) {
+      console.log(e);
     }
+    // setSpinner(false);
   }
 
   const getCount = async () => {
-    const contract = await initializeProvider();
-    const val = await contract.GetDocAdd();
-    // console.log(val.length);
-    setFormID(val.length);
+    setSpinner(true);
+    try {
+      const contract = await initializeProvider();
+      const val = await contract.GetDocAdd();
+      setFormID(val.length);
+    } catch (error) {
+      console.error(error);
+    }
+    setSpinner(false);
   };
+
   useEffect(() => {
     getCount();
     requestAccount();
@@ -207,9 +232,10 @@ const Add_doctor = () => {
   ];
   return (
     <section className="add_doctor_container">
+      <Toaster position="bottom-center" reverseOrder={false} />
       <button className="add_doctor_button">Add Doctor</button>
       <div className="add_doctor_image">
-        <img src="img/add_doctor_image.svg" alt="" />
+        <img src={img1} alt="" />
       </div>
       <div className="buttons">
         <img
@@ -220,7 +246,7 @@ const Add_doctor = () => {
             setAddDoctorForm(true);
             cancel_btn(false);
           }}
-          src="img/add_symbol.svg"
+          src={img2}
         />
       </div>
 
@@ -229,11 +255,6 @@ const Add_doctor = () => {
           cancelBtnFlag ? "add_doctor_form doctor_active" : "add_doctor_form"
         }
       >
-        {/* <InputBox
-          title={"Id"}
-          type={"text"}
-          value = {1}
-        /> */}
         <div className="doctor_form_element" id="d_ID">
           <label>ID : </label>
           <input type="text" value={formID + 1} disabled />

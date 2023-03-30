@@ -16,24 +16,40 @@ import Spinner from "./components/spinner/Spinner";
 import Login from "./components/login/Login";
 import PatientLogin from "./components/login/patient/PatientLogin";
 import Patient_register from "./components/Patient_home/Regiter Form/Patient_register";
+// import { MainPage } from "./components/Main_page/MainPage";
+import Banner from "./components/Main_Page/Banner";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const createRoute = createBrowserRouter([
   {
     path: "/",
-    element: <PatientLogin />,
+    element: <Banner />,
   },
   {
     path: "/patientLogin",
+    element: <PatientLogin />,
+  },
+  // admin Login
+  {
+    path: "/adminLogin",
     element: <Login />,
   },
   {
-    path: "/signup",
+    path: "/adminSignUp",
+    element: <Register />,
+  },
+  // {
+  //   path: "/patientLogin",
+  //   element: <Login />,
+  // },
+  {
+    //admin Register
+    path: "/adminRegister",
     element: <Register />,
   },
   {
-    path: "/admin_page",
+    path: "/admin_page/:email",
     element: <Admin_home_page />,
   },
   {
@@ -59,6 +75,10 @@ const createRoute = createBrowserRouter([
   {
     path: "/patientRegister",
     element: <Patient_register />,
+  },
+  {
+    path: "/spinner",
+    element: <Spinner active={true} />,
   },
 ]);
 root.render(

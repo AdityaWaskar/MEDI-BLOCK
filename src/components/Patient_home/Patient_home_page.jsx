@@ -5,16 +5,18 @@ import Footer from "../footer/Footer";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Report_card from "./card/Report_card";
-import { abi } from "../home/ABI/abi";
+// import { abi } from "../home/ABI/abi";
+import { hospitalABI } from "../abi";
 import Navigation from "../navigation/Navigation";
-import { Link, useParams } from "react-router-dom";
+import { json, Link, useParams } from "react-router-dom";
 import Filter from "./Filter";
 import { BsFillShareFill } from "react-icons/bs";
 import { MdNoteAdd } from "react-icons/md";
 import Report_form from "../Doctor_home/Report_form";
 
 let i = 0;
-const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+// const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+const contractAddress = "0xAfB66611E1479dF07922aa84712631708A862807";
 
 const data = [
   "02/04/2001",
@@ -69,7 +71,7 @@ const Patient_home_page = () => {
   // if(Cookies.get(""))
   useEffect(() => {
     requestAccount();
-    storeAllPatientIdsInArray();
+    // storeAllPatientIdsInArray();
 
     setInterval(() => {
       if (Cookies.get(params.patientId) == current_second()) {
@@ -98,7 +100,7 @@ const Patient_home_page = () => {
   async function initializeProvider() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    return new ethers.Contract(contractAddress, abi, signer);
+    return new ethers.Contract(contractAddress, hospitalABI, signer);
   }
 
   // Displays a prompt for the user to select which accounts to connect
@@ -109,105 +111,77 @@ const Patient_home_page = () => {
     setAccount(account[0]);
   }
 
-  // data push to the blockchain
-  async function pushData() {
-    if (
-      name === "" &&
-      email === "" &&
-      phone === 0 &&
-      age === 0 &&
-      address === "" &&
-      doctorName === "" &&
-      disease === "" &&
-      symptoms === "" &&
-      medicine_name === "" &&
-      report === "" &&
-      gender === "" &&
-      bloodGroup === ""
-    ) {
-      alert("All field must be filled");
-      setAdd(true);
-    } else if (phone.toString().length != 10) {
-      console.log(phone.toString().length);
-      alert("Invalid Phone number.");
-      setAdd(true);
-    } else if (!email.includes("@")) {
-      alert("Invalid Email.");
-      setAdd(true);
-    } else {
-      let reportHashValue = await sendFileToIPFS();
-      let contract = await initializeProvider();
-      await contract.addPatientDetails(
-        name,
-        email,
-        `med:${medicine_name},Disease:${disease},symp:${symptoms}`,
-        reportHashValue,
-        doctorName,
-        address,
-        phone,
-        age,
-        gender,
-        bloodGroup,
-        date
-      );
-      console.log(`Data is added to the blockchain.`);
-      setRefresh(true);
-      setAdd(false);
-      clearInputs();
-    }
-  }
   //  fetch the data from the database
-  async function getData(id) {
-    let contract = await initializeProvider();
-    const data = await contract.getPatientDetails(id); //getting Patient Detail
-    const data2 = await contract.getDetails2(id); //getting Patient Detail
-    let obj = [
-      data2[0], // 0 = name
-      data2[1], // 1 = email
-      data2[2], // 2 = medicalHistory
-      data2[3], // 3 = report_img
-      data2[4], // 4 = address
-      parseInt(data[1]._hex), // 5 = phone_no
-      parseInt(data[2]._hex), // 6 = age
-      data[3], // 7 = doctor
-      data[4], // 8 = gender
-      data[5], // 9 = bloodGroup
-      data[6], // 10 = date
-      id, // 11 = id of patient
-    ];
-    return obj;
-  }
+  // async function getData(id) {
+  //   let contract = await initializeProvider();
+  //   const data = await contract.getPatientDetails(id); //getting Patient Detail
+  //   const data2 = await contract.getDetails2(id); //getting Patient Detail
+  //   let obj = [
+  //     data2[0], // 0 = name
+  //     data2[1], // 1 = email
+  //     data2[2], // 2 = medicalHistory
+  //     data2[3], // 3 = report_img
+  //     data2[4], // 4 = address
+  //     parseInt(data[1]._hex), // 5 = phone_no
+  //     parseInt(data[2]._hex), // 6 = age
+  //     data[3], // 7 = doctor
+  //     data[4], // 8 = gender
+  //     data[5], // 9 = bloodGroup
+  //     data[6], // 10 = date
+  //     id, // 11 = id of patient
+  //   ];
+  //   return obj;
+  // }
 
-  async function getPatientDetailsByPhoneNo() {
-    try {
-      let contract = await initializeProvider();
-      let data = await contract.getPatientDetailsByPhoneNo(parseInt(search));
-      setParticularId(parseInt(data));
-      return parseInt(data);
-    } catch (error) {}
-  }
-  getPatientDetailsByPhoneNo();
+  // async function getPatientDetailsByPhoneNo() {
+  //   try {
+  //     let contract = await initializeProvider();
+  //     let data = await contract.getPatientDetailsByPhoneNo(parseInt(search));
+  //     setParticularId(parseInt(data));
+  //     return parseInt(data);
+  //   } catch (error) {}
+  // }
+  // getPatientDetailsByPhoneNo();
 
-  async function getAllPatientIds() {
+  // async function getAllPatientIds() {
+  //   let contract = await initializeProvider();
+  //   let data = await contract.getAllPatientIds();
+  //   let d = [];
+  //   for (let i = 0; i < data.length; i++) {
+  //     d[i] = parseInt(data[i]);
+  //   }
+  //   return d;
+  // }
+  // // getAllPatientIds()
+  // const storeAllPatientIdsInArray = async () => {
+  //   let id_data = [];
+  //   let ids = await getAllPatientIds();
+  //   for (let i = 0; i < ids.length; i++) {
+  //     let id = await getData(ids[i]);
+  //     id_data[i] = id;
+  //   }
+  //   setAllPatientId(id_data);
+  // };
+
+  const getAllPatientReports = async () => {
     let contract = await initializeProvider();
-    let data = await contract.getAllPatientIds();
-    let d = [];
-    for (let i = 0; i < data.length; i++) {
-      d[i] = parseInt(data[i]);
-    }
-    return d;
-  }
-  // getAllPatientIds()
-  const storeAllPatientIdsInArray = async () => {
-    let id_data = [];
-    let ids = await getAllPatientIds();
-    for (let i = 0; i < ids.length; i++) {
-      let id = await getData(ids[i]);
-      id_data[i] = id;
-    }
-    setAllPatientId(id_data);
+    const data = await contract.getMedicalInformation(
+      "0xc9049059894e2Acf6A3A1ee23D2FFfE7F0499527"
+    );
+    let patientInfo = [];
+    let i = 0;
+    console.log(data);
+
+    const fetchPromises = data.map(async (val) => {
+      const hash = await contract.tokenURI(parseInt(val._hex));
+      const response = await fetch(`https://gateway.pinata.cloud/ipfs/${hash}`);
+      const temp = await response.json();
+      return [parseInt(val._hex), temp.data];
+    });
+    const result = await Promise.all(fetchPromises);
+    setAllPatientId(result);
+    console.log(result);
   };
-
   // file is uploaded to the IPFS System and get the HASH value
   const sendFileToIPFS = async (e) => {
     if (report) {
@@ -236,6 +210,10 @@ const Patient_home_page = () => {
       }
     }
   };
+  useEffect(() => {
+    getAllPatientReports();
+  }, []);
+
   if (!AccessOrNot() === undefined) {
     return <div>NOT Access</div>;
   } else {
@@ -244,8 +222,8 @@ const Patient_home_page = () => {
         <Navigation />
         <Filter />
         <div className="reports">
-          {data.map((r) => (
-            <Report_card key={i++} date={r} />
+          {allPatientId.map((r) => (
+            <Report_card key={i++} date={r[1]} />
           ))}
         </div>
         <div className="share_btn">

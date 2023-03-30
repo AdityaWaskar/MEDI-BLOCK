@@ -23,7 +23,8 @@
     width: 30%;
 }
 
-.report_form_container .input_group .element input, 
+.report_form_container .input_group .element input,
+ .report_form_container #date .element input,  
 .report_form_container #Gender select,
 .report_form_container #Blood_Group select,
 .report_form_container .input_group .element textarea

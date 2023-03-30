@@ -10,35 +10,45 @@ import { json } from "react-router";
 
 // const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
-const contractAddress = "0x02d44C3B7064df83DD1277623fd3732a1f1751a3";
+const contractAddress = "0xAfB66611E1479dF07922aa84712631708A862807";
 
-const genderVal = ["Male", "Female", "Other"];
-const bloodGroupVal = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
+const genderVal = ["Select", "Male", "Female", "Other"];
+const bloodGroupVal = [
+  "Select",
+  "A+",
+  "A-",
+  "B+",
+  "B-",
+  "O+",
+  "O-",
+  "AB+",
+  "AB-",
+];
 
 const Report_form = (params) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("Male");
+  const [gender, setGender] = useState(genderVal[0]);
   const [age, setAge] = useState("");
   const [phoneNo, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [bloodGroup, setBloodGroup] = useState("A+");
+  const [bloodGroup, setBloodGroup] = useState(bloodGroupVal[0]);
   const [doctorName, setDoctorName] = useState("");
   const [disease, setDisease] = useState("");
   const [doc_PhoneNO, setDoc_PhoneNo] = useState("");
   const [symptoms, setSymptoms] = useState("");
   const [prescription, setPrescription] = useState("");
-  const [report, setReport] = useState("");
+  const [report, setReport] = useState();
   const [date, setDate] = useState("");
   const [account, setAccount] = useState(null);
 
   const cleatStates = () => {
     setEmail("");
-    setGender("Male");
+    setGender(genderVal[0]);
     setAge("");
     setPhone("");
     setAddress("");
-    setBloodGroup("");
+    setBloodGroup(bloodGroupVal[0]);
     setDoctorName("");
     setDisease("");
     setDoc_PhoneNo("");
@@ -46,36 +56,74 @@ const Report_form = (params) => {
     setPrescription("");
     setDate("");
   };
-
+  
+  const validateData=(email,age,phoneNo,disease,symptoms,prescription)=>{
+    //email
+    if ((!email.includes("@") || email.includes("!") || email.includes("#"))&&
+    (parseInt(age) < 18 || parseInt(age) > 80)&&
+    (phoneNo.length != 10 && phoneNo.length > 0)&&
+    (disease.includes("@") ||disease.includes("!") ||disease.includes("#"))&&
+    (symptoms.includes("@") ||symptoms.includes("!") ||symptoms.includes("#"))&&
+    ((prescription.length == 0)&&(prescription.includes("@") ||prescription.includes("!") ||prescription.includes("#")))
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   const handleSubmit = async () => {
-    // console.log(
-    //   `
-    //   ${name},
-    //   ${email},
-    //   ${gender},
-    //   ${age},
-    //   ${phoneNo},
-    //   ${address},
-    //   ${bloodGroup},
-    //   ${doctorName},
-    //   ${disease},
-    //   ${doc_PhoneNO},
-    //   ${symptoms},
-    //   ${prescription},
-    //   ${date},
-    //   `
-    // );
-    // console.log(
-    //   JSON.stringify({
-    //     doctor_address: "0xlkjsdfljfl;lfj;lsdaj",
-    //     Disease: disease,
-    //     symptoms: symptoms,
-    //     prescription: prescription,
-    //     report: "adfasdf",
-    //     date: date,
-    //   })
-    // );
+    // get the hash value
     // const hash = await getHash("adfdfd");
+    // console.log(hash);
+    // const hash = "QmaaC6QW6h9F2uCcX8Tpa2P4sDQpnkrQaWsmq2k9VWSZSD1";
+    // let contract = await initializeProvider();
+    // // await contract.addMedicalHistory(
+    // //   "0xbdC51B88539d52a8F936a8184f6bA5361664B5bd",
+    // //   hash
+    // // );
+    // const data = await contract.getMedicalInformation(
+    //   "0xc9049059894e2Acf6A3A1ee23D2FFfE7F0499527"
+    // );
+    // console.log(data);
+    // const data1 = await contract.tokenURI(4);
+    // console.log(data1);
+    if (
+      !email ||
+      gender != "Select" ||
+      !age ||
+      !phoneNo ||
+      !address ||
+      bloodGroup != "Select" ||
+      !doctorName ||
+      !disease ||
+      !symptoms ||
+      !prescription ||
+      !report ||
+      !date
+    ) {
+      console.log(
+        email,
+        gender,
+        age,
+        phoneNo,
+        address,
+        bloodGroup,
+        doctorName,
+        disease,
+        symptoms,
+        prescription,
+        report,
+        date
+      );
+      toast.error("Please fill out all required fields");
+    } 
+    if(!validateData(email,age,phoneNo,disease,symptoms,prescription)){
+      toast.error("Invilid data");
+    }
+    else {
+      console.log("success");
+    }
+    
   };
 
   const getPatientInfo = async () => {
@@ -213,6 +261,7 @@ const Report_form = (params) => {
 
   return (
     <div className="report_form_container">
+      <Toaster position="bottom-center" reverseOrder={false} />
       <div className="form_title">Report</div>
       <div className="name">Aditya Prakash Waskar</div>
       <hr />
@@ -308,11 +357,11 @@ const Report_form = (params) => {
             ></textarea>
           </div>
         </div>
-        <Inputbox title={"Report"} type={"file"} />
+        <Inputbox title={"Report"} type={"file"} setReport={setReport} />
       </div>
       <hr />
       <div className="form_sub_title">Date of Consultancy</div>
-      <div className="  ">
+      <div className="" id="date">
         <Inputbox title={"Date"} type={"date"} date={date} setDate={setDate} />
       </div>
 
