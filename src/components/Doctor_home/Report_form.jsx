@@ -8,9 +8,9 @@ import { toast, Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
 import { json } from "react-router";
 
-// const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
-const contractAddress = "0xAfB66611E1479dF07922aa84712631708A862807";
+// const contractAddress = "0xAfB66611E1479dF07922aa84712631708A862807";
 
 const genderVal = ["Select", "Male", "Female", "Other"];
 const bloodGroupVal = [
@@ -56,15 +56,31 @@ const Report_form = (params) => {
     setPrescription("");
     setDate("");
   };
-  
-  const validateData=(email,age,phoneNo,disease,symptoms,prescription)=>{
+
+  const validateData = (
+    email,
+    age,
+    phoneNo,
+    disease,
+    symptoms,
+    prescription
+  ) => {
     //email
-    if ((!email.includes("@") || email.includes("!") || email.includes("#"))&&
-    (parseInt(age) < 18 || parseInt(age) > 80)&&
-    (phoneNo.length != 10 && phoneNo.length > 0)&&
-    (disease.includes("@") ||disease.includes("!") ||disease.includes("#"))&&
-    (symptoms.includes("@") ||symptoms.includes("!") ||symptoms.includes("#"))&&
-    ((prescription.length == 0)&&(prescription.includes("@") ||prescription.includes("!") ||prescription.includes("#")))
+    if (
+      (!email.includes("@") || email.includes("!") || email.includes("#")) &&
+      (parseInt(age) < 18 || parseInt(age) > 80) &&
+      phoneNo.length != 10 &&
+      phoneNo.length > 0 &&
+      (disease.includes("@") ||
+        disease.includes("!") ||
+        disease.includes("#")) &&
+      (symptoms.includes("@") ||
+        symptoms.includes("!") ||
+        symptoms.includes("#")) &&
+      prescription.length == 0 &&
+      (prescription.includes("@") ||
+        prescription.includes("!") ||
+        prescription.includes("#"))
     ) {
       return false;
     } else {
@@ -116,14 +132,12 @@ const Report_form = (params) => {
         date
       );
       toast.error("Please fill out all required fields");
-    } 
-    if(!validateData(email,age,phoneNo,disease,symptoms,prescription)){
-      toast.error("Invilid data");
     }
-    else {
+    if (!validateData(email, age, phoneNo, disease, symptoms, prescription)) {
+      toast.error("Invilid data");
+    } else {
       console.log("success");
     }
-    
   };
 
   const getPatientInfo = async () => {

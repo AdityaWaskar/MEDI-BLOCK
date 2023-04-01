@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Wave from "react-wavify";
+import Navigation from "../Main_Page/Navigation";
 import "./registerUi.css";
 
 const RegisterUi = (props) => {
@@ -7,13 +9,25 @@ const RegisterUi = (props) => {
   const [check, setCheck] = useState(false);
 
   return (
-    <div className="regiterLoginSection">
-      <header>
+    <div className="regiterLoginSection navType1">
+      {/* <header>
         <div className="name">HMS System</div>
         <Link to={{ pathname: `/adminLogin` }} className="a">
           Sign In
         </Link>
-      </header>
+      </header> */}
+      <Navigation />
+      <Wave
+        className="wave"
+        fill="#b598f9"
+        paused={false}
+        options={{
+          height: 30,
+          amplitude: 20,
+          speed: 0.15,
+          points: 3,
+        }}
+      />
       <div className="container">
         <div className="loginContainer">
           <div className="section1">

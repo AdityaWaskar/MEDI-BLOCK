@@ -2,9 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import MetamaskLogo from "../MetamaskLogo";
 import "./patient.css";
+import Wave from "react-wavify";
 import { hospitalABI } from "../../abi";
 import { ethers } from "ethers";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Navigation from "../../Main_Page/Navigation";
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
 const PatientLogin = () => {
@@ -43,7 +45,7 @@ const PatientLogin = () => {
       if (patient == true) {
         setPatientExist(true);
         let patientInformation = await contract.GetPatient(account[0]);
-        setName(patientInformation[2]);
+        setName(patientInformation[2].split(",")[0]);
         console.log(patientInformation[2]);
         setRole("Patient");
       }
@@ -112,7 +114,7 @@ const PatientLogin = () => {
       }
     } else {
       if (role == "Patient") {
-        navigate("/patient_page/true");
+        navigate("/patient_page/true/qirjfjfvh");
       } else if (role == "Doctor") {
         navigate("/doctor_page");
       }
@@ -120,10 +122,22 @@ const PatientLogin = () => {
   };
 
   return (
-    <section className="mainPatientContainer">
-      <h1 className="projectTitle" data-aos="fade-down">
+    <section className="mainPatientContainer navType1">
+      {/* <h1 className="projectTitle" data-aos="fade-down">
         HSM Using Blockchain
-      </h1>
+      </h1> */}
+      <Navigation />
+      <Wave
+        className="wave"
+        fill="#b598f9"
+        paused={false}
+        options={{
+          height: 30,
+          amplitude: 20,
+          speed: 0.15,
+          points: 3,
+        }}
+      />
       <div className="patientLoginContainer" data-aos="slide-left">
         <div className="patientLoginSubContainer" data-aos="fade">
           <div className="MetamaskLogoContainer">
@@ -168,6 +182,9 @@ const PatientLogin = () => {
       {/* <div className="footer">
         Copyright &#9400; lalanboy's 2022 | Privacy Policy
       </div> */}
+      <div className="footer">
+        Copyright &#9400; lalanboy's 2022 | Privacy Policy
+      </div>
     </section>
   );
 };

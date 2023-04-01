@@ -345,6 +345,19 @@ export const hospitalABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "patientId",
+        type: "address",
+      },
+    ],
+    name: "checkPatient",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "doctorCount",
     outputs: [
@@ -352,6 +365,30 @@ export const hospitalABI = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "doctorToPatientIds",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -473,6 +510,25 @@ export const hospitalABI = [
     inputs: [
       {
         internalType: "address",
+        name: "_doctorId",
+        type: "address",
+      },
+    ],
+    name: "getLastTenPatientIdsForDoctor",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "_address",
         type: "address",
       },
@@ -483,6 +539,19 @@ export const hospitalABI = [
         internalType: "uint256[]",
         name: "",
         type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getPatientAddress",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
       },
     ],
     stateMutability: "view",
@@ -551,45 +620,6 @@ export const hospitalABI = [
         internalType: "bool",
         name: "",
         type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "messages",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "patientAddress",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "doctorAddress",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "message",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "time",
-        type: "string",
       },
     ],
     stateMutability: "view",

@@ -15,8 +15,8 @@ import { MdNoteAdd } from "react-icons/md";
 import Report_form from "../Doctor_home/Report_form";
 
 let i = 0;
-// const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-const contractAddress = "0xAfB66611E1479dF07922aa84712631708A862807";
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+// const contractAddress = "0xAfB66611E1479dF07922aa84712631708A862807";
 
 const data = [
   "02/04/2001",

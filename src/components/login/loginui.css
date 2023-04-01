@@ -1,8 +1,8 @@
 .loginUiContainer{
     height: 100vh;
-    display: flex;
+    /* display: flex; */
     /* justify-con/tent:center   ; */
-    background-color: #f3ede5c7;
+    /* background-color: #f3ede5c7; */
     align-items: center;
     flex-direction: column;
     font-family: 'Prompt', sans-serif;
@@ -56,15 +56,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10vh;
 }
 .loginUiContainer .loginContainer{
     width: 307px;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: transparent;
     padding: 30px 27px;
     border-radius: 21px;
     position: relative;
+    box-shadow: 0 0 9px 0px #bebebe;
+    backdrop-filter: blur(4px);
+    border: 1px solid #afafaf;
 }
 
 .loginUiContainer .loginContainer::before{

@@ -99,7 +99,7 @@ const Doctor_data = () => {
           {doctorIds.map((data) => (
             <Card
               key={data + 1}
-              id={parseInt(data)}
+              id={parseInt(data) + 1}
               name={data[1].split(",")[0]}
               email={data[3].split(",")[0]}
               phone_no={data[2]}

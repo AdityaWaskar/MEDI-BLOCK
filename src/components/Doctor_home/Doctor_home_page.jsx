@@ -11,8 +11,8 @@ import Cookies from "js-cookie";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import OTPScreen from "./OTPScreen/OTPScreen";
 
-// const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-const contractAddress = "0x02d44C3B7064df83DD1277623fd3732a1f1751a3";
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+// const contractAddress = "0x02d44C3B7064df83DD1277623fd3732a1f1751a3";
 
 const Doctor_home_page = () => {
   const [search, setSearch] = useState("");
@@ -202,6 +202,7 @@ const Doctor_home_page = () => {
       setCount((old) => old + 1);
     }, 5000);
   }, []);
+  // console.log(patientInfo);
   return (
     <div className="doctor_home_container">
       <Navigation />

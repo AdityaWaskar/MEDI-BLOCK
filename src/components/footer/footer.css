@@ -2,10 +2,11 @@ footer{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #319997;
+    background-color: #b598f9;
+    margin-top: 1vh;
     margin-bottom: 0;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
-    /* margin-top: 10px; */
-    height:40px;
+    color: #313131;
+    height: 40px;
 }

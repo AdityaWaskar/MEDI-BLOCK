@@ -1,10 +1,5 @@
 .regiterLoginSection{
-    height: 100vh;
-    display: flex;
-    /* justify-con/tent:center   ; */
-    background-color: #f3ede5c7;
-    align-items: center;
-    flex-direction: column;
+    height: 100vh; 
     font-family: 'Prompt', sans-serif;
     overflow: hidden;
 }
@@ -56,6 +51,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10vh;
 }
 .regiterLoginSection .loginContainer{
     width: 307px;
@@ -65,6 +61,9 @@
     padding: 30px 27px;
     border-radius: 21px;
     position: relative;
+    box-shadow: 0 0 9px 0px #bebebe;
+    backdrop-filter: blur(4px);
+    border: 1px solid #afafaf;  
 }
 
 .regiterLoginSection .loginContainer::before{

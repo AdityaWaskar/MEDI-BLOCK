@@ -1,18 +1,32 @@
 import React, { useState } from "react";
 import "./loginui.css";
 import { Link } from "react-router-dom";
+import Navigation from "../Main_Page/Navigation";
+import Wave from "react-wavify";
 
 const LoginUi = (props) => {
   const [check, setCheck] = useState(false);
 
   return (
-    <section className="loginUiContainer">
-      <header>
-        <div className="name">HMS System</div>
+    <section className="loginUiContainer navType1">
+      {/* <header> */}
+      {/* <div className="name">HMS System</div>
         <Link to={{ pathname: `/adminSignUp` }} className="signUp">
           SignUp
-        </Link>
-      </header>
+        </Link> */}
+      <Navigation />
+      <Wave
+        className="wave"
+        fill="#b598f9"
+        paused={false}
+        options={{
+          height: 30,
+          amplitude: 20,
+          speed: 0.15,
+          points: 3,
+        }}
+      />
+      {/* </header> */}
       <div className="container">
         <div className="loginContainer">
           <div className="section1">

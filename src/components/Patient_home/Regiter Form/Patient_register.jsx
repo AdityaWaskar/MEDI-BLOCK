@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { initializeProvider, requestAccount } from "../../../solidiy_functions";
 import { hospitalABI } from "../../abi";
 import { ethers } from "ethers";
 import Footer from "../../footer/Footer";
@@ -7,8 +6,8 @@ import AddPatient from "../../home/AddPatient";
 import "./patient_register.css";
 import toast, { Toaster } from "react-hot-toast";
 
-const contractAddress = "0x02d44C3B7064df83DD1277623fd3732a1f1751a3";
-// const contractAddress = process.env.REACT_APP_OWNER_ADDERSS;
+// const contractAddress = "0xfd8593CBe7bca09572E530166Dfe106f737e7b18";
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 const Patient_register = () => {
   const genderVal = ["Select", "Male", "Female", "Other"];
   const bloodGroupVal = [
@@ -82,12 +81,20 @@ const Patient_register = () => {
   //     string memory homeAddress
   // )
 
+  // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     return new ethers.Contract(contractAddress, hospitalABI, signer);
   }
 
+  // Displays a prompt for the user to select which accounts to connect
+  async function requestAccount() {
+    const account = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    setWalletId(account[0]);
+  }
   const isValid = () => {
     if (name.length == 0) {
       toast.error("Name invalid!");
@@ -97,31 +104,31 @@ const Patient_register = () => {
   };
   const handleSubmit1 = async () => {
     if (isValid()) {
-      let contract = await initializeProvider();
-
-      const result = contract.AddPatient(
+      console.log(
         walletId,
         `${name},${age},${gender}`,
         `${email},${bloodGroup}`,
         phoneNo,
         homeAddress
       );
-      toast.promise(result, {
-        loading: "Loading",
-        success: "Patient Successfully Register!",
-        error: "Patient Not Register",
-      });
-      result.then((res) => {});
+      let contract = await initializeProvider();
+
+      const result = await contract.AddPatient(
+        walletId,
+        `${name},${age},${gender}`,
+        `${email},${bloodGroup}`,
+        phoneNo,
+        homeAddress
+      );
+      console.log(result);
+      toast.success("Patient Successfully Register!");
+    } else {
+      console.log("not!");
     }
   };
 
-  const getAccount = async () => {
-    const id = await requestAccount();
-    setWalletId(id);
-  };
-
   useEffect(() => {
-    getAccount();
+    requestAccount();
   }, []);
 
   return (

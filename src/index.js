@@ -17,14 +17,14 @@ import Login from "./components/login/Login";
 import PatientLogin from "./components/login/patient/PatientLogin";
 import Patient_register from "./components/Patient_home/Regiter Form/Patient_register";
 // import { MainPage } from "./components/Main_page/MainPage";
-import Banner from "./components/Main_Page/Banner";
+import MainPage from "./components/Main_Page/MainPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const createRoute = createBrowserRouter([
   {
     path: "/",
-    element: <Banner />,
+    element: <MainPage />,
   },
   {
     path: "/patientLogin",
