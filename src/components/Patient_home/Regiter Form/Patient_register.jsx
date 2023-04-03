@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import { hospitalABI } from "../../abi";
 import { ethers } from "ethers";
 import Footer from "../../footer/Footer";
+import Navigation from "../../Main_Page/Navigation";
 import AddPatient from "../../home/AddPatient";
 import "./patient_register.css";
 import toast, { Toaster } from "react-hot-toast";
+import Spinner from "../../spinner/Spinner";
+import Wave from "react-wavify";
 
 // const contractAddress = "0xfd8593CBe7bca09572E530166Dfe106f737e7b18";
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 const Patient_register = () => {
+  const [spinner, setSpinner] = useState(false);
   const genderVal = ["Select", "Male", "Female", "Other"];
   const bloodGroupVal = [
     "Select",
@@ -32,12 +36,24 @@ const Patient_register = () => {
 
   const clearStates = () => {
     setName("");
-    setAge("");
-    setGender("");
-    setBloodGroup("");
+    setAge(null);
+    setGender(genderVal[0]);
+    setBloodGroup(bloodGroupVal[0]);
     setEmail("");
     setPhoneNo("");
+    setHomeAddress("");
   };
+
+  const todayDate = () => {
+    // Date Limit till today (can't enter the tomorrow's date)
+    let today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+    today = yyyy + "-" + mm + "-" + dd;
+    return today;
+  };
+
   const handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
@@ -73,14 +89,6 @@ const Patient_register = () => {
     }
   };
 
-  //   function AddPatient(
-  //     address _patientAddress,
-  //     string memory name,
-  //     string memory email,
-  //     string memory phoneNo,
-  //     string memory homeAddress
-  // )
-
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -96,35 +104,55 @@ const Patient_register = () => {
     setWalletId(account[0]);
   }
   const isValid = () => {
+    console.log(age, typeof age);
     if (name.length == 0) {
       toast.error("Name invalid!");
+      return false;
+    } else if (email.length === 0 && !email.includes("@")) {
+      toast.error("Email Invalid!");
+      return false;
+    } else if (age.length < 1 && parseInt(age) < 1 && age > 100) {
+      toast.error("Invalid Age!");
+      return false;
+    } else if (gender === "Select") {
+      toast.error("Please select Gender!");
+      return false;
+    } else if (bloodGroup === "Select") {
+      toast.error("Please select BloodGroup!");
+      return false;
+    } else if (phoneNo.length !== 10) {
+      toast.error("Invalid Phone Number!");
+      return false;
+    } else if (homeAddress.length < 1) {
+      toast.error("Invalid Address!");
       return false;
     }
     return true;
   };
   const handleSubmit1 = async () => {
-    if (isValid()) {
-      console.log(
-        walletId,
-        `${name},${age},${gender}`,
-        `${email},${bloodGroup}`,
-        phoneNo,
-        homeAddress
-      );
-      let contract = await initializeProvider();
-
-      const result = await contract.AddPatient(
-        walletId,
-        `${name},${age},${gender}`,
-        `${email},${bloodGroup}`,
-        phoneNo,
-        homeAddress
-      );
-      console.log(result);
-      toast.success("Patient Successfully Register!");
-    } else {
-      console.log("not!");
+    setSpinner(true);
+    try {
+      if (isValid()) {
+        let contract = await initializeProvider();
+        await contract
+          .AddPatient(
+            walletId,
+            `${name},${age},${gender}`,
+            `${email},${bloodGroup},${todayDate()}`,
+            phoneNo,
+            homeAddress
+          )
+          .then((res) => {
+            toast.success("Patient Successfully Register!");
+            clearStates();
+          });
+      } else {
+        console.log("not!");
+      }
+    } catch (error) {
+      console.log(error);
     }
+    setSpinner(false);
   };
 
   useEffect(() => {
@@ -132,109 +160,126 @@ const Patient_register = () => {
   }, []);
 
   return (
-    <section className="patient_register_main_container">
-      <Toaster position="bottom-center" reverseOrder={false} />
-      <div className="patientRegisterContainer">
-        <h1>Patient registration </h1>
-        <div className="row">
-          <div className="element" id="walletid">
-            <label>Wallet ID:</label>
-            <input
-              type="text"
-              name="walletId"
-              value={walletId}
-              onChange={handleInputChange}
-              // readOnly
-            />
+    <div className="navType1">
+      <Navigation />
+      <Wave
+        className="wave"
+        // fill="#ee82ee"
+        fill="#b598f9"
+        paused={false}
+        options={{
+          height: 30,
+          amplitude: 20,
+          speed: 0.15,
+          points: 3,
+        }}
+      />
+      <Spinner active={spinner} />
+      <section className="patient_register_main_container">
+        <Toaster position="bottom-center" reverseOrder={false} />
+        <div className="patientRegisterContainer">
+          <h1>Patient registration </h1>
+          <div className="row">
+            <div className="element" id="walletid">
+              <label>Wallet ID:</label>
+              <input
+                type="text"
+                name="walletId"
+                value={walletId}
+                onChange={handleInputChange}
+                // readOnly
+              />
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="element">
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={handleInputChange}
-            />
+          <div className="row">
+            <div className="element">
+              <label>Name:</label>
+              <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="element">
+              <label>Age:</label>
+              <input
+                type="text"
+                name="age"
+                value={age}
+                onChange={handleInputChange}
+              />
+            </div>
           </div>
-          <div className="element">
-            <label>Age:</label>
-            <input
-              type="number"
-              name="age"
-              value={age}
-              onChange={handleInputChange}
-            />
+          <div className="row">
+            <div className="element" id="gender">
+              <label>Gender:</label>
+              <select name="gender" value={gender} onChange={handleInputChange}>
+                {genderVal.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="element" id="bloodgrp">
+              <label>Blood Group:</label>
+              <select
+                name="bloodGroup"
+                value={bloodGroup}
+                onChange={handleInputChange}
+              >
+                {bloodGroupVal.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="element" id="gender">
-            <label>Gender:</label>
-            <select name="gender" value={gender} onChange={handleInputChange}>
-              {genderVal.map((d) => (
-                <option key={d} value={d}>
-                  {d}
-                </option>
-              ))}
-            </select>
+          <div className="row">
+            <div className="element">
+              <label>Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="element">
+              <label>Phone No:</label>
+              <input
+                type="text"
+                name="phoneNo"
+                value={phoneNo}
+                onChange={handleInputChange}
+              />
+            </div>
           </div>
-          <div className="element" id="bloodgrp">
-            <label>Blood Group:</label>
-            <select
-              name="bloodGroup"
-              value={bloodGroup}
-              onChange={handleInputChange}
-            >
-              {bloodGroupVal.map((d) => (
-                <option key={d} value={d}>
-                  {d}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="row">
-          <div className="element">
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="element">
-            <label>Phone No:</label>
-            <input
-              type="tel"
-              name="phoneNo"
-              value={phoneNo}
-              onChange={handleInputChange}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="element">
-            <label>Address:</label>
-            {/* <input
+          <div className="row">
+            <div className="element">
+              <label>Address:</label>
+              {/* <input
               type="email"
               name="email"
               value={email}
               onChange={handleInputChange}
             /> */}
-            <textarea
-              value={homeAddress}
-              name="homeAdderss"
-              onChange={handleInputChange}
-              rows="10"
-              cols="60"
-            />
+              <textarea
+                value={homeAddress}
+                name="homeAdderss"
+                onChange={handleInputChange}
+                rows="10"
+                cols="60"
+              />
+            </div>
           </div>
+          <button onClick={handleSubmit1}>Register</button>
         </div>
-        <button onClick={handleSubmit1}>Register</button>
-      </div>
-    </section>
+      </section>
+      <Footer />
+    </div>
   );
 };
 

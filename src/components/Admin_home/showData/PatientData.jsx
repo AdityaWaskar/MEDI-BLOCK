@@ -4,10 +4,12 @@ import Card from "../card/Card";
 import { ethers } from "ethers";
 import "./patient.css";
 import { hospitalABI } from "../../abi";
+import toast, { Toaster } from "react-hot-toast";
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
-const PatientData = () => {
+const PatientData = (props) => {
   const [account, setAccount] = useState("");
+  const [search, setSearch] = useState("");
   const [allPatientInfo, setAllPatientInfo] = useState([]);
 
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
@@ -27,26 +29,68 @@ const PatientData = () => {
   console.log(account);
 
   async function getAllPatients() {
-    const contract = await initializeProvider();
-    const data = await contract.GetAllPatients(); //getting All Patient Details
-    console.log(data);
-    let patientInfo = [];
-    for (let i = data.length - 1; i >= 0 && i >= data.length - 10; i--) {
-      const data1 = [
-        parseInt(data[0][1]),
-        data[1][i],
-        data[2][i],
-        data[3][i],
-        data[4][i],
-      ];
-      patientInfo.push(data1);
-      console.log(data1);
+    props.setSpinner(true);
+    try {
+      const contract = await initializeProvider();
+      const data = await contract.getPatientAddress(); //getting All Patient Details
+      console.log(data);
+      let patientInfo = [];
+      for (let i = data.length - 1; i >= 0 && i >= data.length - 10; i--) {
+        const data2 = await contract.GetPatient(data[i]);
+        console.log(data2);
+        const data1 = [
+          parseInt(data2[0]),
+          data2[5].split(",")[2],
+          data2[2].split(",")[0],
+          data2[3],
+          data2[5].split(",")[0],
+        ];
+        patientInfo.push(data1);
+        // console.log(data1);
+      }
+      setAllPatientInfo(patientInfo);
+    } catch (error) {
+      console.log(error);
     }
-    setAllPatientInfo(patientInfo);
-    console.log(allPatientInfo);
-    // return patientInfo;
+    props.setSpinner(false);
   }
-  console.log(allPatientInfo);
+
+  async function getPatientDetailsByPhoneNo() {
+    props.setSpinner(true);
+    const contract = await initializeProvider();
+    console.log(search);
+    // if the length is 10 than it search the doctor details by the phone number.
+    if (search.length == 10) {
+      const data = await contract.getPatientByPhoneNo(search); //getting doctor Detail by phone no
+      console.log(data);
+      setAllPatientInfo([
+        [
+          parseInt(data[0]),
+          data[5].split(",")[2],
+          data[2].split(",")[0],
+          data[3],
+          data[5].split(",")[0],
+        ],
+      ]);
+      //if lenght of search is 42 than it is search doctor info by wallet address.
+    } else if (search.length == 42 && search.includes("0x")) {
+      const data = await contract.GetPatient(search); //Getting doctor Details by wallet Adress
+      setAllPatientInfo([
+        [
+          parseInt(data[0]),
+          data[5].split(",")[2],
+          data[2].split(",")[0],
+          data[3],
+          data[5].split(",")[0],
+        ],
+      ]);
+    }
+    // if it nither phone no nor wallet Address than it throws an error
+    else {
+      toast.error("Invilid Input!", { id: "123" });
+    }
+    props.setSpinner(false);
+  }
   useEffect(() => {
     requestAccount();
     getAllPatients();
@@ -57,18 +101,18 @@ const PatientData = () => {
         <input
           type="text"
           placeholder="Search.."
-          //   onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           maxLength="10"
         />
 
         <button
-        //   onClick={() => {
-        //     getPatientDetailsByPhoneNo();
-        //   }}
+          onClick={() => {
+            getPatientDetailsByPhoneNo();
+          }}
         >
-          <Link to={{ pathname: `/home` }} className="link_decoration">
-            <i className="fa fa-search"></i>
-          </Link>
+          {/* <Link to={{ pathname: `/` }} className="link_decoration"> */}
+          <i className="fa fa-search"></i>
+          {/* </Link> */}
         </button>
       </div>
       <table className="AllCards">
@@ -82,16 +126,12 @@ const PatientData = () => {
           </tr>
           {allPatientInfo.map((data) => (
             <Card
-              key={0}
-              id={0}
-              name={data[1]}
-              email={data[2]}
-              medicalHistory={"aditya"}
+              key={data[0] + 1}
+              id={data[0] + 1}
+              data={data[1]}
+              name={data[2]}
               phone_no={data[3]}
-              age={85}
-              doctor={"name"}
-              gender={"male"}
-              img={"adffadf"}
+              email={data[4]}
             />
           ))}
         </tbody>

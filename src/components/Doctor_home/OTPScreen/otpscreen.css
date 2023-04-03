@@ -1,3 +1,16 @@
+#OTPScreenContainer{
+    background-color: transparent;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(4px);
+    z-index: 4;
+}
+
 .OTPScreenContainer{
     background: #E1F1F4;
     width: 40vw;
@@ -33,10 +46,10 @@
     color: grey;
 }
 
-.OTPScreenContainer .resendOTPContainer button{
+.OTPScreenContainer button{
     border: none;
-    width: 7vw;
-    padding: 5% 2%;
+    width: 15vw;
+    padding: 3% 2%;
     border-radius: 4px;
     font-size: .8rem;
     color: green;
@@ -46,9 +59,10 @@
     z-index: 3;
     transition: color .5s;
     font-weight: 600;
+    background-color: transparent;
 }
 
-.OTPScreenContainer .resendOTPContainer button::before{
+.OTPScreenContainer button::before{
     content: '';
     position: absolute;
     background-color: green;
@@ -61,11 +75,11 @@
     z-index: -1;
 }
 
-.OTPScreenContainer .resendOTPContainer button:hover:before{
+.OTPScreenContainer button:hover:before{
     width: 100%;
 }
 
-.OTPScreenContainer .resendOTPContainer button:hover{
+.OTPScreenContainer button:hover{
     color: white;
 }
 
@@ -84,3 +98,21 @@
 .OTPScreenContainer .cancleBtn:hover{
     cursor: pointer;
 }
+
+.OTPScreenContainer .submitBtn{
+    padding: 1% 2%;
+    /* border-radius: 4px;
+    border: 2px solid green;
+    color: green;
+    background-color: transparent;
+    transition: all .3s ease;
+    text-transform: uppercase;
+    font-weight: 700; */
+    position: relative;
+}
+
+/* .OTPScreenContainer .submitBtn:hover{
+    cursor: pointer;
+    background-color: green;
+    color: white;
+}    */

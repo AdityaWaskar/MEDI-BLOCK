@@ -13,12 +13,11 @@ const Card = (params) => {
   };
 
   const goToPatientPage = (number) => {
-    navigate(`/patient_page/false/${number}`);
+    navigate(`/patient_page/false/${number.replace(" ", "")}`);
   };
 
   const onmouseover = () => {
     settimer(true);
-    console.log("faslkfj");
   };
   const onmouseout = () => {
     settimer(false);

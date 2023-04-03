@@ -11,7 +11,7 @@ const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
 var today;
 
-const Add_doctor = () => {
+const Add_doctor = (props) => {
   const [addDoctorForm, setAddDoctorForm] = useState(false);
   const [cancelBtnFlag, setCancelBtnFlag] = useState(true);
   const [otherOption, setOtherOption] = useState(false);
@@ -32,7 +32,7 @@ const Add_doctor = () => {
   const [DOR, setDOR] = useState("");
   const [hospitalName, setHospitalName] = useState("");
 
-  const [spinner, setSpinner] = useState(false);
+  // const [spinner, setSpinner] = useState(false);
 
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
@@ -111,7 +111,7 @@ const Add_doctor = () => {
     return flag1;
   };
   async function pushDocData() {
-    // setSpinner(true);
+    props.setSpinner(true);
     try {
       if (
         informationValidation(
@@ -130,16 +130,20 @@ const Add_doctor = () => {
         )
       ) {
         const contract = await initializeProvider();
-        const promise = await contract.addDoctor(
-          doctorWalletAddress,
-          `${name},${age},${gender}`,
-          phoneNo,
-          `${qualification == "other" ? otherQualification : qualification},${
-            d_degree == "other" ? otherD_degree : d_degree
-          }`,
-          `${email},${DOR}`,
-          hospitalName
-        );
+        const promise = await contract
+          .addDoctor(
+            doctorWalletAddress,
+            `${name},${age},${gender}`,
+            phoneNo,
+            `${qualification == "other" ? otherQualification : qualification},${
+              d_degree == "other" ? otherD_degree : d_degree
+            }`,
+            `${email},${DOR}`,
+            hospitalName
+          )
+          .then((res) => {
+            toast.success("Doctor Added!", { id: "doctorAdd" });
+          });
         clearStates();
         setCancelBtnFlag(true);
         console.log(
@@ -158,22 +162,22 @@ const Add_doctor = () => {
           //   "\n",
           //   hospitalName
         );
-        toast.promise(promise, {
-          loading: "Saving...",
-          success: "Doctor Added!",
-          error: "Doctor Not Added !",
-        });
+        // toast.promise(promise, {
+        //   loading: "Saving...",
+        //   success: "Doctor Added!",
+        //   error: "Doctor Not Added !",
+        // });
       } else {
-        toast.error("Fill all the fileds correctly.");
+        toast.error("Fill all the fileds correctly.", { id: "error" });
       }
     } catch (e) {
       console.log(e);
     }
-    // setSpinner(false);
+    props.setSpinner(false);
   }
 
   const getCount = async () => {
-    setSpinner(true);
+    props.setSpinner(true);
     try {
       const contract = await initializeProvider();
       const val = await contract.GetDocAdd();
@@ -181,7 +185,7 @@ const Add_doctor = () => {
     } catch (error) {
       console.error(error);
     }
-    setSpinner(false);
+    props.setSpinner(false);
   };
 
   useEffect(() => {
@@ -195,6 +199,7 @@ const Add_doctor = () => {
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyy = today.getFullYear();
     today = yyyy + "-" + mm + "-" + dd;
+    setDOR(today);
   }, []);
 
   const cancel_btn = (value) => {

@@ -7,6 +7,10 @@
     }
 }
 
+.report_form_container::-webkit-scrollbar {
+    display: none;
+  }
+
 .report_form_container{
     width: 60%;
     height: 80vh;
@@ -40,6 +44,8 @@
 
 .report_form_container .name{
     font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 700;
 }
 
 .report_form_container .report_btn{
@@ -47,6 +53,7 @@
     justify-content: end;
     width: 100%;
     gap: 30px;
+    margin-top :3vh;
 }
 
 .report_form_container .report_btn button{

@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  margin: 7vh 0;
   width: 100%;
 }
 .patient_register_main_container .patientRegisterContainer{

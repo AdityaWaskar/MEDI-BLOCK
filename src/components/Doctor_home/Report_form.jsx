@@ -7,6 +7,9 @@ import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
 import { json } from "react-router";
+// import { useprops } from "react-router";
+import { useParams } from "react-router";
+import Spinner from "../spinner/Spinner";
 
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
@@ -25,7 +28,9 @@ const bloodGroupVal = [
   "AB-",
 ];
 
-const Report_form = (params) => {
+const Report_form = (props) => {
+  const params = useParams();
+  const [patientWalletAddress, setPatientWalletAddress] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState(genderVal[0]);
@@ -40,7 +45,7 @@ const Report_form = (params) => {
   const [prescription, setPrescription] = useState("");
   const [report, setReport] = useState();
   const [date, setDate] = useState("");
-  const [account, setAccount] = useState(null);
+  const [spinner, setSpinner] = useState(false);
 
   const cleatStates = () => {
     setEmail("");
@@ -87,85 +92,87 @@ const Report_form = (params) => {
       return true;
     }
   };
-  const handleSubmit = async () => {
-    // get the hash value
-    // const hash = await getHash("adfdfd");
-    // console.log(hash);
-    // const hash = "QmaaC6QW6h9F2uCcX8Tpa2P4sDQpnkrQaWsmq2k9VWSZSD1";
-    // let contract = await initializeProvider();
-    // // await contract.addMedicalHistory(
-    // //   "0xbdC51B88539d52a8F936a8184f6bA5361664B5bd",
-    // //   hash
-    // // );
-    // const data = await contract.getMedicalInformation(
-    //   "0xc9049059894e2Acf6A3A1ee23D2FFfE7F0499527"
-    // );
-    // console.log(data);
-    // const data1 = await contract.tokenURI(4);
-    // console.log(data1);
-    if (
-      !email ||
-      gender != "Select" ||
-      !age ||
-      !phoneNo ||
-      !address ||
-      bloodGroup != "Select" ||
-      !doctorName ||
-      !disease ||
-      !symptoms ||
-      !prescription ||
-      !report ||
-      !date
-    ) {
-      console.log(
-        email,
-        gender,
-        age,
-        phoneNo,
-        address,
-        bloodGroup,
-        doctorName,
-        disease,
-        symptoms,
-        prescription,
-        report,
-        date
-      );
-      toast.error("Please fill out all required fields");
-    }
-    if (!validateData(email, age, phoneNo, disease, symptoms, prescription)) {
-      toast.error("Invilid data");
-    } else {
-      console.log("success");
-    }
-  };
+  // const handleSubmit = async () => {
+  //   // get the hash value
+  //   const hash = await getHash(requestAccount());
+  //   // console.log(hash);
+  //   // const hash = "QmaaC6QW6h9F2uCcX8Tpa2P4sDQpnkrQaWsmq2k9VWSZSD1";
+  //   let contract = await initializeProvider();
+  //   await contract.addMedicalHistory(hash);
+  //   // const data = await contract.getMedicalInformation(
+  //   //   "0xc9049059894e2Acf6A3A1ee23D2FFfE7F0499527"
+  //   // );
+  //   // console.log(data);
+  //   // const data1 = await contract.tokenURI(4);
+  //   // console.log(data1);
+  //   if (
+  //     !email ||
+  //     gender != "Select" ||
+  //     !age ||
+  //     !phoneNo ||
+  //     !address ||
+  //     bloodGroup != "Select" ||
+  //     !doctorName ||
+  //     !disease ||
+  //     !symptoms ||
+  //     !prescription ||
+  //     !report ||
+  //     !date
+  //   ) {
+  //     console.log(
+  //       email,
+  //       gender,
+  //       age,
+  //       phoneNo,
+  //       address,
+  //       bloodGroup,
+  //       doctorName,
+  //       disease,
+  //       symptoms,
+  //       prescription,
+  //       report,
+  //       date
+  //     );
+  //     toast.error("Please fill out all required fields");
+  //   }
+  //   if (!validateData(email, age, phoneNo, disease, symptoms, prescription)) {
+  //     toast.error("Invilid data");
+  //   } else {
+  //     console.log("success");
+  //   }
+  // };
 
   const getPatientInfo = async () => {
     let contract = await initializeProvider();
-    const data = await contract.GetPatient(
-      "0xD0e1B9C42B2a2239Ee35C986FdB0a865b0dA97C9"
-    );
+    const data = await contract.getPatientByPhoneNo(params.patientId);
     setName(data[2].split(",")[0]);
     setEmail(data[5].split(",")[0]);
     setAge(data[2].split(",")[1]);
     setPhone(data[3]);
     setAddress(data[4]);
     setBloodGroup(data[5].split(",")[1]);
-    // console.log(data);
+    setPatientWalletAddress(data[1]);
+    setGender(data[2].split(",")[2]);
+    console.log(data);
+  };
+
+  const getPatientWalletAddress = async () => {
+    let contract = await initializeProvider();
+    const data = await contract.getPatientByPhoneNo(params.patientId);
+    return data[1];
   };
 
   const getDoctorInfo = async () => {
     let contract = await initializeProvider();
-    const data = await contract.getDoctor(
-      "0xD0e1B9C42B2a2239Ee35C986FdB0a865b0dA97C9"
-    );
-    setDoctorName(data[2].split(",")[0]);
-    setDoc_PhoneNo(data[3]);
-    // console.log(data);
+    const data = await contract.GetDoctor(requestAccount());
+    setDoctorName(data[1].split(",")[0]);
+    setDoc_PhoneNo(data[2]);
+    console.log(data);
   };
 
   // file is uploaded to the IPFS System and get the HASH value
   const sendFileToIPFS = async (e) => {
+    setSpinner(true);
     if (report) {
       try {
         const formData = new FormData();
@@ -191,9 +198,11 @@ const Report_form = (params) => {
         console.log(error);
       }
     }
+    setSpinner(false);
   };
 
   const getHash = async (doctor_address) => {
+    setSpinner(true);
     let fileHash = await sendFileToIPFS();
     const json_data = JSON.stringify({
       doctor_address: doctor_address,
@@ -221,6 +230,7 @@ const Report_form = (params) => {
     } catch (error) {
       console.error(error);
     }
+    setSpinner(false);
   };
 
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
@@ -232,36 +242,52 @@ const Report_form = (params) => {
 
   // Displays a prompt for the user to select which accounts to connect
   async function requestAccount() {
-    const account = await window.ethereum.request({
+    const _account = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-    setAccount(account[0]);
+    return _account[0];
   }
 
-  const addReport = async (doctor_address) => {
-    if (
-      name != "" &&
-      email != "" &&
-      gender != "" &&
-      age != "" &&
-      phoneNo != "" &&
-      address != "" &&
-      bloodGroup != "" &&
-      doctorName != "" &&
-      disease != "" &&
-      doc_PhoneNO != "" &&
-      symptoms != "" &&
-      prescription != "" &&
-      date != ""
-    ) {
-      let hashValue = getHash();
-      let contract = await initializeProvider();
-      await contract.addMedicalHistory(doctor_address, hashValue);
-    } else {
-      console.log("filled valid Information");
+  const addReport = async () => {
+    try {
+      if (
+        name != "" &&
+        email != "" &&
+        gender != "" &&
+        age != "" &&
+        phoneNo != "" &&
+        address != "" &&
+        bloodGroup != "" &&
+        doctorName != "" &&
+        disease != "" &&
+        doc_PhoneNO != "" &&
+        symptoms != "" &&
+        prescription != "" &&
+        date != ""
+      ) {
+        setSpinner(true);
+        let hashValue = getHash();
+        console.log(hashValue);
+        let contract = await initializeProvider();
+        await contract
+          .addMedicalHistory(patientWalletAddress, hashValue)
+          .then((res) => {
+            props.getAllPatientReports();
+            cleatStates();
+            props.setCancel(false);
+            setSpinner(false);
+            toast.success("Report Added Successfully.");
+          });
+      } else {
+        setSpinner(false);
+        toast.error("Filled valid Information");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
+    // requestAccount();
     // calculate the current date
     let today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
@@ -271,13 +297,14 @@ const Report_form = (params) => {
     today = yyyy + "-" + mm + "-" + dd;
     setDate(today);
     getPatientInfo();
+    getDoctorInfo();
   }, []);
 
   return (
     <div className="report_form_container">
       <Toaster position="bottom-center" reverseOrder={false} />
       <div className="form_title">Report</div>
-      <div className="name">Aditya Prakash Waskar</div>
+      <div className="name">{name}</div>
       <hr />
       <div className="form_sub_title">Personal Information</div>
       <div className="input_group">
@@ -335,6 +362,7 @@ const Report_form = (params) => {
             title={"Doctor_Name"}
             type={"text"}
             setDoctorName={setDoctorName}
+            value={doctorName}
           />
           <Inputbox title={"Disease"} type={"text"} setDisease={setDisease} />
         </div>
@@ -375,7 +403,8 @@ const Report_form = (params) => {
       </div>
       <hr />
       <div className="form_sub_title">Date of Consultancy</div>
-      <div className="" id="date">
+      <div className="input_group" id="date">
+        {/* div */}
         <Inputbox title={"Date"} type={"date"} date={date} setDate={setDate} />
       </div>
 
@@ -383,13 +412,13 @@ const Report_form = (params) => {
         <button
           className="cancel_btn"
           onClick={() => {
-            params.setCancel(false);
+            props.setCancel(false);
             cleatStates();
           }}
         >
           Cancel
         </button>
-        <button className="submit_btn" onClick={handleSubmit}>
+        <button className="submit_btn" onClick={addReport}>
           Submit
         </button>
       </div>

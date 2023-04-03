@@ -13,22 +13,12 @@ import Filter from "./Filter";
 import { BsFillShareFill } from "react-icons/bs";
 import { MdNoteAdd } from "react-icons/md";
 import Report_form from "../Doctor_home/Report_form";
+import Spinner from "../spinner/Spinner";
+import { toast, Toaster } from "react-hot-toast";
 
 let i = 0;
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 // const contractAddress = "0xAfB66611E1479dF07922aa84712631708A862807";
-
-const data = [
-  "02/04/2001",
-  "02/04/2003",
-  "02/04/2003",
-  "02/04/2003",
-  "02/04/2003",
-  "02/04/2003",
-  "02/04/2003",
-  "02/04/2003",
-  "02/04/2002",
-];
 
 const Patient_home_page = () => {
   const params = useParams();
@@ -48,6 +38,7 @@ const Patient_home_page = () => {
   const [account, setAccount] = useState();
   const [allPatientId, setAllPatientId] = useState([]);
   const [particularId, setParticularId] = useState(null);
+  const [spinner, setSpinner] = useState(false);
 
   const [search, setSearch] = useState("");
 
@@ -111,76 +102,30 @@ const Patient_home_page = () => {
     setAccount(account[0]);
   }
 
-  //  fetch the data from the database
-  // async function getData(id) {
-  //   let contract = await initializeProvider();
-  //   const data = await contract.getPatientDetails(id); //getting Patient Detail
-  //   const data2 = await contract.getDetails2(id); //getting Patient Detail
-  //   let obj = [
-  //     data2[0], // 0 = name
-  //     data2[1], // 1 = email
-  //     data2[2], // 2 = medicalHistory
-  //     data2[3], // 3 = report_img
-  //     data2[4], // 4 = address
-  //     parseInt(data[1]._hex), // 5 = phone_no
-  //     parseInt(data[2]._hex), // 6 = age
-  //     data[3], // 7 = doctor
-  //     data[4], // 8 = gender
-  //     data[5], // 9 = bloodGroup
-  //     data[6], // 10 = date
-  //     id, // 11 = id of patient
-  //   ];
-  //   return obj;
-  // }
-
-  // async function getPatientDetailsByPhoneNo() {
-  //   try {
-  //     let contract = await initializeProvider();
-  //     let data = await contract.getPatientDetailsByPhoneNo(parseInt(search));
-  //     setParticularId(parseInt(data));
-  //     return parseInt(data);
-  //   } catch (error) {}
-  // }
-  // getPatientDetailsByPhoneNo();
-
-  // async function getAllPatientIds() {
-  //   let contract = await initializeProvider();
-  //   let data = await contract.getAllPatientIds();
-  //   let d = [];
-  //   for (let i = 0; i < data.length; i++) {
-  //     d[i] = parseInt(data[i]);
-  //   }
-  //   return d;
-  // }
-  // // getAllPatientIds()
-  // const storeAllPatientIdsInArray = async () => {
-  //   let id_data = [];
-  //   let ids = await getAllPatientIds();
-  //   for (let i = 0; i < ids.length; i++) {
-  //     let id = await getData(ids[i]);
-  //     id_data[i] = id;
-  //   }
-  //   setAllPatientId(id_data);
-  // };
-
   const getAllPatientReports = async () => {
+    setSpinner(true);
     let contract = await initializeProvider();
-    const data = await contract.getMedicalInformation(
-      "0xc9049059894e2Acf6A3A1ee23D2FFfE7F0499527"
-    );
+    const data1 = await contract.getPatientByPhoneNo(params.patientId);
+    console.log(data1);
+    const data = await contract.getMedicalInformation(data1[1]);
     let patientInfo = [];
     let i = 0;
-    console.log(data);
+    console.log(data, "sd");
 
     const fetchPromises = data.map(async (val) => {
       const hash = await contract.tokenURI(parseInt(val._hex));
-      const response = await fetch(`https://gateway.pinata.cloud/ipfs/${hash}`);
+      const response = await fetch(
+        `https://gateway.pinata.cloud/ipfs/${hash}`,
+        { mode: "cors" }
+      );
       const temp = await response.json();
+      console.log(temp);
       return [parseInt(val._hex), temp.data];
     });
     const result = await Promise.all(fetchPromises);
     setAllPatientId(result);
-    console.log(result);
+    console.log(result, "sd");
+    setSpinner(false);
   };
   // file is uploaded to the IPFS System and get the HASH value
   const sendFileToIPFS = async (e) => {
@@ -219,11 +164,13 @@ const Patient_home_page = () => {
   } else {
     return (
       <div className="patient_home_page_container">
-        <Navigation />
+        <Toaster position="bottom-center" reverseOrder={false} />
+        <Spinner active={spinner} />
+        <Navigation email={null} />
         <Filter />
         <div className="reports">
           {allPatientId.map((r) => (
-            <Report_card key={i++} date={r[1]} />
+            <Report_card key={i++} date={r[1]} tokenId={r[0]} />
           ))}
         </div>
         <div className="share_btn">
@@ -244,7 +191,13 @@ const Patient_home_page = () => {
           )}
         </div>
 
-        {cancel ? <Report_form cancel={cancel} setCancel={setCancel} /> : null}
+        {cancel ? (
+          <Report_form
+            cancel={cancel}
+            setCancel={setCancel}
+            getAllPatientReports={getAllPatientReports}
+          />
+        ) : null}
 
         <Footer />
       </div>

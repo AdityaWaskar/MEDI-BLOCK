@@ -4,11 +4,7 @@ import "./card.css";
 
 const Card = (params) => {
   return (
-    <tr
-      className="card"
-      key={params.id}
-      onClick={() => (window.location.href = `home/${params.id}`)}
-    >
+    <tr className="card" key={params.id}>
       <td>{params.id}</td>
       <td>{params.data}</td>
       <td>{params.name}</td>

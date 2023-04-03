@@ -18,6 +18,7 @@ import PatientLogin from "./components/login/patient/PatientLogin";
 import Patient_register from "./components/Patient_home/Regiter Form/Patient_register";
 // import { MainPage } from "./components/Main_page/MainPage";
 import MainPage from "./components/Main_Page/MainPage";
+import OTPScreen from "./components/Doctor_home/OTPScreen/OTPScreen";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -62,7 +63,7 @@ const createRoute = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <Home />,
+    element: <OTPScreen />,
   },
   {
     path: "/home/:id",
@@ -79,6 +80,10 @@ const createRoute = createBrowserRouter([
   {
     path: "/spinner",
     element: <Spinner active={true} />,
+  },
+  {
+    path: "/patient_page/:role/:patientId/:id",
+    element: <DetailInfo />,
   },
 ]);
 root.render(

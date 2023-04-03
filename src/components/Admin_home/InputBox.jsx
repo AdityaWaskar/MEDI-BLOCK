@@ -188,7 +188,7 @@ const InputBox = (props) => {
         }}
       />
       {/* )} */}
-      <span>{ValidationMessage}</span>
+      <span className="inputError">{ValidationMessage}</span>
     </div>
   );
 };

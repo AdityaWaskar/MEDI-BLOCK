@@ -4,9 +4,11 @@ import { ethers } from "ethers";
 import "./doctor_data.css";
 import Card from "../card/Card";
 import { hospitalABI } from "../../abi";
+import toast, { Toaster } from "react-hot-toast";
+
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 var j = 0;
-const Doctor_data = () => {
+const Doctor_data = (props) => {
   const [search, setSearch] = useState("");
   const [account, setAccount] = useState("");
   const [doctorIds, setDoctorIds] = useState([]);
@@ -27,6 +29,7 @@ const Doctor_data = () => {
   }
 
   async function getDoctorData() {
+    props.setSpinner(true);
     const contract = await initializeProvider();
     console.log(search);
     // if the length is 10 than it search the doctor details by the phone number.
@@ -40,11 +43,13 @@ const Doctor_data = () => {
     }
     // if it nither phone no nor wallet Address than it throws an error
     else {
-      alert("Invilid Input!");
+      toast.error("Invilid Input!");
     }
+    props.setSpinner(false);
   }
 
   async function getAllDoctorIds() {
+    props.setSpinner(true);
     const contract = await initializeProvider();
     //get all avaliable doctor address
     const data = await contract.GetDocAdd();
@@ -60,6 +65,7 @@ const Doctor_data = () => {
     }
     // Set the all doctors information in the setDoctorIds state
     setDoctorIds(doctorInfo);
+    props.setSpinner(false);
   }
 
   useEffect(() => {

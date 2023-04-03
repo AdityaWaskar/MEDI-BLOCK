@@ -3,7 +3,7 @@ import "./showData.css";
 import Doctor_data from "./Doctor_data";
 import PatientData from "./PatientData";
 import { useState } from "react";
-const ShowData = () => {
+const ShowData = (props) => {
   const [btn_active, setBtn_active] = useState("doctor");
 
   return (
@@ -49,7 +49,11 @@ const ShowData = () => {
           <div className="option_title">Patient</div>
         </div>
       </div>
-      {btn_active == "patient" ? <PatientData /> : <Doctor_data />}
+      {btn_active == "patient" ? (
+        <PatientData setSpinner={props.setSpinner} />
+      ) : (
+        <Doctor_data setSpinner={props.setSpinner} />
+      )}
     </div>
   );
 };

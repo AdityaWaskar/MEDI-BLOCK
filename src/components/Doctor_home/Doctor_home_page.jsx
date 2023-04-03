@@ -7,12 +7,12 @@ import "./doctor_home_page.css";
 import { auth } from "../../firebase.config";
 import { toast, Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
+import Spinner from "../spinner/Spinner";
 
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import OTPScreen from "./OTPScreen/OTPScreen";
 
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-// const contractAddress = "0x02d44C3B7064df83DD1277623fd3732a1f1751a3";
 
 const Doctor_home_page = () => {
   const [search, setSearch] = useState("");
@@ -20,6 +20,8 @@ const Doctor_home_page = () => {
   const [patientInfo, setPatientInfo] = useState([]);
   const [selectedphoneNo, setSelectedPhoneNo] = useState("");
   const [isCancle, setIsCancle] = useState(false);
+
+  const [spinner, setSpinner] = useState(false);
 
   // const [showOTP, setShowOTP] = useState(false);
   const [getAccess, setGetAccess] = useState(false);
@@ -38,22 +40,30 @@ const Doctor_home_page = () => {
 
   //OTP Sent via firebase
   function onCaptchVerify() {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: (response) => {
-            onSignup();
+    setSpinner(true);
+    try {
+      // setSpinner();
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: (response) => {
+              onSignup();
+            },
+            "expired-callback": () => {},
           },
-          "expired-callback": () => {},
-        },
-        auth
-      );
+          auth
+        );
+      }
+    } catch (error) {
+      console.log(error);
     }
+    setSpinner(false);
   }
 
   function onSignup() {
+    setSpinner(true);
     setLoading(true);
     onCaptchVerify();
 
@@ -66,7 +76,9 @@ const Doctor_home_page = () => {
         window.confirmationResult = confirmationResult;
         setLoading(false);
         // setShowOTP(true);
+        setSpinner(false);
         setIsCancle(true);
+
         toast.success("OTP sended successfully!", {
           id: "OTPMsg",
         });
@@ -77,10 +89,12 @@ const Doctor_home_page = () => {
           id: "OTPMsg",
         });
         setLoading(false);
+        setSpinner(false);
       });
   }
 
   function onOTPVerify() {
+    setSpinner(true);
     setLoading(true);
     window.confirmationResult
       .confirm(otp)
@@ -93,11 +107,7 @@ const Doctor_home_page = () => {
         });
         setIsCancle(false);
         Cookies.set(selectedphoneNo, current_second() + 20); // set cookie with a lifetime of 60 seconds
-        // setTimeout(() => {
-        //   console.log(selectedphoneNo);
-        //   Cookies.remove(selectedphoneNo);
-        //   setGetAccess(!getAccess);
-        // }, 10000);
+
         setLoading(false);
       })
       .catch((err) => {
@@ -107,6 +117,7 @@ const Doctor_home_page = () => {
         });
         setLoading(false);
       });
+    setSpinner(false);
   }
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
@@ -117,41 +128,15 @@ const Doctor_home_page = () => {
 
   // Displays a prompt for the user to select which accounts to connect
   async function requestAccount() {
-    const account = await window.ethereum.request({
+    const _account = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-    setAccount(account[0]);
+    setAccount(_account[0]);
+    console.log(account);
   }
-
-  async function getData(id) {
-    let contract = await initializeProvider();
-    const data = await contract.getPatientDetails(id); //getting Patient Detail
-    const data2 = await contract.getDetails2(id); //getting Patient Detail
-    let obj = [
-      data2[0], // 0 = name
-      data2[1], // 1 = email
-      data2[2], // 2 = medicalHistory
-      data2[3], // 3 = report_img
-      data2[4], // 4 = address
-      parseInt(data[1]._hex), // 5 = phone_no
-      parseInt(data[2]._hex), // 6 = age
-      data[3], // 7 = doctor
-      data[4], // 8 = gender
-      data[5], // 9 = bloodGroup
-      data[6], // 10 = date
-      id, // 11 = id of patient
-    ];
-    return obj;
-  }
-
-  async function getDoctorData() {
-    let contract = await initializeProvider();
-    const data = await contract.getDoctorInfoByPhoneNo(45); //getting Patient Detail
-    console.log(data);
-  }
-  // getDoctorData();
 
   async function getPatientDetails() {
+    setSpinner(true);
     try {
       const contract = await initializeProvider();
       console.log(search);
@@ -174,13 +159,8 @@ const Doctor_home_page = () => {
     } catch (error) {
       console.log(error);
     }
+    setSpinner(false);
   }
-
-  const data = [
-    [1, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563551"],
-    [2, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563552"],
-    [3, "Aditya Waskar", "aditya@gmail.com", "20/05/2023", "9082563553"],
-  ];
 
   useEffect(() => {
     requestAccount();
@@ -193,19 +173,14 @@ const Doctor_home_page = () => {
           Cookies.remove(a);
         }
       }
-      // let allCookies = Cookies.get();
-      // console.log(allCookies);
-      // if (Cookies.get("timer") == current_second()) {
-      //   Cookies.remove("timer");
-      //   console.log("expire")
-      // }
       setCount((old) => old + 1);
     }, 5000);
   }, []);
   // console.log(patientInfo);
   return (
     <div className="doctor_home_container">
-      <Navigation />
+      <Spinner active={spinner} />
+      <Navigation email={null} />
       <div id="recaptcha-container"></div>
       <Toaster position="bottom-center" toastOptions={{ duration: 4000 }} />
       {isCancle ? (
@@ -223,16 +198,14 @@ const Doctor_home_page = () => {
             placeholder="Search.."
             onChange={(e) => {
               setSearch(e.target.value);
-              if (e.target.value == 0) {
-                // getAllDoctorIds();
+              if (e.target.value === "") {
+                // getPatientDetails();
               }
             }}
           />
 
           <button onClick={getPatientDetails}>
-            {/* <Link to={{ pathname: `/home` }} className="link_decoration"> */}
             <i className="fa fa-search"></i>
-            {/* </Link> */}
           </button>
         </div>
       </div>
@@ -256,12 +229,13 @@ const Doctor_home_page = () => {
                 id={Number(data[0]._hex) + 1}
                 name={data[2].split(",")[0]}
                 email={data[5].split(",")[0]}
-                phone_no={data[3]}
-                date={data[3]}
+                phone_no={data[3].split(",")[0]}
+                date={data[5].split(",")[2]}
                 setSelectedPhoneNo={setSelectedPhoneNo}
                 setIsCancle={setIsCancle}
                 onSignup={onSignup}
                 getAccess={getAccess}
+                account={account}
               />
             ))}
           </tbody>
