@@ -92,3 +92,13 @@ nav .userPhoto img{
     font-size: 1.2rem;
     font-family: 'Roboto Slab', serif;
 }
+
+.emptymsg{
+    min-height: 68vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    color: #b2b2b2;
+    font-family: 'Poppins', sans-serif;
+}

@@ -22,29 +22,30 @@ const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
 const Patient_home_page = () => {
   const params = useParams();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState(0);
-  const [age, setAge] = useState(0);
-  const [address, setAddress] = useState("");
-  const [doctorName, setDoctorName] = useState("");
-  const [disease, setDisease] = useState("");
-  const [symptoms, setSymptoms] = useState("");
-  const [medicine_name, setMedicine_name] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phone, setPhone] = useState(0);
+  // const [age, setAge] = useState(0);
+  // const [address, setAddress] = useState("");
+  // const [doctorName, setDoctorName] = useState("");
+  // const [disease, setDisease] = useState("");
+  // const [symptoms, setSymptoms] = useState("");
+  // const [medicine_name, setMedicine_name] = useState("");
+  // const [gender, setGender] = useState("Male");
+  // const [bloodGroup, setBloodGroup] = useState("A+");
+  // const [date, setDate] = useState("");
+  // const [account, setAccount] = useState();
+  // const [particularId, setParticularId] = useState(null);
+  // const [search, setSearch] = useState("");
+
+  // const [refresh, setRefresh] = useState(false);
+  // const [add, setAdd] = useState(false);
   const [report, setReport] = useState("");
-  const [gender, setGender] = useState("Male");
-  const [bloodGroup, setBloodGroup] = useState("A+");
-  const [date, setDate] = useState("");
-  const [account, setAccount] = useState();
   const [allPatientId, setAllPatientId] = useState([]);
-  const [particularId, setParticularId] = useState(null);
   const [spinner, setSpinner] = useState(false);
-
-  const [search, setSearch] = useState("");
-
-  const [refresh, setRefresh] = useState(false);
-  const [add, setAdd] = useState(false);
-
+  const [lowerLimit, setLowerLimit] = useState("2023-01-02");
+  const [higherLimit, setHigherLimit] = useState("2023-04-03");
+  // console.log(lowerLimit, higherLimit);
   const [cancel, setCancel] = useState(false); //use of diplaying forms
   const [count, setCount] = useState(0);
 
@@ -55,37 +56,32 @@ const Patient_home_page = () => {
     return _seconds;
   };
 
+  function filterData() {
+    return allPatientId.filter(
+      (item) => item[1] >= lowerLimit && item[1] <= higherLimit
+    );
+  }
+
   const AccessOrNot = (number) => {
     console.log(Cookies.get(params.patientId));
     return Cookies.get(params.patientId);
   };
   // if(Cookies.get(""))
-  useEffect(() => {
-    requestAccount();
-    // storeAllPatientIdsInArray();
 
-    setInterval(() => {
-      if (Cookies.get(params.patientId) == current_second()) {
-        Cookies.remove(params.patientId);
-      }
-      setCount((old) => old + 1);
-    }, 5000);
-  }, []);
-
-  function clearInputs() {
-    setName("");
-    setEmail("");
-    setPhone(0);
-    setAge(0);
-    setDoctorName("");
-    setAddress("");
-    setDisease("");
-    setSymptoms("");
-    setMedicine_name("");
-    setReport("");
-    setGender("");
-    setBloodGroup("");
-  }
+  // function clearInputs() {
+  //   setName("");
+  //   setEmail("");
+  //   setPhone(0);
+  //   setAge(0);
+  //   setDoctorName("");
+  //   setAddress("");
+  //   setDisease("");
+  //   setSymptoms("");
+  //   setMedicine_name("");
+  //   setReport("");
+  //   setGender("");
+  //   setBloodGroup("");
+  // }
 
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
@@ -99,7 +95,7 @@ const Patient_home_page = () => {
     const account = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-    setAccount(account[0]);
+    return account[0];
   }
 
   const getAllPatientReports = async () => {
@@ -108,6 +104,30 @@ const Patient_home_page = () => {
     const data1 = await contract.getPatientByPhoneNo(params.patientId);
     console.log(data1);
     const data = await contract.getMedicalInformation(data1[1]);
+    let patientInfo = [];
+    let i = 0;
+    console.log(data, "sd");
+
+    const fetchPromises = data.map(async (val) => {
+      const hash = await contract.tokenURI(parseInt(val._hex));
+      const response = await fetch(
+        `https://gateway.pinata.cloud/ipfs/${hash}`,
+        { mode: "cors" }
+      );
+      const temp = await response.json();
+      console.log(temp);
+      return [parseInt(val._hex), temp.data];
+    });
+    const result = await Promise.all(fetchPromises);
+    setAllPatientId(result);
+    console.log(result, "sd");
+    setSpinner(false);
+  };
+
+  const getAllPatientReports2 = async () => {
+    setSpinner(true);
+    let contract = await initializeProvider();
+    const data = await contract.getMedicalInformation(requestAccount());
     let patientInfo = [];
     let i = 0;
     console.log(data, "sd");
@@ -155,11 +175,29 @@ const Patient_home_page = () => {
       }
     }
   };
+
   useEffect(() => {
-    getAllPatientReports();
+    console.log(params.role);
+    if (params.role === "false") {
+      console.log("Test1");
+      getAllPatientReports();
+    } else {
+      getAllPatientReports2();
+    }
   }, []);
 
-  if (!AccessOrNot() === undefined) {
+  useEffect(() => {
+    if (params.role === "false") {
+      setInterval(() => {
+        if (Cookies.get(params.patientId) == current_second()) {
+          Cookies.remove(params.patientId);
+        }
+        setCount((old) => old + 1);
+      }, 5000);
+    }
+  }, []);
+
+  if (!AccessOrNot() === undefined && params.role === "false") {
     return <div>NOT Access</div>;
   } else {
     return (
@@ -167,16 +205,24 @@ const Patient_home_page = () => {
         <Toaster position="bottom-center" reverseOrder={false} />
         <Spinner active={spinner} />
         <Navigation email={null} />
-        <Filter />
-        <div className="reports">
-          {allPatientId.map((r) => (
-            <Report_card key={i++} date={r[1]} tokenId={r[0]} />
-          ))}
-        </div>
+        <Filter
+          setHigherLimit={setHigherLimit}
+          setLowerLimit={setLowerLimit}
+          lowerLimit={lowerLimit}
+          higherLimit={higherLimit}
+        />
+        {filterData().length === 0 ? (
+          <div className="emptymsg">No Data Available</div>
+        ) : (
+          <div className="reports">
+            {filterData().map((r) => (
+              <Report_card key={i++} date={r[1]} tokenId={r[0]} />
+            ))}
+          </div>
+        )}
         <div className="share_btn">
           {console.log(params.role)}
           {params.role == "true" ? (
-            // console.log("role")
             <>
               <BsFillShareFill onClick={() => console.log("aditya")} />
               <span className="msg">Share your details</span>

@@ -177,8 +177,8 @@ const Patient_register = () => {
       <Spinner active={spinner} />
       <section className="patient_register_main_container">
         <Toaster position="bottom-center" reverseOrder={false} />
+        <h1>Patient registration </h1>
         <div className="patientRegisterContainer">
-          <h1>Patient registration </h1>
           <div className="row">
             <div className="element" id="walletid">
               <label>Wallet ID:</label>
@@ -258,14 +258,8 @@ const Patient_register = () => {
             </div>
           </div>
           <div className="row">
-            <div className="element">
+            <div className="element" id="homeAddress">
               <label>Address:</label>
-              {/* <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleInputChange}
-            /> */}
               <textarea
                 value={homeAddress}
                 name="homeAdderss"

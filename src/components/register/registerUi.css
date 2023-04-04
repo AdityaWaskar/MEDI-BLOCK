@@ -102,14 +102,13 @@
 .regiterLoginSection .subTitle{
     font-size: 14px;
     margin: 17px 0;
+    color: grey;
+    margin-bottom: 8px;
 }
 
 .regiterLoginSection .section2{
     display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* width: 100%; */
+    flex-direction: column;  
 }
 
 .regiterLoginSection .checkbox label{

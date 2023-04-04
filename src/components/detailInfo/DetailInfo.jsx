@@ -24,14 +24,13 @@ const DetailInfo = (props) => {
   const [age, setAge] = useState(0);
   const [doctorName, setDoctorName] = useState("");
   const [doctorPhNo, setDoctorPhNo] = useState("");
+  const [doctorWalletAddress, setDoctorWalletAdd] = useState("");
   const [gender, setGender] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const [date, setDate] = useState("");
   const [symptoms, setSymptoms] = useState("");
   const [disease, setDisease] = useState("");
   const [prescription, setPrescription] = useState("");
-  const [noOfData, setNoOfData] = useState(false);
-  const [list, setList] = useState([]);
 
   useEffect(() => {
     requestAccount();
@@ -50,21 +49,33 @@ const DetailInfo = (props) => {
       method: "eth_requestAccounts",
     });
     setAccount(account[0]);
+    return account[0];
   }
 
   async function getPatientAddress() {
     let contract = await initializeProvider();
-    const data = await contract.getPatientByPhoneNo(params.patientId); //getting Patient Detail
-    console.log(data);
-    setEmail(data[5].split(",")[0]);
-    setPhone(data[3]);
-    setAge(data[2].split(",")[1]);
-    setPatientWalletAddress(data[1]);
-    setGender(data[2].split(",")[2]);
-    setBloodGroup(data[5].split(",")[1]);
-    setAddress(data[4]);
-    setName(data[2].split(",")[0]);
-    // return data[1];
+    if (params.role === "false") {
+      const data = await contract.getPatientByPhoneNo(params.patientId); //getting Patient Detail
+      console.log(data);
+      setEmail(data[5].split(",")[0]);
+      setPhone(data[3]);
+      setAge(data[2].split(",")[1]);
+      setPatientWalletAddress(data[1]);
+      setGender(data[2].split(",")[2]);
+      setBloodGroup(data[5].split(",")[1]);
+      setAddress(data[4]);
+      setName(data[2].split(",")[0]);
+    } else {
+      const data = await contract.GetPatient(requestAccount());
+      setEmail(data[5].split(",")[0]);
+      setPhone(data[3]);
+      setAge(data[2].split(",")[1]);
+      setPatientWalletAddress(data[1]);
+      setGender(data[2].split(",")[2]);
+      setBloodGroup(data[5].split(",")[1]);
+      setAddress(data[4]);
+      setName(data[2].split(",")[0]);
+    }
   }
 
   const PatientInfo = async () => {
@@ -81,16 +92,17 @@ const DetailInfo = (props) => {
     setPrescription(temp.prescription);
     setReport(temp.report);
     setSymptoms(temp.symptoms);
-    doctorInfo();
+    doctorInfo(temp.doc_phoneNO);
   };
 
-  const doctorInfo = async () => {
+  const doctorInfo = async (phone_no) => {
     let contract = await initializeProvider();
-    // const data = await contract.getMedicalInformation(getPatientAddress()); //getting Patient Detail
-    // console.log(data);
-    let data = await contract.getDoctorByPhoneNo(doctorPhNo);
+    console.log(doctorPhNo);
+    console.log("dcotr p", doctorPhNo);
+    let data = await contract.getDoctorByPhoneNo(phone_no);
     console.log(data);
-    setDoctorName(data[1].split(",")[0]);
+    setDoctorName(data[2].split(",")[0]);
+    setDoctorWalletAdd(data[1]);
   };
 
   useEffect(() => {

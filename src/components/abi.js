@@ -507,6 +507,11 @@ export const hospitalABI = [
         type: "uint256",
       },
       {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
         internalType: "string",
         name: "",
         type: "string",

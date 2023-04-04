@@ -1,7 +1,7 @@
 import React from "react";
 import "./filter.css";
 
-const Filter = () => {
+const Filter = (props) => {
   return (
     <div className="filter_container">
       <span>filter</span>
@@ -9,15 +9,21 @@ const Filter = () => {
         type="date"
         name=""
         id=""
-        value={"2023-01-02"}
+        value={props.lowerLimit}
         className="upper_limit limits"
+        onChange={(e) => {
+          props.setLowerLimit(e.target.value);
+        }}
       />
       <input
         type="date"
         name=""
         id=""
-        value={"2023-01-04"}
+        value={props.higherLimit}
         className="lower_limit limits"
+        onChange={(e) => {
+          props.setHigherLimit(e.target.value);
+        }}
       />
     </div>
   );

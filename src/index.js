@@ -19,6 +19,7 @@ import Patient_register from "./components/Patient_home/Regiter Form/Patient_reg
 // import { MainPage } from "./components/Main_page/MainPage";
 import MainPage from "./components/Main_Page/MainPage";
 import OTPScreen from "./components/Doctor_home/OTPScreen/OTPScreen";
+import Services from "./components/About_Us/Services";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -40,10 +41,6 @@ const createRoute = createBrowserRouter([
     path: "/adminSignUp",
     element: <Register />,
   },
-  // {
-  //   path: "/patientLogin",
-  //   element: <Login />,
-  // },
   {
     //admin Register
     path: "/adminRegister",
@@ -62,8 +59,8 @@ const createRoute = createBrowserRouter([
     element: <Doctor_home_page />,
   },
   {
-    path: "/home",
-    element: <OTPScreen />,
+    path: "/about",
+    element: <Services />,
   },
   {
     path: "/home/:id",

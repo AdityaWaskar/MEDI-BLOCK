@@ -22,3 +22,8 @@
     border: 1px solid grey;
     border-left: none;
 }
+
+.searchbar input::-webkit-calendar-picker-indicator {
+    /* display: none; */
+    opacity: 0;
+  }

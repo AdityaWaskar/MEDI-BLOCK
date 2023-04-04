@@ -30,6 +30,46 @@ const Doctor_home_page = () => {
   const [loading, setLoading] = useState("");
   const [count, setCount] = useState("");
 
+  const [allPatientWalletIds, setAllPatientWalletIds] = useState([]);
+  const [allPatientPhoneNo, setAllPatientPhoneNo] = useState([]);
+  const [suggestion, setSuggestions] = useState([]);
+
+  // handle suggestion
+  function handleSearchTermChange(event) {
+    const term = event.target.value;
+    setSearch(term);
+
+    const data = allPatientWalletIds.concat(allPatientPhoneNo);
+    console.log(data);
+    if (term.length > 0) {
+      const suggestions = data.filter((item) => {
+        return item.startsWith(term);
+      });
+      setSuggestions(suggestions);
+      console.log("Suggestions=>", suggestions);
+    }
+  }
+
+  async function getAllPatients() {
+    setSpinner(true);
+    try {
+      const contract = await initializeProvider();
+      const data = await contract.getPatientAddress(); //getting All Patient Details
+      setAllPatientWalletIds(data);
+
+      let patientPhoneNo = [];
+      for (let i = 0; i < data.length; i++) {
+        const data2 = await contract.GetPatient(data[i]);
+
+        patientPhoneNo.push(data2[3]);
+      }
+      setAllPatientPhoneNo(patientPhoneNo);
+    } catch (err) {
+      console.log(err);
+    }
+    setSpinner(false);
+  }
+
   // Cokkies
   const current_second = () => {
     const date = new Date();
@@ -106,7 +146,7 @@ const Doctor_home_page = () => {
           id: "OTPVerificationMsg",
         });
         setIsCancle(false);
-        Cookies.set(selectedphoneNo, current_second() + 20); // set cookie with a lifetime of 60 seconds
+        Cookies.set(selectedphoneNo, current_second() + 1800); // set cookie with a lifetime of 30 min
 
         setLoading(false);
       })
@@ -175,6 +215,8 @@ const Doctor_home_page = () => {
       }
       setCount((old) => old + 1);
     }, 5000);
+
+    getAllPatients();
   }, []);
   // console.log(patientInfo);
   return (
@@ -195,14 +237,15 @@ const Doctor_home_page = () => {
         <div className="searchbar">
           <input
             type="text"
+            list="suggestions"
             placeholder="Search.."
-            onChange={(e) => {
-              setSearch(e.target.value);
-              if (e.target.value === "") {
-                // getPatientDetails();
-              }
-            }}
+            onChange={handleSearchTermChange}
           />
+          <datalist id="suggestions">
+            {suggestion.map((d) => (
+              <option value={d} key={d} />
+            ))}
+          </datalist>
 
           <button onClick={getPatientDetails}>
             <i className="fa fa-search"></i>

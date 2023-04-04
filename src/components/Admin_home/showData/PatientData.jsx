@@ -11,6 +11,25 @@ const PatientData = (props) => {
   const [account, setAccount] = useState("");
   const [search, setSearch] = useState("");
   const [allPatientInfo, setAllPatientInfo] = useState([]);
+  const [allPatientWalletIds, setAllPatientWalletIds] = useState([]);
+  const [allPatientPhoneNo, setAllPatientPhoneNo] = useState([]);
+  const [suggestion, setSuggestions] = useState([]);
+
+  // handle suggestion
+  function handleSearchTermChange(event) {
+    const term = event.target.value;
+    setSearch(term);
+
+    const data = allPatientWalletIds.concat(allPatientPhoneNo);
+    console.log(data);
+    if (term.length > 0) {
+      const suggestions = data.filter((item) => {
+        return item.startsWith(term);
+      });
+      setSuggestions(suggestions);
+      console.log("Suggestions=>", suggestions);
+    }
+  }
 
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
   async function initializeProvider() {
@@ -33,7 +52,8 @@ const PatientData = (props) => {
     try {
       const contract = await initializeProvider();
       const data = await contract.getPatientAddress(); //getting All Patient Details
-      console.log(data);
+      setAllPatientWalletIds(data);
+      console.log("data", data);
       let patientInfo = [];
       for (let i = data.length - 1; i >= 0 && i >= data.length - 10; i--) {
         const data2 = await contract.GetPatient(data[i]);
@@ -45,9 +65,18 @@ const PatientData = (props) => {
           data2[3],
           data2[5].split(",")[0],
         ];
+
+        patientPhoneNo.push(data2[3]);
         patientInfo.push(data1);
         // console.log(data1);
       }
+      let patientPhoneNo = [];
+      for (let i = 0; i < data.length; i++) {
+        const data2 = await contract.GetPatient(data[i]);
+        patientPhoneNo.push(data2[3]);
+      }
+      // console.log(patientPhoneNo);
+      setAllPatientPhoneNo(patientPhoneNo);
       setAllPatientInfo(patientInfo);
     } catch (error) {
       console.log(error);
@@ -58,11 +87,11 @@ const PatientData = (props) => {
   async function getPatientDetailsByPhoneNo() {
     props.setSpinner(true);
     const contract = await initializeProvider();
-    console.log(search);
+    // console.log(search);
     // if the length is 10 than it search the doctor details by the phone number.
     if (search.length == 10) {
       const data = await contract.getPatientByPhoneNo(search); //getting doctor Detail by phone no
-      console.log(data);
+      // console.log(data);
       setAllPatientInfo([
         [
           parseInt(data[0]),
@@ -100,19 +129,23 @@ const PatientData = (props) => {
       <div className="searchbar">
         <input
           type="text"
+          list="suggestions"
           placeholder="Search.."
-          onChange={(e) => setSearch(e.target.value)}
-          maxLength="10"
+          onChange={handleSearchTermChange}
+          id="suggestion"
         />
+        <datalist id="suggestions">
+          {suggestion.map((d) => (
+            <option value={d} key={d} />
+          ))}
+        </datalist>
 
         <button
           onClick={() => {
             getPatientDetailsByPhoneNo();
           }}
         >
-          {/* <Link to={{ pathname: `/` }} className="link_decoration"> */}
           <i className="fa fa-search"></i>
-          {/* </Link> */}
         </button>
       </div>
       <table className="AllCards">

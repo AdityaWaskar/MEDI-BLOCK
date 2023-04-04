@@ -5,24 +5,26 @@
   align-items: center;
   margin: 7vh 0;
   width: 100%;
+  flex-direction: column;
 }
 .patient_register_main_container .patientRegisterContainer{
   width: 80vw;
-  border: 2px solid black;
+  border: 1px solid gray;
   border-radius: 8px;
   padding: 10vh 3vw;
   padding-top: 5vh;
+  box-shadow: 0 0 10px 1px grey;
 }
 
-.patientRegisterContainer h1{
+.patient_register_main_container h1{
   color: rgb(0, 0, 0);
   text-align: center;
   text-transform: uppercase;
 }
 
-.patientRegisterContainer .row:first-child{
+/* .patientRegisterContainer .row:first-child{
   width: 50%;
-}
+} */
 
 .patientRegisterContainer .row .element{
   display: flex;
@@ -98,4 +100,28 @@ margin-left: 25%;
 .patientRegisterContainer{
   width: 100%;
   align-items: center;
+}
+
+.patient_register_main_container #homeAddress{
+  gap: 5vh;
+}
+
+.patient_register_main_container #homeAddress label{
+  flex: 0;
+}
+.patient_register_main_container #homeAddress textarea{
+  background: rgb(239, 239, 239);
+  padding: 5px 18px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+
+.patient_register_main_container #homeAddress textarea:focus{
+  outline: none;
+}
+
+
+.patient_register_main_container .element select{
+
+  border: 1px solid lightgray;
 }

@@ -3,11 +3,15 @@ import { Link } from "react-router-dom";
 import Wave from "react-wavify";
 import Navigation from "../Main_Page/Navigation";
 import "./registerUi.css";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const RegisterUi = (props) => {
   // return (
   const [check, setCheck] = useState(false);
-
+  const [passwordShown, setPasswordShown] = useState(false);
+  const togglePasswordVisibility = () => {
+    setPasswordShown(!passwordShown);
+  };
   return (
     <div className="regiterLoginSection navType1">
       {/* <header>
@@ -58,7 +62,7 @@ const RegisterUi = (props) => {
               />
             </div>
             <div className="pwd">
-              <input
+              {/* <input
                 type={check ? "text" : "password"}
                 id="pwd"
                 placeholder="Password"
@@ -73,12 +77,39 @@ const RegisterUi = (props) => {
                       ? "1px solid red"
                       : "1px solid green",
                 }}
-              />
+              /> */}
+              <div className="password-input-container">
+                <input
+                  type={passwordShown ? "text" : "password"}
+                  placeholder="Enter Password"
+                  className="password-input-field"
+                  onChange={(e) => props.setPassword(e.target.value)}
+                  style={{
+                    border:
+                      props.password.length === 0
+                        ? "1px solid lightGrey"
+                        : props.password.length <= 7
+                        ? "1px solid red"
+                        : "1px solid green",
+                  }}
+                />
+                <div
+                  className="password-input-icon-container"
+                  onClick={togglePasswordVisibility}
+                >
+                  {passwordShown ? (
+                    <FiEyeOff className="password-input-icon" />
+                  ) : (
+                    <FiEye className="password-input-icon" />
+                  )}
+                </div>
+              </div>
             </div>
+            {/* 
             <div className="checkbox">
               <input type="checkbox" onChange={() => setCheck(!check)} />
               <label htmlFor="">show</label>
-            </div>
+            </div> */}
             <div className="submit">
               <button onClick={props.handleSignup}>Submit</button>
             </div>
