@@ -1,0 +1,222 @@
+.loginUiContainer{
+    height: 100vh;
+    /* display: flex; */
+    /* justify-con/tent:center   ; */
+    /* background-color: #f3ede5c7; */
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Prompt', sans-serif;
+    overflow: hidden;
+}
+
+.errMsg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18vw;
+    height: 20vh;
+    background-color: white;
+    border-radius: 8px;
+    position: absolute;
+    top:0vh;
+    transition: all 1s ease;
+}
+
+.loginUiContainer header{
+    /* background-color: ; */
+    width: 100vw; 
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.loginUiContainer .name{
+    margin-left: 30px;
+    font-size: 1.5rem;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+.loginUiContainer .signUp{
+    text-decoration: none;
+    color: black;
+    margin-right: 25px;
+    background: #fbd687;
+    padding: 6px 27px;
+    border-radius: 8px;
+}
+
+.loginUiContainer .signUp:hover{
+    cursor: pointer;
+    background-color: #ffce64;
+}
+
+.loginUiContainer .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+}
+.loginUiContainer .loginContainer{
+    width: 307px;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    padding: 30px 27px;
+    border-radius: 21px;
+    position: relative;
+    box-shadow: 0 0 9px 0px #bebebe;
+    backdrop-filter: blur(4px);
+    border: 1px solid #afafaf;
+}
+
+.loginUiContainer .loginContainer::before{
+    content: '';
+    background-image: url('../../assets/login1.png');
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 184px;
+    right: 193px;
+    z-index: -1;
+}
+
+.loginUiContainer .loginContainer::after{
+    content: '';
+    background-image: url("../../assets//login2.gif");
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 189px;
+    left: 494px;
+}
+
+.loginUiContainer .section1{
+    text-align: center;
+}
+
+.loginUiContainer .title{
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.loginUiContainer .subTitle{ 
+    font-size: 15px;
+    margin: 17px 0;
+    color: grey;
+}
+
+.loginUiContainer .section2{
+    display: flex;
+    flex-direction: column; 
+}
+
+.loginUiContainer .checkbox label{
+    position: relative;
+    bottom: 4px;
+}
+.loginUiContainer .checkbox input{
+    height: 18px;
+    width: 18px;
+    z-index: 3;
+}
+
+.loginUiContainer input, .loginUiContainer button{
+    width: 100%;
+    /* width: 273px; */
+    border-radius: 8px;
+    height: 38px;
+    border: 1px solid lightgray;
+}
+
+/* .loginUiContainer .email , .loginUiContainer .pwd{
+    margin: 10px 0;
+    padding: 0 5px;
+} */
+
+.loginUiContainer .section2 input{
+    padding-left: 25px ;
+}
+
+.loginUiContainer .submit button{
+    width: 100%;
+    font-size: 16px;
+    background-color: #fbd687;
+    font-family: 'Prompt', sans-serif;
+}
+
+.loginUiContainer .submit button:hover{
+    cursor: pointer;
+    background-color: #ffce64;
+}
+
+.loginUiContainer p{
+    font-size: 12px;
+    text-align: center  ;
+}
+
+input:focus-visible {
+    outline:none;
+}
+
+.redirect{
+    text-decoration: none;
+    color: black;
+}
+
+.footer{
+    margin-top: 17px;
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+
+.password-input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .password-input-field {
+    padding-right: 30px;
+    width: 100%;
+  }
+  
+  .password-input-label {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-size: 14px;
+    color: #555;
+    transition: all 0.2s ease-out;
+  }
+  
+  .password-input-field:focus ~ .password-input-label,
+  .password-input-field:not(:placeholder-shown) ~ .password-input-label {
+    top: -35px;
+    font-size: 12px;
+    color: #007bff;
+  }
+  
+  .password-input-icon-container {
+    position: absolute;
+    top: 50%;
+    right: 13px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .password-input-icon {
+    font-size: 15px;
+    color: rgb(101, 101, 101);
+  }
+  
+
+
+.loginContainer .email {
+    margin-bottom: 20px;
+
+}

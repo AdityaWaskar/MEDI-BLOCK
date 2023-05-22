@@ -1,0 +1,66 @@
+.report_form_container .input_group .element{
+    width: 50%;
+    margin:  20px 0;
+} 
+.report_form_container #Gender select{
+    text-align: center;
+    width: 30%;
+}
+.report_form_container #Blood_Group select{
+    width: 20%;
+    text-align: center;
+}
+
+.report_form_container .input_group .element label,
+.report_form_container #Gender label,
+.report_form_container #Blood_Group label{
+    margin-left: 40px;
+    width: 30%;
+    display: inline-block;
+}   
+
+.report_form_container #Blood_Group label{
+    width: 30%;
+}
+
+.report_form_container .input_group .element input,
+ .report_form_container #date .element input,  
+.report_form_container #Gender select,
+.report_form_container #Blood_Group select,
+.report_form_container .input_group .element textarea
+{
+    padding: 5px 18px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.report_form_container .input_group .element{
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.report_form_container span{
+    display: block;
+    /* text-align: center; */
+    font-size: 0.8rem;
+    color: red;
+    margin-left: 40%;
+}
+
+#Report label, #Date label{
+    width: 10%;
+}
+
+.report_form_container .input_group .element textarea:focus{
+    outline: none;
+}
+
+.report_form_container #prescription{
+    display: flex;
+}
+
+.report_form_container #prescription label{
+    width: 15%;
+}

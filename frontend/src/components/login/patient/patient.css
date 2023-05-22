@@ -1,0 +1,204 @@
+*{
+    box-sizing: border-box;
+    --patient_login_page_width : 25vw;
+}
+.mainPatientContainer{
+    background: #F3E4F1;
+    z-index: -1;
+    min-height: 100vh;
+
+}
+
+.mainPatientContainer .projectTitle{
+    margin: 0;
+    padding: 5vh 0;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.mainPatientContainer .metamaskName{
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 500;
+}
+.patientLoginContainer{
+    width: var(--patient_login_page_width);
+    height: 70vh;
+    margin: 10vh auto;
+    margin-bottom: 0;
+    border-radius: 10px;
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.patientLoginSubContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    box-sizing: border-box;
+
+}
+
+.patientLoginSubContainer .title{
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+
+}
+
+.patientLoginSubContainer .MetamaskLogoContainer{
+    margin: 0 auto;
+    padding-bottom: 2vh;
+}
+
+.metamaskLogo svg:nth-child(2){
+    display: none;
+}
+
+.patientLoginSubContainer .connectButton{
+    width: 20vw;
+    height: 8vh;
+    border-radius: 8px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    background-image: linear-gradient(to right, #fbc2eb 0%, #a6c1ee 51%, #fbc2eb 100%);
+    box-shadow: 0 0 20px #eee;
+    transition: 0.5s;
+    background-size: 200% auto;
+    border: none;
+}
+
+.patientLoginSubContainer .connectButton:hover {
+    background-position: right center;
+}
+
+.patientLoginSubContainer .loingInfo{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.patientLoginSubContainer .wallentInformation{
+    padding: 0 32px;
+    margin: 5vh 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.patientLoginSubContainer .wallentInformation span:first-child{
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.patientLoginSubContainer .wallentInformation span:last-child{
+    font-size: .9rem;
+    color: grey;
+    /* word-wrap: break-word; */
+    /* width: calc(var(--patient_login_page_width) - 5vw); */
+}
+.patientLoginContainer .wallentInformation .row{
+    display: flex;
+    gap: 10px;
+}
+.patientLoginContainer .wallentInformation .accountNo{
+    max-width: 13vw;
+    word-wrap: break-word;
+}
+.patientLoginSubContainer .loginBtn{
+    margin: 0 auto;
+}
+.patientLoginSubContainer .loginBtn button{
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;    
+    border: 3px solid #68DEA0;
+    color: #68DEA0;
+    padding: 2vh 5vw;
+    background: #ffffff00;
+    font-size: 1.2rem;
+    overflow: hidden;
+    z-index: 3;
+    text-transform: uppercase;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+.patientLoginSubContainer .loginBtn button::before 
+{
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 100%;
+    transition: all .4s ease-in-out;
+    z-index: -1;
+    left: 0;
+    top: 0;
+}
+
+.patientLoginContainer .loginBtn button:hover::before{
+    width: 100%;
+    background-color: #68DEA0;
+}
+.patientLoginContainer .loginBtn button:hover{
+    color: white;
+    transition: color .6s ease-in-out;    
+}
+
+
+.metamaskErrMsg{
+    background-color: rgb(244, 201, 201);
+    color: red;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.footer{
+    text-align: center;
+}
+
+.addIcon{
+    width: 50px;
+    height: 50px;
+    background-color: #68DEA0;
+    padding: 1% 1%;
+    border-radius: 100%;
+    position:fixed;
+    right: 0;
+    bottom: 0;
+    margin: 1% 1%;
+}
+
+.addIcon::before{
+   content: "Add Patient";
+   position: absolute;
+   right: -100px;
+   transition: all .5s ease;
+   width: 100px;
+   text-align: right;
+   color: grey;
+}
+
+.addIcon:hover:before{
+    right: 55px;
+}
+.addIcon svg{
+    height: 100%;
+    width: 100%;
+}

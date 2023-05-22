@@ -1,0 +1,159 @@
+.regiterLoginSection{
+    height: 100vh; 
+    font-family: 'Prompt', sans-serif;
+    overflow: hidden;
+}
+
+.errMsg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18vw;
+    height: 20vh;
+    background-color: white;
+    border-radius: 8px;
+    position: absolute;
+    top:0vh;
+    transition: all 1s ease;
+}
+
+.regiterLoginSection header{
+    /* background-color: ; */
+    width: 100vw; 
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.regiterLoginSection .name{
+    margin-left: 30px;
+    font-size: 1.5rem;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+.regiterLoginSection .a{
+    text-decoration: none;
+    color: black;
+    margin-right: 25px;
+    background: #fbd687;
+    padding: 6px 27px;
+    border-radius: 8px;
+}
+
+.regiterLoginSection .a:hover{
+    cursor: pointer;
+    background-color: #ffce64;
+}
+
+.regiterLoginSection .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+}
+.regiterLoginSection .loginContainer{
+    width: 307px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 30px 27px;
+    border-radius: 21px;
+    position: relative;
+    box-shadow: 0 0 9px 0px #bebebe;
+    backdrop-filter: blur(4px);
+    border: 1px solid #afafaf;  
+}
+
+.regiterLoginSection .loginContainer::before{
+    content: '';
+    background-image: url('../../assets/login1.png');
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 184px;
+    right: 193px;
+    z-index: -1;
+}
+
+.regiterLoginSection .loginContainer::after{
+    content: '';
+    background-image: url('../../assets/login2.gif');
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 189px;
+    left: 494px;
+}
+
+.regiterLoginSection .section1{
+    text-align: center;
+}
+
+.regiterLoginSection .title{
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.regiterLoginSection .subTitle{
+    font-size: 14px;
+    margin: 17px 0;
+    color: grey;
+    margin-bottom: 8px;
+}
+
+.regiterLoginSection .section2{
+    display: flex;
+    flex-direction: column;  
+}
+
+.regiterLoginSection .checkbox label{
+    position: relative;
+    bottom: 4px;
+}
+.regiterLoginSection .checkbox input{
+    height: 18px;
+    width: 18px;
+    z-index: 3;
+}
+
+.regiterLoginSection input, .regiterLoginSection button{
+    width: 100%;
+    border-radius: 8px;
+    height: 38px;
+    border: 1px solid lightgray;
+}
+
+.regiterLoginSection .email , .regiterLoginSection .pwd{
+    margin: 10px 0;
+    padding: 0 5px;
+}
+
+.regiterLoginSection .section2 input{
+    padding-left: 25px ;
+}
+
+.regiterLoginSection .submit button{
+    width: 100%;
+    font-size: 16px;
+    background-color: #fbd687;
+    font-family: 'Prompt', sans-serif;
+}
+
+.regiterLoginSection .submit button:hover{
+    cursor: pointer;
+    background-color: #ffce64;
+}
+
+.regiterLoginSection p{
+    font-size: 12px;
+    text-align: center  ;
+}
+
+input:focus-visible {
+    outline:none;
+}

@@ -1,0 +1,163 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;900&display=swap');
+.wave{
+    top: 0px;
+    position: absolute;
+    transform: rotate(180deg);
+    /* overflow: hidden; */
+    z-index: 1;
+}
+
+.navType1 nav{
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+    background-color: #b598f9;
+    align-items: center;
+    padding: 1vh 4vw;
+    z-index: 3;
+    position: relative;
+}
+
+.navType1 nav .left{ 
+    padding: 1vh 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navType1 nav #logo{
+    width: 3vw;
+    height: inherit;
+}
+
+.navType1 nav #logo img{
+    width: 100%;
+}
+
+.navType1 nav .left .title{
+    font-size: 0.8rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+}
+
+.navType1 .middle{
+    display: flex;
+    gap: 6vw;
+}
+
+.navType1 .middle .elements{
+    font-size: 1.1rem;
+    font-weight: 500;
+    position: relative;
+}
+
+.navType1 .middle .elements:hover{
+    cursor: pointer;
+}
+
+.navType1 .middle .elements::before{
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+    border-radius: 4px;
+    scale: 0 1;
+    transform-origin: right;
+    transition: scale 0.25s;
+}
+
+.navType1 .middle .elements:hover:before{
+    transform-origin: left;
+    scale: 1;
+}
+
+
+.navType1 .right .elements{
+    background-color: #ffffff36;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    padding: 1vh 2vw;
+    font-weight: 500;
+    border: 3px solid #b598f9;
+    outline: 0px solid white;
+    transition: all .5s ease, outline .1s;
+    border-radius: 4px ;
+}
+
+.navType1 .right .elements:hover{
+    background-color: white;
+    cursor: pointer;
+    color: #a17bfb;
+    outline: 2px solid white;
+
+}
+
+.mainPageContainer .mainBody{
+    display: flex;
+    align-items: center;
+    padding: 1vh 4vw;
+}
+
+.mainPageContainer .mainBody .equal{
+    flex: 1;
+}
+
+.mainPageContainer .mainBody .left .mainContent{
+    font-weight: 900;
+    font-size: 3rem; 
+    text-transform: uppercase;
+}
+
+.mainPageContainer .mainBody .left span{
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.mainPageContainer .mainBody .color{
+    background: -webkit-linear-gradient(45deg, #7F00FF, #E100FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.player{
+    mix-blend-mode: color-burn;
+    width: 90%;
+}
+
+.mainPageContainer .subContent{
+    margin-top: 1vh;
+    margin-bottom: 5vh;
+    padding-right:5%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.mainPageContainer .btn{
+    margin-top: 5vh;
+
+}
+.mainPageContainer .mainBody .options{
+    margin-top: 4vh;
+    
+}
+.mainPageContainer .mainBody .options span{
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+}
+
+.mainPageContainer .mainBody .Users{
+    margin-top: 3vh;
+    display: flex;
+    gap: 1vw;
+    display: flex;
+    justify-content: space-evenly;
+
+}

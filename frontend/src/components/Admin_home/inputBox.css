@@ -1,0 +1,88 @@
+.doctor_form_element{
+    margin: 15px 20px;
+    display: flex;
+    flex-direction: column;
+}
+.doctor_form_element label{
+    font-family: 'Roboto Slab', serif;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.doctor_form_element input, .doctor_form_element textarea, .doctor_form_element select{
+    border-radius: 2px;
+    border: none;
+    padding: 5px 20px;
+    width: 40%;
+    font-size: 16px;
+    background: #eeeaea8c;
+    font-family: 'Poppins', sans-serif;
+    border: 1px solid grey;
+
+}
+ 
+
+.doctor_form_element select{
+    width: 60%;
+    margin-bottom: 20px;
+}
+
+.gender_option{
+    margin-bottom: 12px;
+}
+
+.doctor_form_element textarea{
+    width: auto;
+}
+
+#d_Name input, #d_Phone_No input, #d_Email input{
+    width: 70%;
+}
+
+#d_Age input{
+    width: 20%;
+}
+
+.doctor_form_element span{
+    margin-top: 3px;
+    font-size: 12px;
+    color: black;
+    font-size: 1rem;
+    /* display: none; */
+}
+
+.doctor_form_element #d_Age input{
+    width: 22%;
+    text-align: center;
+}
+
+.doctor_form_element input::-webkit-outer-spin-button,
+.doctor_form_element input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}   
+
+.doctor_form_element input:focus, .doctor_form_element textarea:focus{
+    border: 1px solid rgb(49 141 130);
+}
+
+.doctor_form_element .inputError{
+    color: red;
+}
+
+.doctor_form_element #d_Specialization, #d_Degree{
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.doctor_form_element #d_Specialization label, #d_Degree label{
+    display: none;
+    margin-top: 0;
+}
+
+.doctor_form_element #d_Id input{
+    background-color: #dadada;
+    width: 10%;
+    text-align: center;
+}

@@ -1,0 +1,243 @@
+
+
+.admin_home_container .add_doctor_container{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.add_doctor_container{
+    width: 100%;
+    background-image: url("../../assets/add_doctor_image.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 80vh; 
+}
+
+.add_doctor_container .add_doctor_button{
+    text-align: center;
+    font-size: 30px;
+    font-family: serif;
+    background-color: white;
+    border: none;
+    font-weight: 700;   
+}
+
+.add_doctor_container .add_doctor_image{
+    width: 100%;
+}
+
+.add_doctor_container .add_doctor_image img{
+    width: 100%;
+}
+
+.add_doctor_container .buttons{
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: 20px;
+    transition: all .5s ease;
+    opacity: 0;
+}
+
+.add_doctor_container .buttons:hover{
+    opacity: 1;
+    animation: add_btn_animation .5s 1 ;
+}
+
+@keyframes add_btn_animation {
+    0%{
+        top:300px;
+        opacity: 0;
+    }
+    100%{
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+.add_doctor_container .add_button{
+    width: 100px;
+    transition: all .5s ease;
+}
+
+.add_button:hover{
+    transform: rotate(180deg);
+}
+
+.add_doctor_container .symbols{
+    width: 20%;
+    transition: all .5s ease;
+    position: absolute;
+    left: 0;
+    z-index: 3;
+}
+
+.add_doctor_container .symbols:hover{
+    transform: rotate(90deg);
+}
+
+.add_doctor_form{ 
+    background-color: #ffffffc2;
+    box-shadow: 0 0 51px 6px rgb(0 0 0 / 30%);
+    width: 80%;
+    height: 50vh;
+    position: fixed;
+    top: 165px;
+    left: 10%;
+    /* bottom: 10px; */
+    box-sizing: border-box;
+    padding: 20px 20px;
+    height: 75vh;
+    overflow-y: scroll;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 18px 1px grey;
+    border-radius: 8px;
+    border: 1px solid grey;
+}
+
+.add_doctor_form::-webkit-scrollbar {
+    display: none;
+  }
+
+.add_doctor_form .row{
+    display: flex;
+}
+
+.add_doctor_form .doctor_form_element{
+    flex: 1;
+} 
+
+.add_doctor_form .gender_option{
+    display: flex;
+    gap: 30px;
+}
+
+.add_doctor_form .option{
+    display: flex;
+    gap: 8px;
+}
+
+.add_doctor_form .doctor_register_btn{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 4vh 0;
+    /* margin-right: 20px; */
+}
+
+.add_doctor_form .doctor_register_btn button{
+    width: 40%;
+    height: 35px;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(48 188 65);
+    background-color:transparent;
+    border: 1px solid rgb(48 188 65) ;
+    border-radius: 22px;
+    padding: 8px 12px;
+    box-sizing: content-box;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.add_doctor_form .doctor_register_btn button:hover{
+    cursor: pointer;
+    background-color: rgb(48 188 65);
+    box-shadow: 0 0 18px 0 grey;
+    color: white;
+    transform: scale(1.05);
+}
+
+.add_doctor_form #cancel_btn
+{
+    border:1px solid rgb(230 57 57);
+    color: rgb(230 57 57);
+}
+
+.add_doctor_form #cancel_btn:hover
+{
+    background-color: rgb(230 57 57);
+    color: white;
+}
+
+
+.doctor_active{
+    z-index: -1;
+    animation: disappears .5s;
+    width: 0;
+    height: 0;
+    display: none;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: none;
+    color: white;
+}
+
+@keyframes disappears {
+    0%{
+        height: 550px;
+        width: 38%;
+    }
+    100%{
+        height: 0;
+        width: 0;
+    }
+}
+
+@keyframes appears {
+    0%{
+        height: 0;
+        width: 0;
+        opacity: 0;
+    }
+    100%{
+        height: 5px;
+        width: 38%;
+        opacity: 1;
+    }
+}
+
+.add_form_active {
+    height: 550px;
+    width: 38%; 
+    animation: appears .5s;   
+}
+
+.add_doctor_form hr, .add_doctor_form hr:focus{
+    border: none;
+    background-color: grey;
+    height: 1px;
+}
+
+.add_doctor_form #Hospital_Name1, .add_doctor_form #Wallet_Address1{
+    width: 60%;
+}
+
+#d_ID{
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+#d_ID input{
+
+    background: transparent;
+    font-weight: bold;
+    margin: 0 ;
+    padding: 0;
+    padding-top: 5px;
+    border: none;
+}
+
+#d_ID label{
+    margin: 0;
+}
+
+#doctor_register_date input{
+    width: 13%;
+}

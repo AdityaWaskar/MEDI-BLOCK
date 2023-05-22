@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&family=Roboto+Slab:wght@500&display=swap');
+
+.admin_home_container{
+    display: flex;
+    height: 80vh;
+}
+
+.adminSection .addIcon{
+    background-color: rgba(57, 255, 13, 0.66);
+    position:fixed;
+    bottom: 11px;
+    right: 0;
+    margin: 1vh 1vw;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    transition: all .5s ease-in-out;
+}
+
+.adminSection .addIcon:hover{
+    transform: scale(1.1);
+    margin: 2vh 1.5vw; 
+    cursor: pointer;
+}
+
+.adminSection .addIcon svg{ 
+    width: 100%;
+    height: 100%;
+}
+
+.adminSection .addIcon::before{
+    content: "Add Doctor";
+ }
+
+ 

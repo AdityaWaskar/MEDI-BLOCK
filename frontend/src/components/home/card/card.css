@@ -1,0 +1,101 @@
+.card{
+    margin: 13px 18px;
+    padding: 25px 40px;
+    background-color: #e6d8ff;
+    min-width: 30vw;
+    /* height: 20vh; */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    box-shadow: 0 0 10px 1px grey;
+    gap: 2vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card .element{
+    display: flex;
+}
+
+.card .element label{
+    flex:1;
+    font-weight: 500;
+}
+
+.card .element span{
+    flex: 1;
+    color: grey;
+}
+
+.btnn button{
+    background: #33b249;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px 11px;
+    border-radius: 2px;
+    color: white;
+    margin-top: 20px;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 2px;
+}
+
+.element .greenBtn:hover{
+    cursor: pointer;
+    background-color: #2c993e;
+}
+.element .yellowBtn:hover{
+    cursor: pointer;
+    background-color: #9c9c2b;
+}
+
+.element .yellowBtn{
+    background: #b2b233;
+}
+
+.element .btnn{
+    position: relative;
+    width: 100%;
+}
+.element .timerOption span{
+    position: absolute;
+    right: 40%;
+    bottom: -50%;
+    font-size: .8rem;
+}
+
+/* td{
+    text-align: center;
+    padding: 6px 0;
+    position: relative;
+}
+
+tr:hover{
+    cursor: pointer;
+}
+
+th{
+    border-bottom: 1px solid black;
+}
+
+td .greenBtn, td .yellowBtn{
+    background: #33b249;
+    border: none;
+    padding: 7px 11px;
+    border-radius: 2px;
+    color: white;
+}
+
+td .greenBtn:hover, td .yellowBtn:hover{
+    cursor: pointer;
+}
+
+td .yellowBtn{
+    background: #b2b233;
+}
+td .timerOption span{
+    position: absolute;
+    right: -20px;
+    font-size: .8rem;
+} */

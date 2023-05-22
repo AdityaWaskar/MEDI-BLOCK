@@ -1,0 +1,27 @@
+.filter_container{
+    height: 60px;
+}
+
+.filter_container .limits{
+    font-size: 1rem;
+    padding: 6px 12px;
+    font-family: 'Sofia Sans', sans-serif;
+    border-radius: 2px;
+    border: 0.5px solid lightslategray;
+}
+
+.filter_container{
+    margin-left: 12%;
+}
+
+.filter_container .lower_limit{
+    margin-left: 4%;
+}
+
+.filter_container span{
+    display: block;
+    font-family: 'Sofia Sans', sans-serif;
+    margin-bottom: 2px;
+    font-size: .8rem;
+}
+

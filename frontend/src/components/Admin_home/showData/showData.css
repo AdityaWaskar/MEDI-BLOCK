@@ -1,0 +1,166 @@
+.show_data{
+    /* background-color: red;   */
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.show_data .btn_options{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+    margin-bottom: 30px;
+}
+
+.show_data .btn_options button{
+    width: 30%;
+    background-color: white;
+    font-size: 15px;
+    padding: 6px 16px;
+    font-weight: 500;
+    transition: 0.3s;
+    border-radius: 1px;
+}
+
+.show_data .active, .non_active:hover{
+    --btn_color : rgb(3, 191, 3);
+    color: var(--btn_color);
+    border: 2px solid var(--btn_color);
+    box-shadow: 0px 0px 15px 2px #8bc18c;
+}
+
+.show_data .non_active{
+    border: none;
+}
+
+
+@keyframes move_background {
+    0%{
+        background-position: 0 50%;
+    }
+    50%{
+        background-position: 100% 50%;
+    }
+    100%{
+        background-position: 0 50%;
+    }
+}
+
+.show_data .options{
+    color: rgba(57, 255, 13, 0.66);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    display: flex;
+    justify-content: center;
+    background-color: #FFFFFF59;
+    padding: 5px 6px;
+    border-radius: 40px;
+    z-index: 3;
+}
+
+.show_data .options .col{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 5vw;
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.show_data .options .col:hover{
+    cursor: pointer;
+}
+
+
+@keyframes remove_moving_bg_animation {
+    0%{
+        width: 100%;
+    }
+    100%{
+        width: 0;
+    }
+}
+
+@keyframes add_moving_bg_animation {
+    0%{
+        width: 0;
+    }
+    100%{
+        width: 100%;
+    }
+}
+
+.show_data #col1, .show_data #col2{
+    color: white;
+}
+
+/* Add animation to Institution tab */
+.show_data #col1::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    background: linear-gradient(-45deg,#56ff27 0%,#40ff60 100%);
+    height: 100%;
+    animation: add_moving_bg_animation .5s;
+    z-index: -1;
+}
+
+.show_data #col1, .show_data #col2{
+    box-shadow: 0px 0px 10px 0px rgba(57, 255, 13, 0.66);
+    outline-style: dotted;
+    outline-width: thin;
+}
+
+.show_data #removeCol1, .show_data #removeCol2{
+    border: 1px solid rgba(57, 255, 13, 0.66);
+
+}
+
+.show_data #col1:hover, .show_data #col2:hover{
+    outline: none;
+}
+
+/* Remove Animaiton from Institution Tab */
+.show_data #removeCol1::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    background: linear-gradient(-45deg,#27ff27 0%,#5dff40 100%);
+    height: 100%;
+    animation: remove_moving_bg_animation .5s;
+    z-index: -1;
+}
+
+/* Add animation to Study Material tab */
+.show_data #col2::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(-45deg,#27ff39 0%,#40ff80 100%);
+    height: 100%;
+    animation: add_moving_bg_animation .5s;
+    z-index: -1;
+}
+
+/* Remove Animaiton from Study Material Tab */
+.show_data #removeCol2::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    background: linear-gradient(-45deg,#59ff27 0%,#50ff40 100%);
+    height: 100%;
+    animation: remove_moving_bg_animation .5s;
+    z-index: -1;
+}
