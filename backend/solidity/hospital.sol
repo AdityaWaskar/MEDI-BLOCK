@@ -167,7 +167,7 @@ contract Hospital is ERC721URIStorage {
         return patientMedicalHistory[_address]; 
     }
 
-    function addLastTenPatient(address _patientId) public {
+    function addpatientsTreatedByDoctor(address _patientId) public {
         address doctorId = msg.sender;
         address[] storage patientIds = doctorToPatientIds[doctorId];
 
@@ -183,7 +183,7 @@ contract Hospital is ERC721URIStorage {
         // }
     }
 
-    function getLastTenPatientIdsForDoctor(address _doctorId) public view returns (address[] memory) {
+    function getpatientsTreatedByDoctor(address _doctorId) public view returns (address[] memory) {
         return doctorToPatientIds[_doctorId];
     }
 

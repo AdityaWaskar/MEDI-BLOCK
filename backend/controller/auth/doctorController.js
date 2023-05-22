@@ -24,7 +24,7 @@ const doctorController = {
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
       const data = await contract.methods
-        .DoctorExists(req.params.wallet_Address)
+        .doctorExists(req.params.wallet_Address)
         .call();
 
       res.send(data);
@@ -36,7 +36,7 @@ const doctorController = {
   async all_doctor_address(req, res, next) {
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      const val = await contract.methods.GetDocAdd().call();
+      const val = await contract.methods.getDoctorAddresses().call();
       res.send(val);
     } catch (error) {
       return next(error);
@@ -48,16 +48,10 @@ const doctorController = {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
       // if the length is 10 than it search the doctor details by the phone number.
       const data = await contract.methods
-        .getDoctorByPhoneNo("9865478589")
+        .getDoctorByPhoneNo(req.params.phone_no)
         .call(); //getting doctor Detail by phone no
 
-      res.send([
-        parseInt(data[0]),
-        data[5].split(",")[1],
-        data[2].split(",")[0],
-        data[3],
-        data[4].split(",")[0],
-      ]);
+      res.send(data);
     } catch (error) {
       return next(error);
     }
@@ -68,16 +62,10 @@ const doctorController = {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
       // if the length is 10 than it search the doctor details by the phone number.
       const data = await contract.methods
-        .GetDoctor(req.params.wallet_Address)
+        .GetDoctorByAddress(req.params.wallet_Address)
         .call(); //getting doctor Detail by phone no
 
-      res.send([
-        parseInt(data[0]),
-        data[4].split(",")[1],
-        data[1].split(",")[0],
-        data[2],
-        data[3].split(",")[0],
-      ]);
+      res.send(data);
     } catch (error) {
       return next(error);
     }
@@ -88,28 +76,10 @@ const doctorController = {
       // const contract = await initializeProvider();
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
       const gas = await contract.methods
-        .addDoctor(
-          doctorWalletAddress,
-          `${name},${age},${gender}`,
-          phoneNo,
-          `${qualification == "other" ? otherQualification : qualification},${
-            d_degree == "other" ? otherD_degree : d_degree
-          }`,
-          `${email},${DOR}`,
-          hospitalName
-        )
+        .addDoctor(doctorWalletAddress, metaData, phoneNo)
         .estimateGas();
       contract.methods
-        .addDoctor(
-          doctorWalletAddress,
-          `${name},${age},${gender}`,
-          phoneNo,
-          `${qualification == "other" ? otherQualification : qualification},${
-            d_degree == "other" ? otherD_degree : d_degree
-          }`,
-          `${email},${DOR}`,
-          hospitalName
-        )
+        .addDoctor(doctorWalletAddress, metaData, phoneNo)
         .send({ from: account, gas })
         .on("confirmation", async (conformatinNo, receipt) => {
           res.send(receipt);
@@ -120,15 +90,87 @@ const doctorController = {
   },
 
   async getAllDoctors(req, res, next) {
-    const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-    const allAddress = await contract.methods.GetDocAdd().call();
-    let allInfo = [];
-    for (let i = 0; i < allAddress.length; i++) {
-      const doctor = await contract.methods.GetDoctor(allAddress[i]).call();
-      allInfo = allInfo.concat(doctor);
+    try {
+      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+      const allAddress = await contract.methods.getDoctorAddresses().call();
+      let allInfo = [];
+      for (let i = 0; i < allAddress.length; i++) {
+        const doctor = await contract.methods
+          .GetDoctorByAddress(allAddress[i])
+          .call();
+        allInfo = allInfo.concat(doctor);
+      }
+      res.send(allInfo);
+    } catch (error) {
+      next(error);
     }
+  },
 
-    res.send(allInfo);
+  async addMedicalReport(req, res, next) {
+    const doctor_Address = req.params.doctor_Address;
+    try {
+      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+      const gas = await contract.methods
+        .getMedicalInformation(doctor_Address)
+        .estimateGas();
+      contract.methods
+        .getMedicalInformation(doctor_Address)
+        .send({ from: account, gas })
+        .on("confirmation", async (conformatinNo, receipt) => {
+          res.send(receipt);
+        });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getMedicalReport(req, res, next) {
+    try {
+      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+      const report = await contract.methods
+        .getMedicalInformation(req.params.wallet_Address)
+        .call();
+      res.send(report);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async addPatientsTreatedByDoctor(req, res, next) {
+    const patient_Address = req.params.patient_Address;
+    try {
+      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+      const gas = await contract.methods
+        .addpatientsTreatedByDoctor(patient_Address)
+        .estimateGas();
+      contract.methods
+        .addpatientsTreatedByDoctor(patient_Address)
+        .send({ from: account, gas })
+        .on("confirmation", async (conformatinNo, receipt) => {
+          res.send(receipt);
+        });
+    } catch (error) {
+      next(error);
+    }
+  },
+  async getPatientsTreatedByDoctor(req, res, next) {
+    try {
+      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+      const allPatients = await contract.methods
+        .getpatientsTreatedByDoctor(req.params.doctor_Address)
+        .call();
+      let allInfo = [];
+      for (let i = 0; i < allPatients.length; i++) {
+        const patientInfo = await contract.methods
+          .GetPatientByAddress(allPatients[i])
+          .call();
+        allInfo = allInfo.concat(patientInfo);
+      }
+
+      res.send(allInfo);
+    } catch (error) {
+      next(error);
+    }
   },
 };
 
