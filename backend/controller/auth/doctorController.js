@@ -29,7 +29,7 @@ const doctorController = {
 
       res.send(data);
     } catch (error) {
-      return next(error);
+      return next(CustomErrorHandler.Forbidden("Invalid Input!"));
     }
   },
 
@@ -39,41 +39,40 @@ const doctorController = {
       const val = await contract.methods.getDoctorAddresses().call();
       res.send(val);
     } catch (error) {
-      return next(error);
+      return next(
+        CustomErrorHandler.notFound("Error retriving doctor addresses!")
+      );
     }
   },
 
   async data_by_phoneNo(req, res, next) {
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      // if the length is 10 than it search the doctor details by the phone number.
       const data = await contract.methods
         .getDoctorByPhoneNo(req.params.phone_no)
-        .call(); //getting doctor Detail by phone no
+        .call();
 
       res.send(data);
     } catch (error) {
-      return next(error);
+      return next(CustomErrorHandler.notFound("Invalid Phone Number!"));
     }
   },
 
   async data_by_walletAddress(req, res, next) {
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      // if the length is 10 than it search the doctor details by the phone number.
       const data = await contract.methods
         .GetDoctorByAddress(req.params.wallet_Address)
-        .call(); //getting doctor Detail by phone no
+        .call();
 
       res.send(data);
     } catch (error) {
-      return next(error);
+      return next(CustomErrorHandler.notFound("Invalid Wallet Address"));
     }
   },
 
   async pushDocData(req, res, next) {
     try {
-      // const contract = await initializeProvider();
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
       const gas = await contract.methods
         .addDoctor(doctorWalletAddress, metaData, phoneNo)
@@ -85,7 +84,9 @@ const doctorController = {
           res.send(receipt);
         });
     } catch (error) {
-      return next(error);
+      return next(
+        CustomErrorHandler.Forbidden("Error occurs sending data to the server!")
+      );
     }
   },
 
@@ -102,7 +103,7 @@ const doctorController = {
       }
       res.send(allInfo);
     } catch (error) {
-      next(error);
+      return next(CustomErrorHandler.notFound("Error retriving doctor data!"));
     }
   },
 
@@ -120,7 +121,7 @@ const doctorController = {
           res.send(receipt);
         });
     } catch (error) {
-      next(error);
+      return next(CustomErrorHandler.badRequest("Invalid input!"));
     }
   },
 
@@ -132,7 +133,9 @@ const doctorController = {
         .call();
       res.send(report);
     } catch (error) {
-      next(error);
+      return next(
+        CustomErrorHandler.notFound("Error while retiriving the data!")
+      );
     }
   },
 
@@ -150,7 +153,11 @@ const doctorController = {
           res.send(receipt);
         });
     } catch (error) {
-      next(error);
+      return next(
+        CustomErrorHandler.badRequest(
+          "Error while sending the data to the server!"
+        )
+      );
     }
   },
   async getPatientsTreatedByDoctor(req, res, next) {
@@ -169,7 +176,11 @@ const doctorController = {
 
       res.send(allInfo);
     } catch (error) {
-      next(error);
+      return next(
+        CustomErrorHandler.badRequest(
+          "Unable to retrive the data from the server!"
+        )
+      );
     }
   },
 };
