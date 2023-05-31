@@ -6,6 +6,7 @@ import {
 } from "../../config.js";
 import { hospitalABI } from "../../hospitalABI.js";
 import CustomErrorHandler from "../../services/CustomErrorHandler.js";
+import ipfsServiceController from "./ipfsServices.js";
 
 const web3 = new Web3(
   new Web3.providers.HttpProvider(
@@ -71,22 +72,58 @@ const doctorController = {
     }
   },
 
-  async pushDocData(req, res, next) {
-    try {
-      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      const gas = await contract.methods
-        .addDoctor(doctorWalletAddress, metaData, phoneNo)
-        .estimateGas();
-      contract.methods
-        .addDoctor(doctorWalletAddress, metaData, phoneNo)
-        .send({ from: account, gas })
-        .on("confirmation", async (conformatinNo, receipt) => {
-          res.send(receipt);
-        });
-    } catch (error) {
-      return next(
-        CustomErrorHandler.Forbidden("Error occurs sending data to the server!")
-      );
+  async add(req, res, next) {
+    console.log("adsfasd" + req.body.admin_wallet_address);
+    const {
+      admin_wallet_address,
+      doctor_wallet_address,
+      phoneNo,
+      name,
+      email,
+      gender,
+      age,
+      hospital_name,
+      specialization,
+      degree,
+      DOR,
+    } = req.body;
+
+    if (!admin_wallet_address) {
+      console.log("wallert address is undegined" + { admin_wallet_address });
+    } else {
+      const json_data = JSON.stringify({
+        name: name,
+        email: email,
+        gender: gender,
+        age: age,
+        hospital_name: hospital_name,
+        specialization: specialization,
+        degree: degree,
+        DOR: DOR,
+      });
+      console.log(json_data);
+      try {
+        const hash_value = await ipfsServiceController.sendJsonToIPFS(
+          json_data
+        );
+        console.log("test2", hash_value);
+        const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+        const gas = await contract.methods
+          .AddDoctor(doctor_wallet_address, hash_value, phoneNo)
+          .estimateGas();
+        contract.methods
+          .AddDoctor(doctor_wallet_address, hash_value, phoneNo)
+          .send({ from: admin_wallet_address, gas })
+          .on("confirmation", async (conformatinNo, receipt) => {
+            res.send(receipt);
+          });
+      } catch (error) {
+        return next(
+          CustomErrorHandler.Forbidden(
+            error + "Error occurs sending data to the server!"
+          )
+        );
+      }
     }
   },
 

@@ -1,10 +1,16 @@
 // const express = require("express");
 // const { port } = require("./config");
 import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
 import { PORT } from "./config.js";
 import doctorRoute from "./routes/doctor.js";
 const app = express();
-app.use("/api", doctorRoute);
+app.use(cors());
+app.use(bodyParser.json());
+app.use("/api/doctor", doctorRoute);
+
+app.use(express.json());
 app.listen(PORT, (error) => {
   if (!error)
     console.log(

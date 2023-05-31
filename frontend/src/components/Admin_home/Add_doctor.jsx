@@ -13,6 +13,7 @@ import Navigation from "../navigation/Navigation";
 import { useNavigate } from "react-router";
 import Spinner from "../spinner/Spinner";
 import Footer from "../footer/Footer";
+import axios from "axios";
 // const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
 // const web3 = new Web3(process.env.REACT_APP_INFURA_HTTPURL);
@@ -69,6 +70,7 @@ const Add_doctor = () => {
         method: "eth_requestAccounts",
       });
       setAccount(account[0]);
+      return account[0];
     } catch (e) {
       console.log(e);
     }
@@ -150,63 +152,76 @@ const Add_doctor = () => {
           otherD_degree
         )
       ) {
-        // const contract = await initializeProvider();
-        const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-        const gas = await contract.methods
-          .addDoctor(
-            doctorWalletAddress,
-            `${name},${age},${gender}`,
-            phoneNo,
-            `${qualification == "other" ? otherQualification : qualification},${
-              d_degree == "other" ? otherD_degree : d_degree
-            }`,
-            `${email},${DOR}`,
-            hospitalName
-          )
-          .estimateGas();
-        contract.methods
-          .addDoctor(
-            doctorWalletAddress,
-            `${name},${age},${gender}`,
-            phoneNo,
-            `${qualification == "other" ? otherQualification : qualification},${
-              d_degree == "other" ? otherD_degree : d_degree
-            }`,
-            `${email},${DOR}`,
-            hospitalName
-          )
-          .send({ from: account, gas })
-          .on("confirmation", async (conformatinNo, receipt) => {
-            console.log(receipt);
-            clearStates();
-            setCancelBtnFlag(true);
-            // navigate(-1);
-            setSpinner(false);
-            toast.success("Doctor Added!", { id: "doctorAdd" });
-          });
-        // .then((res) => {
-        // });
-        console.log(
-          //   "\n",
-          doctorWalletAddress
-          //   "\n",
-          //   `${name},${age},${gender}`,
-          //   "\n",
-          //   phoneNo,
-          //   "\n",
-          //   `${qualification == "other" ? otherQualification : qualification},${
-          //     d_degree == "other" ? otherD_degree : d_degree
-          //   }`,
-          //   "\n",
-          //   `${email},${DOR}`,
-          //   "\n",
-          //   hospitalName
-        );
-        // toast.promise(promise, {
-        //   loading: "Saving...",
-        //   success: "Doctor Added!",
-        //   error: "Doctor Not Added !",
-        // });
+        // const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+        // const gas = await contract.methods
+        //   .addDoctor(
+        //     doctorWalletAddress,
+        //     `${name},${age},${gender}`,
+        //     phoneNo,
+        //     `${qualification == "other" ? otherQualification : qualification},${
+        //       d_degree == "other" ? otherD_degree : d_degree
+        //     }`,
+        //     `${email},${DOR}`,
+        //     hospitalName
+        //   )
+        //   .estimateGas();
+        // contract.methods
+        //   .addDoctor(
+        //     doctorWalletAddress,
+        //     `${name},${age},${gender}`,
+        //     phoneNo,
+        //     `${qualification == "other" ? otherQualification : qualification},${
+        //       d_degree == "other" ? otherD_degree : d_degree
+        //     }`,
+        //     `${email},${DOR}`,
+        //     hospitalName
+        //   )
+        //   .send({ from: account, gas })
+        //   .on("confirmation", async (conformatinNo, receipt) => {
+        //     console.log(receipt);
+        //     clearStates();
+        //     setCancelBtnFlag(true);
+        //     // navigate(-1);
+        //     setSpinner(false);
+        //     toast.success("Doctor Added!", { id: "doctorAdd" });
+        //   });
+        console.log({
+          // admin_wallet_address: await requestAccount(),
+          doctor_wallet_address: doctorWalletAddress,
+          phoneNo: phoneNo,
+          name: name,
+          email: email,
+          gender: gender,
+          age: age,
+          hospital_name: hospitalName,
+          specialization: qualification,
+          degree: degree,
+          DOR: DOR,
+        });
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/doctor/add`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            admin_wallet_address: await requestAccount(),
+            doctor_wallet_address: doctorWalletAddress,
+            phoneNo: phoneNo,
+            name: name,
+            email: email,
+            gender: gender,
+            age: age,
+            hospital_name: hospitalName,
+            specialization: qualification,
+            degree: d_degree,
+            DOR: DOR,
+          }),
+        }).then((res) => {
+          clearStates();
+          setCancelBtnFlag(true);
+          setSpinner(false);
+          toast.success("Doctor Added!", { id: "doctorAdd" });
+        });
       } else {
         toast.error("Fill all the fileds correctly.", { id: "error" });
       }
