@@ -55,9 +55,9 @@ const ipfsServiceController = {
         { mode: "cors" }
       );
       const data = await response.json();
-      res.send(data);
+      return data;
     } catch (error) {
-      next(error);
+      console.log("ipfs -> ", error);
     }
   },
 };

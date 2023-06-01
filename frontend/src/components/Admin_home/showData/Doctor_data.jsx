@@ -6,20 +6,20 @@ import Card from "../card1/Card";
 import { hospitalABI } from "../../abi";
 import toast, { Toaster } from "react-hot-toast";
 
-  import Web3 from "web3";
+import Web3 from "web3";
 
-  // const web3 = new Web3(process.env.REACT_APP_INFURA_HTTPURL);
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider(
-      `https://sepolia.infura.io/v3/${process.env.REACT_APP_INFURA_API_KEY}`
-    )
-  );
-  const private_key = process.env.REACT_APP_WALLET_PRIVATE_ADDRESS;
-  const contarct_address = process.env.REACT_APP_CONTRACT_ADDRESS;
-  // const contarct_address = "0x444FcD545168031c8C9ec0db8F4dd2349b2b64ac";
+// const web3 = new Web3(process.env.REACT_APP_INFURA_HTTPURL);
+const web3 = new Web3(
+  new Web3.providers.HttpProvider(
+    `https://sepolia.infura.io/v3/${process.env.REACT_APP_INFURA_API_KEY}`
+  )
+);
+const private_key = process.env.REACT_APP_WALLET_PRIVATE_ADDRESS;
+const contarct_address = process.env.REACT_APP_CONTRACT_ADDRESS;
+// const contarct_address = "0x444FcD545168031c8C9ec0db8F4dd2349b2b64ac";
 
-  const account1 = web3.eth.accounts.privateKeyToAccount("0x" + private_key);
-  web3.eth.accounts.wallet.add(account1);
+const account1 = web3.eth.accounts.privateKeyToAccount("0x" + private_key);
+web3.eth.accounts.wallet.add(account1);
 
 var j = 0;
 const Doctor_data = (props) => {
@@ -48,7 +48,7 @@ const Doctor_data = (props) => {
     if (term.length == 0) {
       getAllDoctorIds();
     }
-  } 
+  }
 
   // Displays a prompt for the user to select which accounts to connect
   async function requestAccount() {
@@ -102,38 +102,43 @@ const Doctor_data = (props) => {
 
   async function getAllDoctorIds() {
     props.setSpinner(true);
-    // const contract = await initializeProvider();
-    const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+    // const contract = new web3.eth.Contract(hospitalABI, contarct_address);
 
-    //get all avaliable doctor address
-    const data = await contract.methods.GetDocAdd().call();
-    setAllPatientWalletIds(data);
+    // //get all avaliable doctor address
+    // const data = await contract.methods.GetDocAdd().call();
+    // setAllPatientWalletIds(data);
 
-    // creating an an array of total count of doctor and store the information in the array.
-    let doctorInfo = new Array(data.length <= 10 ? data.length : 10);
-    let j = 0;
-    for (let i = data.length - 1; i >= 0 && i >= data.length - 10; i--) {
-      // console.log(data[i]);
-      const data2 = await contract.methods.GetDoctor(data[i]).call();
-      // console.log(data2);
-      doctorInfo[j++] = [
-        parseInt(data2[0]),
-        data2[4].split(",")[1],
-        data2[1].split(",")[0],
-        data2[2],
-        data2[3].split(",")[0],
-      ];
-      // patientPhoneNo.push(data2[2]);
-    }
+    // // creating an an array of total count of doctor and store the information in the array.
+    // let doctorInfo = new Array(data.length <= 10 ? data.length : 10);
+    // let j = 0;
+    // for (let i = data.length - 1; i >= 0 && i >= data.length - 10; i--) {
+    //   // console.log(data[i]);
+    //   const data2 = await contract.methods.GetDoctor(data[i]).call();
+    //   // console.log(data2);
+    //   doctorInfo[j++] = [
+    //     parseInt(data2[0]),
+    //     data2[4].split(",")[1],
+    //     data2[1].split(",")[0],
+    //     data2[2],
+    //     data2[3].split(",")[0],
+    //   ];
+    //   // patientPhoneNo.push(data2[2]);
+    // }
 
-    let doctorPhoneNo = [];
-    for (let i = 0; i < data.length; i++) {
-      const data2 = await contract.methods.GetDoctor(data[i]).call();
-      doctorPhoneNo.push(data2[2]);
-    }
+    // let doctorPhoneNo = [];
+    // for (let i = 0; i < data.length; i++) {
+    //   const data2 = await contract.methods.GetDoctor(data[i]).call();
+    //   doctorPhoneNo.push(data2[2]);
+    // }
     // console.log(doctorPhoneNo);
-    setAllPatientPhoneNo(doctorPhoneNo);
-    setDoctorIds(doctorInfo);
+
+    const doctorInfo = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/doctor/allDoctorInfo`,
+      { mode: "cors" }
+    );
+    const response = await doctorInfo.json();
+    console.log(response);
+    setDoctorIds(response);
     props.setSpinner(false);
   }
 
@@ -174,12 +179,12 @@ const Doctor_data = (props) => {
           </tr>
           {doctorIds.map((data) => (
             <Card
-              key={data + 1}
-              id={data[0] + 1}
-              data={data[1]}
-              name={data[2]}
-              phone_no={data[3]}
-              email={data[4]}
+              // key={data + 1}
+              id={1}
+              data={data["DOR"]}
+              name={data["name"]}
+              phone_no={data["phoneNo"]}
+              email={data["email"]}
             />
           ))}
         </tbody>

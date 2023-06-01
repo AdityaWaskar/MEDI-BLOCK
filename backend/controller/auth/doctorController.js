@@ -111,12 +111,14 @@ const doctorController = {
         const gas = await contract.methods
           .AddDoctor(doctor_wallet_address, hash_value, phoneNo)
           .estimateGas();
-        contract.methods
+        const response = await contract.methods
           .AddDoctor(doctor_wallet_address, hash_value, phoneNo)
-          .send({ from: admin_wallet_address, gas })
-          .on("confirmation", async (conformatinNo, receipt) => {
-            res.send(receipt);
-          });
+          .send({ from: admin_wallet_address, gas });
+        // .on("confirmation", async (conformatinNo, receipt) => {
+        //   res.send(receipt);
+        // });
+        console.log(response.blockHash);
+        res.send(response);
       } catch (error) {
         return next(
           CustomErrorHandler.Forbidden(
@@ -138,8 +140,20 @@ const doctorController = {
           .call();
         allInfo = allInfo.concat(doctor);
       }
-      res.send(allInfo);
+
+      const info = [];
+      for (let i = 1; i < allInfo.length; i++) {
+        console.log(allInfo[i]["0"]);
+        const result = await ipfsServiceController.getDataFromIPFS(
+          allInfo[i]["0"]
+        );
+        result.phoneNo = allInfo[i]["1"];
+        // console.log(result);
+        info.push(result);
+      }
+      res.send(info);
     } catch (error) {
+      console.log("main -> " + error);
       return next(CustomErrorHandler.notFound("Error retriving doctor data!"));
     }
   },
@@ -205,7 +219,8 @@ const doctorController = {
         .call();
       let allInfo = [];
       for (let i = 0; i < allPatients.length; i++) {
-        const patientInfo = await contract.methods
+        let patientInfo = "xxxxxxxx";
+        patientInfo = await contract.methods
           .GetPatientByAddress(allPatients[i])
           .call();
         allInfo = allInfo.concat(patientInfo);

@@ -221,6 +221,7 @@ const Add_doctor = () => {
           setCancelBtnFlag(true);
           setSpinner(false);
           toast.success("Doctor Added!", { id: "doctorAdd" });
+          setTimeout(() => navigate(-1), 1000);
         });
       } else {
         toast.error("Fill all the fileds correctly.", { id: "error" });
