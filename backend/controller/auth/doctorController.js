@@ -142,11 +142,15 @@ const doctorController = {
       }
 
       const info = [];
-      for (let i = 1; i < allInfo.length; i++) {
-        console.log(allInfo[i]["0"]);
+      console.log(
+        "-----------------------------------------------------------------"
+      );
+      for (let i = 1; i < 3; i++) {
         const result = await ipfsServiceController.getDataFromIPFS(
           allInfo[i]["0"]
         );
+        result.contract_address = allAddress[i];
+        console.log(result);
         result.phoneNo = allInfo[i]["1"];
         // console.log(result);
         info.push(result);
@@ -211,6 +215,7 @@ const doctorController = {
       );
     }
   },
+
   async getPatientsTreatedByDoctor(req, res, next) {
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
