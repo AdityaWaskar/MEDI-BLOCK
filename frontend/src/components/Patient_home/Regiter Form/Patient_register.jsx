@@ -49,7 +49,7 @@ const Patient_register = () => {
   const [email, setEmail] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [homeAddress, setHomeAddress] = useState("");
-  const [_web3, setWeb3] = useState(null);
+  // const [_web3, setWeb3] = useState(null);
 
   async function connectWallet() {
     if (window.ethereum) {
@@ -58,7 +58,6 @@ const Patient_register = () => {
         const acc = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
-        console.log(acc[0]);
         setWalletId(acc[0]);
         return ethereum;
       } catch (error) {
@@ -167,32 +166,7 @@ const Patient_register = () => {
         const adr = await requestAccount();
         const contract = new web3.eth.Contract(hospitalABI, contarct_address);
 
-        // const gas = await contract.methods;
-        // .AddPatient(
-        //   walletId,
-        //   `${name},${age},${gender}`,
-        //   `${email},${bloodGroup},${todayDate()}`,
-        //   phoneNo,
-        //   homeAddress
-        // )
-        // .estimateGas();
-
-        // contract.methods
-        //   .AddPatient(
-        //     walletId,
-        //     `${name},${age},${gender}`,
-        //     `${email},${bloodGroup},${todayDate()}`,
-        //     phoneNo,
-        //     homeAddress
-        //   )
-        //   .send({ from: walletId, gas })
-        //   .on("confirmation", async (conformatinNo, receipt) => {
-        //     console.log(receipt);
-        //     // console.log("sd");
-        //     toast.success("Patient Successfully Register!");
-        //     clearStates();
-        //     setSpinner(false);
-        //   });
+ 
         // Create the transaction object
         const txObject = {
           to: contarct_address,
@@ -242,11 +216,6 @@ const Patient_register = () => {
   // }, []);
 
   useEffect(() => {
-    // const getWeb3 = async () => {
-    //   const web3Instance = await connectToInfura();
-    //   setWeb3(web3Instance);
-    // };
-    // getWeb3();
     connectWallet();
   }, []);
 

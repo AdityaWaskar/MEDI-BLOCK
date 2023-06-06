@@ -162,37 +162,37 @@ const doctorController = {
     }
   },
 
-  async addMedicalReport(req, res, next) {
-    const doctor_Address = req.params.doctor_Address;
-    try {
-      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      const gas = await contract.methods
-        .getMedicalInformation(doctor_Address)
-        .estimateGas();
-      contract.methods
-        .getMedicalInformation(doctor_Address)
-        .send({ from: account, gas })
-        .on("confirmation", async (conformatinNo, receipt) => {
-          res.send(receipt);
-        });
-    } catch (error) {
-      return next(CustomErrorHandler.badRequest("Invalid input!"));
-    }
-  },
+  // async addMedicalReport(req, res, next) {
+  //   const doctor_Address = req.params.doctor_Address;
+  //   try {
+  //     const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+  //     const gas = await contract.methods
+  //       .getMedicalInformation(doctor_Address)
+  //       .estimateGas();
+  //     contract.methods
+  //       .getMedicalInformation(doctor_Address)
+  //       .send({ from: account, gas })
+  //       .on("confirmation", async (conformatinNo, receipt) => {
+  //         res.send(receipt);
+  //       });
+  //   } catch (error) {
+  //     return next(CustomErrorHandler.badRequest("Invalid input!"));
+  //   }
+  // },
 
-  async getMedicalReport(req, res, next) {
-    try {
-      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      const report = await contract.methods
-        .getMedicalInformation(req.params.wallet_Address)
-        .call();
-      res.send(report);
-    } catch (error) {
-      return next(
-        CustomErrorHandler.notFound("Error while retiriving the data!")
-      );
-    }
-  },
+  // async getMedicalReport(req, res, next) {
+  //   try {
+  //     const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+  //     const report = await contract.methods
+  //       .getMedicalInformation(req.params.wallet_Address)
+  //       .call();
+  //     res.send(report);
+  //   } catch (error) {
+  //     return next(
+  //       CustomErrorHandler.notFound("Error while retiriving the data!")
+  //     );
+  //   }
+  // },
 
   async addPatientsTreatedByDoctor(req, res, next) {
     const patient_Address = req.params.patient_Address;
