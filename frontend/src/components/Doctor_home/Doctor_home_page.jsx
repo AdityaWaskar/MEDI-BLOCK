@@ -8,6 +8,7 @@ import { auth } from "../../firebase.config";
 import { toast, Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
 import Spinner from "../spinner/Spinner";
+import { useParams } from "react-router";
 
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import OTPScreen from "./OTPScreen/OTPScreen";
@@ -29,6 +30,7 @@ const account1 = web3.eth.accounts.privateKeyToAccount("0x" + private_key);
 web3.eth.accounts.wallet.add(account1);
 
 const Doctor_home_page = () => {
+  const params = useParams();
   const [search, setSearch] = useState("");
   const [account, setAccount] = useState("");
   const [patientInfo, setPatientInfo] = useState([]);
@@ -238,7 +240,7 @@ const Doctor_home_page = () => {
   return (
     <div className="doctor_home_container">
       <Spinner active={spinner} />
-      <Navigation email={null} />
+      <Navigation email={params.email} />
       <div id="recaptcha-container"></div>
       <Toaster position="bottom-center" toastOptions={{ duration: 4000 }} />
       {isCancle ? (

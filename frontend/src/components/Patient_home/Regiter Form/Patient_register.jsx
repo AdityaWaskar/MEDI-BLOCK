@@ -1,55 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { hospitalABI } from "../../abi";
-import { ethers } from "ethers";
+import { useNavigate } from "react-router";
+import "./patient_register.css";
 import Footer from "../../footer/Footer";
 import Navigation from "../../Main_Page/Navigation";
-import AddPatient from "../../home/AddPatient";
-import "./patient_register.css";
 import toast, { Toaster } from "react-hot-toast";
 import Spinner from "../../spinner/Spinner";
 import Wave from "react-wavify";
-import connectToInfura from "../../Connection";
-import Web3 from "web3";
-// import { Navigate } from "react-router";
-import { useNavigate } from "react-router";
-
-// const web3 = new Web3(process.env.REACT_APP_INFURA_HTTPURL);
-const web3 = new Web3(
-  new Web3.providers.HttpProvider(
-    `https://sepolia.infura.io/v3/${process.env.REACT_APP_INFURA_API_KEY}`
-  )
-);
-const private_key = process.env.REACT_APP_WALLET_PRIVATE_ADDRESS;
-const contarct_address = process.env.REACT_APP_CONTRACT_ADDRESS;
-// const contarct_address = "0x444FcD545168031c8C9ec0db8F4dd2349b2b64ac";
-
-const account1 = web3.eth.accounts.privateKeyToAccount("0x" + private_key);
-web3.eth.accounts.wallet.add(account1);
+const genderVal = ["Select", "Male", "Female", "Other"];
+const bloodGroupVal = [
+  "Select",
+  "A+",
+  "A-",
+  "B+",
+  "B-",
+  "O+",
+  "O-",
+  "AB+",
+  "AB-",
+];
 
 const Patient_register = () => {
   const navigate = useNavigate();
   const [spinner, setSpinner] = useState(false);
-  const genderVal = ["Select", "Male", "Female", "Other"];
-  const bloodGroupVal = [
-    "Select",
-    "A+",
-    "A-",
-    "B+",
-    "B-",
-    "O+",
-    "O-",
-    "AB+",
-    "AB-",
-  ];
   const [walletId, setWalletId] = useState("");
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState(genderVal[0]);
-  const [bloodGroup, setBloodGroup] = useState(bloodGroupVal[1]);
+  const [bloodGroup, setBloodGroup] = useState(bloodGroupVal[0]);
   const [email, setEmail] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [homeAddress, setHomeAddress] = useState("");
-  // const [_web3, setWeb3] = useState(null);
 
   async function connectWallet() {
     if (window.ethereum) {
@@ -67,13 +47,13 @@ const Patient_register = () => {
   }
 
   const clearStates = () => {
-    // setName("");
-    // setAge("");
-    // setGender(genderVal[0]);
-    // setBloodGroup(bloodGroupVal[0]);
-    // setEmail("");
-    // setPhoneNo("");
-    // setHomeAddress("");
+    setName("");
+    setAge("");
+    setGender(genderVal[0]);
+    setBloodGroup(bloodGroupVal[0]);
+    setEmail("");
+    setPhoneNo("");
+    setHomeAddress("");
   };
 
   const todayDate = () => {
@@ -86,44 +66,9 @@ const Patient_register = () => {
     return today;
   };
 
-  const handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    switch (name) {
-      case "walletId":
-        setWalletId(value);
-        break;
-      case "name":
-        setName(value);
-        break;
-      case "age":
-        setAge(value);
-        break;
-      case "gender":
-        setGender(value);
-        break;
-      case "bloodGroup":
-        setBloodGroup(value);
-        break;
-      case "email":
-        setEmail(value);
-        break;
-      case "phoneNo":
-        setPhoneNo(value);
-        break;
-      case "homeAdderss":
-        setHomeAddress(value);
-        break;
-      default:
-        break;
-    }
+  const handleInputChange = (stateName, value) => {
+    stateName(value);
   };
-
-  // // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
-
-  // // Displays a prompt for the user to select which accounts to connect
 
   const isValid = () => {
     if (name.length == 0) {
@@ -150,57 +95,34 @@ const Patient_register = () => {
     }
     return true;
   };
-  async function requestAccount() {
-    const _account = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-
-    return _account[0];
-  }
 
   const handleSubmit1 = async () => {
     setSpinner(true);
     try {
-      console.log("dsf", contarct_address, walletId);
       if (isValid()) {
-        const adr = await requestAccount();
-        const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-
- 
-        // Create the transaction object
-        const txObject = {
-          to: contarct_address,
-          from: adr,
-          // nonce: web3.utils.toHex(nonce),
-          gasPrice: web3.utils.toHex(await web3.eth.getGasPrice()),
-          gasLimit: web3.utils.toHex(300000),
-          data: contract.methods
-            .AddPatient(
-              walletId,
-              `${name},${age},${gender}`,
-              `${email},${bloodGroup},${todayDate()}`,
-              phoneNo,
-              homeAddress
-            )
-            .encodeABI(),
-        };
-
-        const signedTransaction = await web3.eth.accounts.signTransaction(
-          txObject,
-          "0x" + private_key /* Replace with your private key */
-        );
-        const rawTransaction = signedTransaction.rawTransaction;
-        const result = await web3.eth
-          .sendSignedTransaction(rawTransaction)
-          .then((res) => {
-            toast.success("Patient Successfully Register!");
-            clearStates();
-            setSpinner(false);
-            setTimeout(() => {
-              navigate(-1);
-            }, 3000);
-          });
-        console.log("test2");
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/patient/add`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            patient_wallet_address: walletId,
+            name: name,
+            phoneNo: phoneNo,
+            email: email,
+            gender: gender,
+            age: age,
+            blood_group: bloodGroup,
+            DOR: todayDate(),
+          }),
+        }).then((res) => {
+          toast.success("Patient Successfully Register!");
+          clearStates();
+          setSpinner(false);
+          setTimeout(() => {
+            navigate(-1);
+          }, 3000);
+        });
       } else {
         console.log("not!");
       }
@@ -211,10 +133,6 @@ const Patient_register = () => {
     }
   };
 
-  // useEffect(() => {
-  //   requestAccount();
-  // }, []);
-
   useEffect(() => {
     connectWallet();
   }, []);
@@ -224,7 +142,6 @@ const Patient_register = () => {
       <Navigation />
       <Wave
         className="wave"
-        // fill="#ee82ee"
         fill="#b598f9"
         paused={false}
         options={{
@@ -246,8 +163,8 @@ const Patient_register = () => {
                 type="text"
                 name="walletId"
                 value={walletId}
-                onChange={handleInputChange}
-                // readOnly
+                onChange={(e) => handleInputChange(setWalletId, e.target.value)}
+                readOnly
               />
             </div>
           </div>
@@ -258,7 +175,7 @@ const Patient_register = () => {
                 type="text"
                 name="name"
                 value={name}
-                onChange={handleInputChange}
+                onChange={(e) => handleInputChange(setName, e.target.value)}
               />
             </div>
             <div className="element">
@@ -267,14 +184,18 @@ const Patient_register = () => {
                 type="text"
                 name="age"
                 value={age}
-                onChange={handleInputChange}
+                onChange={(e) => handleInputChange(setAge, e.target.value)}
               />
             </div>
           </div>
           <div className="row">
             <div className="element" id="gender">
               <label>Gender:</label>
-              <select name="gender" value={gender} onChange={handleInputChange}>
+              <select
+                name="gender"
+                value={gender}
+                onChange={(e) => handleInputChange(setGender, e.target.value)}
+              >
                 {genderVal.map((d) => (
                   <option key={d} value={d}>
                     {d}
@@ -287,7 +208,9 @@ const Patient_register = () => {
               <select
                 name="bloodGroup"
                 value={bloodGroup}
-                onChange={handleInputChange}
+                onChange={(e) =>
+                  handleInputChange(setBloodGroup, e.target.value)
+                }
               >
                 {bloodGroupVal.map((d) => (
                   <option key={d} value={d}>
@@ -304,7 +227,7 @@ const Patient_register = () => {
                 type="email"
                 name="email"
                 value={email}
-                onChange={handleInputChange}
+                onChange={(e) => handleInputChange(setEmail, e.target.value)}
               />
             </div>
             <div className="element">
@@ -313,7 +236,7 @@ const Patient_register = () => {
                 type="text"
                 name="phoneNo"
                 value={phoneNo}
-                onChange={handleInputChange}
+                onChange={(e) => handleInputChange(setPhoneNo, e.target.value)}
               />
             </div>
           </div>
@@ -323,7 +246,9 @@ const Patient_register = () => {
               <textarea
                 value={homeAddress}
                 name="homeAdderss"
-                onChange={handleInputChange}
+                onChange={(e) =>
+                  handleInputChange(setHomeAddress, e.target.value)
+                }
                 rows="10"
                 cols="60"
               />

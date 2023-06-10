@@ -52,11 +52,11 @@ const createRoute = createBrowserRouter([
     element: <Admin_home_page />,
   },
   {
-    path: "/patient_page/:role/:patientId",
+    path: "/patient_page/:role/:patientId/:email",
     element: <Patient_home_page />,
   },
   {
-    path: "/doctor_page",
+    path: "/doctor_page/:email",
     element: <Doctor_home_page />,
   },
   {

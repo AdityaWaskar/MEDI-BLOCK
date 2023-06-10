@@ -51,7 +51,7 @@ const patientController = {
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
       const data = await contract.methods
-        .getPatientByPhoneNo(req.params.phone_no)
+        .getPatientByPhoneNo(req.params.phone_No)
         .call();
 
       res.send(data);
@@ -66,16 +66,26 @@ const patientController = {
       const data = await contract.methods
         .GetPatientByAddress(req.params.wallet_Address)
         .call();
-
-      res.send(data);
+      const result = await ipfsServiceController.getDataFromIPFS(data["0"]);
+      result["phoneNo"] = data["1"];
+      res.send(result);
     } catch (error) {
+      console.log(error);
       return next(CustomErrorHandler.notFound("Invalid Wallet Address"));
     }
   },
 
   async add(req, res, next) {
-    console.log("adsfasd" + req.body.admin_wallet_address);
-    const { name, phoneNo, email, gender, age, blood_group, DOR } = req.body;
+    const {
+      patient_wallet_address,
+      name,
+      phoneNo,
+      email,
+      gender,
+      age,
+      blood_group,
+      DOR,
+    } = req.body;
 
     const json_data = JSON.stringify({
       name: name,
@@ -137,6 +147,33 @@ const patientController = {
     } catch (error) {
       console.log("main -> " + error);
       return next(CustomErrorHandler.notFound("Error retriving patient data!"));
+    }
+  },
+
+  async getAllReports(req, res, next) {
+    const { wallet_address } = req.body;
+
+    const data = await contract.methods
+      .getMedicalInformation(wallet_address)
+      .call();
+    console.log(data, "sd");
+
+    try {
+      const fetchPromises = data.map(async (val) => {
+        console.log("jex", parseInt(val), parseInt(val._hex));
+        const hash = await contract.methods.tokenURI(parseInt(val)).call();
+        const response = await fetch(
+          `https://gateway.pinata.cloud/ipfs/${hash}`,
+          { mode: "cors" }
+        );
+        const temp = await response.json();
+        console.log("temp->", temp);
+        return [parseInt(val), temp.data];
+      });
+      const result = await Promise.all(fetchPromises);
+      res.send(result);
+    } catch (err) {
+      next(CustomErrorHandler.Forbidden(err + "Try again later!"));
     }
   },
 };

@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./patient_home_page.css";
-import { ethers } from "ethers";
 import Footer from "../footer/Footer";
 import Cookies from "js-cookie";
-import axios from "axios";
 import Report_card from "./card/Report_card";
-// import { abi } from "../home/ABI/abi";
-import { hospitalABI } from "../abi";
 import Navigation from "../navigation/Navigation";
-import { json, Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Filter from "./Filter";
 import { BsFillShareFill } from "react-icons/bs";
 import { MdNoteAdd } from "react-icons/md";
@@ -17,49 +13,14 @@ import Spinner from "../spinner/Spinner";
 import { toast, Toaster } from "react-hot-toast";
 import Web3 from "web3";
 
-// const web3 = new Web3(process.env.REACT_APP_INFURA_HTTPURL);
-const web3 = new Web3(
-  new Web3.providers.HttpProvider(
-    `https://sepolia.infura.io/v3/${process.env.REACT_APP_INFURA_API_KEY}`
-  )
-);
-const private_key = process.env.REACT_APP_WALLET_PRIVATE_ADDRESS;
-const contarct_address = process.env.REACT_APP_CONTRACT_ADDRESS;
-// const contarct_address = "0x444FcD545168031c8C9ec0db8F4dd2349b2b64ac";
-
-const account1 = web3.eth.accounts.privateKeyToAccount("0x" + private_key);
-const a = web3.eth.accounts.wallet.add(account1);
-
 let i = 0;
-const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-// const contractAddress = "0xAfB66611E1479dF07922aa84712631708A862807";
 
 const Patient_home_page = () => {
   const params = useParams();
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState(0);
-  // const [age, setAge] = useState(0);
-  // const [address, setAddress] = useState("");
-  // const [doctorName, setDoctorName] = useState("");
-  // const [disease, setDisease] = useState("");
-  // const [symptoms, setSymptoms] = useState("");
-  // const [medicine_name, setMedicine_name] = useState("");
-  // const [gender, setGender] = useState("Male");
-  // const [bloodGroup, setBloodGroup] = useState("A+");
-  // const [date, setDate] = useState("");
-  // const [account, setAccount] = useState();
-  // const [particularId, setParticularId] = useState(null);
-  // const [search, setSearch] = useState("");
-
-  // const [refresh, setRefresh] = useState(false);
-  // const [add, setAdd] = useState(false);
-  const [report, setReport] = useState("");
   const [allPatientId, setAllPatientId] = useState([]);
   const [spinner, setSpinner] = useState(false);
   const [lowerLimit, setLowerLimit] = useState("2023-01-02");
   const [higherLimit, setHigherLimit] = useState("2023-04-03");
-  // console.log(lowerLimit, higherLimit);
   const [cancel, setCancel] = useState(false); //use of diplaying forms
   const [count, setCount] = useState(0);
 
@@ -80,29 +41,6 @@ const Patient_home_page = () => {
     console.log(Cookies.get(params.patientId));
     return Cookies.get(params.patientId);
   };
-  // if(Cookies.get(""))
-
-  // function clearInputs() {
-  //   setName("");
-  //   setEmail("");
-  //   setPhone(0);
-  //   setAge(0);
-  //   setDoctorName("");
-  //   setAddress("");
-  //   setDisease("");
-  //   setSymptoms("");
-  //   setMedicine_name("");
-  //   setReport("");
-  //   setGender("");
-  //   setBloodGroup("");
-  // }
-
-  // // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
-  // async function initializeProvider() {
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const signer = provider.getSigner();
-  //   return new ethers.Contract(contractAddress, hospitalABI, signer);
-  // }
 
   // Displays a prompt for the user to select which accounts to connect
   async function requestAccount() {
@@ -113,40 +51,61 @@ const Patient_home_page = () => {
   }
 
   const getAllPatientReports = async () => {
-    setSpinner(true);
     // let contract = await initializeProvider();
+    /*
     const contract = new web3.eth.Contract(hospitalABI, contarct_address);
     const data1 = await contract.methods
-      .getPatientByPhoneNo(params.patientId)
-      .call();
+    .getPatientByPhoneNo(params.patientId)
+    .call();
     console.log("1->", data1);
     const data = await contract.methods.getMedicalInformation(data1[1]).call();
     let patientInfo = [];
     let i = 0;
     console.log(data, "sd");
-
+  
+    */
     try {
+      /*
       const fetchPromises = data.map(async (val) => {
         console.log("jex", parseInt(val), parseInt(val._hex));
         const hash = await contract.methods.tokenURI(parseInt(val)).call();
         const response = await fetch(
           `https://gateway.pinata.cloud/ipfs/${hash}`,
           { mode: "cors" }
+          );
+          const temp = await response.json();
+          console.log("temp->", temp);
+          return [parseInt(val), temp.data];
+        });
+        const result = await Promise.all(fetchPromises);
+        setAllPatientId(result);
+        console.log(result, "sd");
+        */
+      setSpinner(true);
+
+      let patient_wallet_add;
+      if (params.role == false) {
+        let patientData = await fetch(
+          `${process.env.REACT_APP_API_BASE_URL}/patient/phone_No=${params.patientId}`,
+          { mode: "cors" }
         );
-        const temp = await response.json();
-        console.log("temp->", temp);
-        return [parseInt(val), temp.data];
-      });
-      const result = await Promise.all(fetchPromises);
-      setAllPatientId(result);
-      console.log(result, "sd");
+        patientData = await patientData.json();
+        patientReports = await patientReports.json();
+        patient_wallet_add = patientData["2"];
+      } else {
+        patient_wallet_add = await requestAccount();
+      }
+      let patientReports = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/patient/reports/${patient_wallet_add}`
+      );
+      setAllPatientId(patientReports);
       setSpinner(false);
     } catch (err) {
       console.log(err);
       setSpinner(false);
     }
   };
-
+  /*
   const getAllPatientReports2 = async () => {
     setSpinner(true);
     // let contract = await initializeProvider();
@@ -172,34 +131,7 @@ const Patient_home_page = () => {
     console.log(result, "sd");
     setSpinner(false);
   };
-  // file is uploaded to the IPFS System and get the HASH value
-  const sendFileToIPFS = async (e) => {
-    if (report) {
-      try {
-        const formData = new FormData();
-        formData.append("file", report);
-
-        const resFile = await axios({
-          method: "post",
-          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          data: formData,
-          headers: {
-            pinata_api_key: process.env.REACT_APP_PINATA_API_KEY,
-            pinata_secret_api_key: process.env.REACT_APP_PINATA_SECRET_API_KEY,
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
-        console.log(resFile.data.IpfsHash);
-        console.log(ImgHash);
-        return resFile.data.IpfsHash;
-      } catch (error) {
-        console.log("Error sending File to IPFS: ");
-        console.log(error);
-      }
-    }
-  };
+ */
 
   useEffect(() => {
     let today = new Date();
@@ -209,7 +141,9 @@ const Patient_home_page = () => {
     // today = dd + "-" + mm + "-" + yyyy;
     today = yyyy + "-" + mm + "-" + dd;
     setHigherLimit(today);
+    getAllPatientReports();
 
+    /*
     console.log(params.role);
     if (params.role === "false") {
       console.log("Test1");
@@ -217,6 +151,7 @@ const Patient_home_page = () => {
     } else {
       getAllPatientReports2();
     }
+    */
   }, []);
 
   useEffect(() => {
@@ -237,7 +172,7 @@ const Patient_home_page = () => {
       <div className="patient_home_page_container">
         <Toaster position="bottom-center" reverseOrder={false} />
         <Spinner active={spinner} />
-        <Navigation email={null} />
+        <Navigation email={params.email} />
         <Filter
           setHigherLimit={setHigherLimit}
           setLowerLimit={setLowerLimit}

@@ -7,10 +7,9 @@ doctorRoute.get("/allDoctorInfo", doctorController.getAllDoctors);
 doctorRoute.get("/isexist/:wallet_Address", doctorController.is_exist);
 doctorRoute.get("/phoneNo?:phone_No", doctorController.data_by_phoneNo);
 doctorRoute.get(
-  "/wallet:wallet_Address",
+  "/wallet=:wallet_Address",
   doctorController.data_by_walletAddress
 );
 doctorRoute.post("/add", doctorController.add);
-
 
 export default doctorRoute;

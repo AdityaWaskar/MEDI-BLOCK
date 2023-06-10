@@ -66,7 +66,9 @@ const doctorController = {
         .GetDoctorByAddress(req.params.wallet_Address)
         .call();
 
-      res.send(data);
+      const result = await ipfsServiceController.getDataFromIPFS(data["0"]);
+      result["phoneNo"] = data["1"];
+      res.send(result);
     } catch (error) {
       return next(CustomErrorHandler.notFound("Invalid Wallet Address"));
     }
