@@ -11,7 +11,7 @@ import { MdNoteAdd } from "react-icons/md";
 import Report_form from "../Doctor_home/Report_form";
 import Spinner from "../spinner/Spinner";
 import { toast, Toaster } from "react-hot-toast";
-import Web3 from "web3";
+import { doctorServices, patientServices } from "../../services";
 
 let i = 0;
 
@@ -22,6 +22,7 @@ const Patient_home_page = () => {
   const [lowerLimit, setLowerLimit] = useState("2023-01-02");
   const [higherLimit, setHigherLimit] = useState("2023-04-03");
   const [cancel, setCancel] = useState(false); //use of diplaying forms
+  const [email, setEmail] = useState("");
   const [count, setCount] = useState(0);
 
   const current_second = () => {
@@ -32,7 +33,7 @@ const Patient_home_page = () => {
   };
 
   function filterData() {
-    return allPatientId.filter(
+    return allPatientId?.filter(
       (item) => item[1] >= lowerLimit && item[1] <= higherLimit
     );
   }
@@ -50,53 +51,32 @@ const Patient_home_page = () => {
     return account[0];
   }
 
+  async function getEmail() {
+    const address = await requestAccount();
+    if (params.role === "true") {
+      const data = await patientServices.getpatientByWallet(address);
+      setEmail(data.email);
+    } else {
+      const data = await doctorServices.getDoctorBywallet(address);
+      setEmail(data.email);
+    }
+  }
+
   const getAllPatientReports = async () => {
-    // let contract = await initializeProvider();
-    /*
-    const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-    const data1 = await contract.methods
-    .getPatientByPhoneNo(params.patientId)
-    .call();
-    console.log("1->", data1);
-    const data = await contract.methods.getMedicalInformation(data1[1]).call();
-    let patientInfo = [];
-    let i = 0;
-    console.log(data, "sd");
-  
-    */
     try {
-      /*
-      const fetchPromises = data.map(async (val) => {
-        console.log("jex", parseInt(val), parseInt(val._hex));
-        const hash = await contract.methods.tokenURI(parseInt(val)).call();
-        const response = await fetch(
-          `https://gateway.pinata.cloud/ipfs/${hash}`,
-          { mode: "cors" }
-          );
-          const temp = await response.json();
-          console.log("temp->", temp);
-          return [parseInt(val), temp.data];
-        });
-        const result = await Promise.all(fetchPromises);
-        setAllPatientId(result);
-        console.log(result, "sd");
-        */
       setSpinner(true);
 
       let patient_wallet_add;
-      if (params.role == false) {
-        let patientData = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/patient/phone_No=${params.patientId}`,
-          { mode: "cors" }
+      if (params.role === "false") {
+        const patientData = await patientServices.fetchData(
+          `phoneNo=${params.patientId}`
         );
-        patientData = await patientData.json();
-        patientReports = await patientReports.json();
         patient_wallet_add = patientData["2"];
       } else {
         patient_wallet_add = await requestAccount();
       }
-      let patientReports = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL}/patient/reports/${patient_wallet_add}`
+      const patientReports = await patientServices.getPatientReports(
+        patient_wallet_add
       );
       setAllPatientId(patientReports);
       setSpinner(false);
@@ -105,33 +85,6 @@ const Patient_home_page = () => {
       setSpinner(false);
     }
   };
-  /*
-  const getAllPatientReports2 = async () => {
-    setSpinner(true);
-    // let contract = await initializeProvider();
-    const adr = await requestAccount();
-    const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-    const data = await contract.methods.getMedicalInformation(adr).call();
-    let patientInfo = [];
-    let i = 0;
-    console.log(data, "sd");
-
-    const fetchPromises = data.map(async (val) => {
-      const hash = await contract.methods.tokenURI(parseInt(val)).call();
-      const response = await fetch(
-        `https://gateway.pinata.cloud/ipfs/${hash}`,
-        { mode: "cors" }
-      );
-      const temp = await response.json();
-      console.log(temp);
-      return [parseInt(val), temp.data];
-    });
-    const result = await Promise.all(fetchPromises);
-    setAllPatientId(result);
-    console.log(result, "sd");
-    setSpinner(false);
-  };
- */
 
   useEffect(() => {
     let today = new Date();
@@ -142,16 +95,7 @@ const Patient_home_page = () => {
     today = yyyy + "-" + mm + "-" + dd;
     setHigherLimit(today);
     getAllPatientReports();
-
-    /*
-    console.log(params.role);
-    if (params.role === "false") {
-      console.log("Test1");
-      getAllPatientReports();
-    } else {
-      getAllPatientReports2();
-    }
-    */
+    getEmail();
   }, []);
 
   useEffect(() => {
@@ -165,14 +109,14 @@ const Patient_home_page = () => {
     }
   }, []);
 
-  if (AccessOrNot() === undefined && params.role === "false") {
+  if (!AccessOrNot() === undefined && params.role === "false") {
     return <div>NOT Access</div>;
   } else {
     return (
       <div className="patient_home_page_container">
         <Toaster position="bottom-center" reverseOrder={false} />
         <Spinner active={spinner} />
-        <Navigation email={params.email} />
+        <Navigation email={email} />
         <Filter
           setHigherLimit={setHigherLimit}
           setLowerLimit={setLowerLimit}
@@ -189,7 +133,6 @@ const Patient_home_page = () => {
           </div>
         )}
         <div className="share_btn">
-          {console.log(params.role)}
           {params.role == "true" ? (
             <>
               <BsFillShareFill onClick={() => console.log("aditya")} />

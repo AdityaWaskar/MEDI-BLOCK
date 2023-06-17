@@ -17,8 +17,7 @@ const Admin_home_page = () => {
     <div className="adminSection">
       <Spinner active={spinner} />
       <Navigation email={params.email} />
-      <div className="admin_home_container">
-        {/* <Add_doctor setSpinner={setSpinner} /> */}
+      <div className="admin_home_container"> 
         <div className="addIcon" onClick={() => navigate("./addDoctor")}>
           <AiOutlineUserAdd />
         </div>

@@ -1,27 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ethers } from "ethers";
-// import Navigation from '../navigation/Navigation'
 import InfoCard from "./InfoCard";
 import "./detailInfo.css";
-import { hospitalABI } from "../abi";
 import { useParams } from "react-router-dom";
 import Navigation from "../navigation/Navigation";
-import Web3 from "web3";
 import Spinner from "../spinner/Spinner";
 import Footer from "../footer/Footer";
-
-// const web3 = new Web3(process.env.REACT_APP_INFURA_HTTPURL);
-const web3 = new Web3(
-  new Web3.providers.HttpProvider(
-    `https://sepolia.infura.io/v3/${process.env.REACT_APP_INFURA_API_KEY}`
-  )
-);
-const private_key = process.env.REACT_APP_WALLET_PRIVATE_ADDRESS;
-const contarct_address = process.env.REACT_APP_CONTRACT_ADDRESS;
-// const contarct_address = "0x444FcD545168031c8C9ec0db8F4dd2349b2b64ac";
-
-const account1 = web3.eth.accounts.privateKeyToAccount("0x" + private_key);
-web3.eth.accounts.wallet.add(account1);
+import { doctorServices, patientServices } from "../../services";
 
 const DetailInfo = (props) => {
   const params = useParams();
@@ -43,17 +27,11 @@ const DetailInfo = (props) => {
   const [disease, setDisease] = useState("");
   const [prescription, setPrescription] = useState("");
   const [spinner, setSpinner] = useState(false);
+  const [docEmail, setDocEmail] = useState();
 
   useEffect(() => {
     requestAccount();
   }, []);
-
-  // // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
-  // async function initializeProvider() {
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const signer = provider.getSigner();
-  //   return new ethers.Contract(contractAddress, hospitalABI, signer);
-  // }
 
   // Displays a prompt for the user to select which accounts to connect
   async function requestAccount() {
@@ -64,82 +42,56 @@ const DetailInfo = (props) => {
     return account[0];
   }
 
-  async function getPatientAddress() {
+  const getMedicalData = async () => {
     setSpinner(true);
-    const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-    if (params.role === "false") {
-      const data = await contract.methods
-        .getPatientByPhoneNo(params.patientId)
-        .call(); //getting Patient Detail
-      console.log(data);
-      setEmail(data[5].split(",")[0]);
-      setPhone(data[3]);
-      setAge(data[2].split(",")[1]);
-      setPatientWalletAddress(data[1]);
-      setGender(data[2].split(",")[2]);
-      setBloodGroup(data[5].split(",")[1]);
-      setAddress(data[4]);
-      setName(data[2].split(",")[0]);
-    } else {
-      const act = await requestAccount();
-      const data = await contract.methods.GetPatient(act).call();
-      setEmail(data[5].split(",")[0]);
-      setPhone(data[3]);
-      setAge(data[2].split(",")[1]);
-      setPatientWalletAddress(data[1]);
-      setGender(data[2].split(",")[2]);
-      setBloodGroup(data[5].split(",")[1]);
-      setAddress(data[4]);
-      setName(data[2].split(",")[0]);
-    }
-    setSpinner(false);
-  }
 
-  const PatientInfo = async () => {
-    setSpinner(true);
-    // let contract = await initializeProvider();
-    const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-    // const data = await contract.getMedicalInformation(getPatientAddress()); //getting Patient Detail
-    // console.log(data);
-    const hash = await contract.methods.tokenURI(params.id).call();
-    const response = await fetch(`https://gateway.pinata.cloud/ipfs/${hash}`);
-    const temp = await response.json();
-    console.log(temp);
-    setDate(temp.data);
-    setDoctorPhNo(temp.doc_phoneNO);
-    setDisease(temp.disease);
-    setPrescription(temp.prescription);
-    setReport(temp.report);
-    setSymptoms(temp.symptoms);
-    doctorInfo(temp.doc_phoneNO);
+    const medicalData = await patientServices.getparticularReport(params.id);
+    // setMedicalData(medicalData);
+
+    setDisease(medicalData.disease);
+    setSymptoms(medicalData.symptom);
+    setPrescription(medicalData.prescription);
+    setReport(medicalData.report);
+    setDate(medicalData.date);
+
+    await getPatientData();
+    await getDoctorData(medicalData.doctor_address);
     setSpinner(false);
   };
 
-  const doctorInfo = async (phone_no) => {
-    // let contract = await initializeProvider();
-    setSpinner(true);
-    const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-    console.log(doctorPhNo);
-    console.log("dcotr p", doctorPhNo);
-    let data = await contract.methods.getDoctorByPhoneNo(phone_no).call();
-    console.log(data);
-    setDoctorName(data[2].split(",")[0]);
-    setDoctorWalletAdd(data[1]);
-    setSpinner(false);
+  const getPatientData = async () => {
+    const patientData = await patientServices.getPatientByPhone(
+      params.patientId
+    );
+    console.log(patientData);
+    setPatientWalletAddress(patientData.wallet_Address);
+    setName(patientData.name);
+    setEmail(patientData.email);
+    setGender(patientData.gender);
+    setAge(patientData.age);
+    setBloodGroup(patientData.blood_group);
+    setPhone(patientData.phoneNo);
+    setAddress("SLRTCE");
+  };
+
+  const getDoctorData = async (doctor_address) => {
+    const doctorData = await doctorServices.getDoctorBywallet(doctor_address);
+    setDoctorName(doctorData.name);
+    setDoctorWalletAdd(doctorData.doctor_address);
+    setDoctorPhNo(doctorData.phoneNo);
+    setDocEmail(doctorData.email);
   };
 
   useEffect(() => {
-    PatientInfo();
-    getPatientAddress();
+    getMedicalData();
   }, []);
 
   return (
     <>
-      <Navigation />
+      <Navigation email={params.email} />
       <div className="infoCardContainer">
         <Spinner active={spinner} />
         <div className="name">
-          {/* <span>Name:</span> */}
           <h1 id="Name">{name}</h1>
         </div>
         <div className="heading">Personal Information</div>
@@ -183,8 +135,9 @@ const DetailInfo = (props) => {
                   <b>Report</b>
                 </p>
                 <span>
-                  {/* <a href={`https://gateway.pinata.cloud/ipfs/${report}`}> */}
-                  <a href={report}>Click here</a>
+                  <a href={`https://gateway.pinata.cloud/ipfs/${report}`}>
+                    Click here
+                  </a>
                 </span>
               </div>
               <InfoCard title={"Date"} value={date} />

@@ -117,6 +117,72 @@ const patientController = {
     }
   },
 
+  async addReport(req, res, next) {
+    try {
+      console.log("i am in add report.....");
+      const {
+        patient_address,
+        doctor_address,
+        disease,
+        doc_phone_no,
+        symptom,
+        prescription,
+        date,
+        image,
+      } = req.body;
+      console.log("-----------------");
+      console.log(
+        patient_address,
+        doctor_address,
+        disease,
+        doc_phone_no,
+        symptom,
+        prescription,
+        date,
+        image
+      );
+      console.log(date);
+      const _json = JSON.stringify({
+        doctor_address: doctor_address,
+        disease: disease,
+        doctor_phone_no: doc_phone_no,
+        symptom: symptom,
+        prescription: prescription,
+        report: image,
+        date: date,
+      });
+      // const jsonHash = await ipfsServiceController.sendJsonToIPFS(_json);
+      const jsonHash = "QmXAf9yeQKAbzhMkH5npK9SLUYDiz9dr2bJeY8iMhCnEJ6";
+      console.log("JsonHash", jsonHash);
+
+      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+      const txObject = {
+        to: contarct_address,
+        from: doctor_address,
+        // nonce: web3.utils.toHex(nonce),
+        gasPrice: web3.utils.toHex(await web3.eth.getGasPrice()),
+        gasLimit: web3.utils.toHex(300000),
+        data: contract.methods
+          .addMedicalHistory(patient_address, jsonHash)
+          .encodeABI(),
+      };
+      const signedTransaction = await web3.eth.accounts.signTransaction(
+        txObject,
+        "0x" + private_key /* Replace with your private key */
+      );
+      const rawTransaction = signedTransaction.rawTransaction;
+      const result = await web3.eth.sendSignedTransaction(rawTransaction);
+
+      res.send(result);
+    } catch (error) {
+      return next(
+        CustomErrorHandler.Forbidden(
+          error + "Error occurs sending data to the server!"
+        )
+      );
+    }
+  },
+
   async getAllPatient(req, res, next) {
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
@@ -151,7 +217,8 @@ const patientController = {
   },
 
   async getAllReports(req, res, next) {
-    const { wallet_address } = req.body;
+    const { wallet_address } = req.params;
+    const contract = new web3.eth.Contract(hospitalABI, contarct_address);
 
     const data = await contract.methods
       .getMedicalInformation(wallet_address)
@@ -167,13 +234,27 @@ const patientController = {
           { mode: "cors" }
         );
         const temp = await response.json();
-        console.log("temp->", temp);
-        return [parseInt(val), temp.data];
+        return [parseInt(val), temp.date];
       });
       const result = await Promise.all(fetchPromises);
       res.send(result);
     } catch (err) {
       next(CustomErrorHandler.Forbidden(err + "Try again later!"));
+    }
+  },
+  async getParticularReport(req, res, next) {
+    try {
+      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
+      const hash = await contract.methods.tokenURI(req.params.token).call();
+      console.log(hash);
+      console.log(`https://gateway.pinata.cloud/ipfs/${hash}`);
+      let response = await fetch(`https://gateway.pinata.cloud/ipfs/${hash}`, {
+        mode: "cors",
+      });
+      response = await response.json();
+      res.send(response);
+    } catch (error) {
+      next(CustomErrorHandler.Forbidden(error));
     }
   },
 };

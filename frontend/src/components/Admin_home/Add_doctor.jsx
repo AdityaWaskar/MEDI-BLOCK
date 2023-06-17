@@ -1,40 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./add_doctor.css";
-import { ethers } from "ethers";
-import { hospitalABI } from "../abi";
 import InputBox from "./InputBox";
-import img1 from "../../assets/add_doctor_image.svg";
-import img2 from "../../assets/add_symbol.svg";
 import toast, { Toaster } from "react-hot-toast";
-import Web3 from "web3";
 import { useParams } from "react-router";
 import Navigation from "../navigation/Navigation";
 import { useNavigate } from "react-router";
 import Spinner from "../spinner/Spinner";
 import Footer from "../footer/Footer";
-import axios from "axios";
-// const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-
-// const web3 = new Web3(process.env.REACT_APP_INFURA_HTTPURL);
-const web3 = new Web3(
-  new Web3.providers.HttpProvider(
-    `https://sepolia.infura.io/v3/${process.env.REACT_APP_INFURA_API_KEY}`
-  )
-);
-const private_key = process.env.REACT_APP_WALLET_PRIVATE_ADDRESS;
-// const contarct_address = process.env.REACT_APP_CONTRACT_ADDRESS;
-const contarct_address = process.env.REACT_APP_CONTRACT_ADDRESS;
-
-const account1 = web3.eth.accounts.privateKeyToAccount("0x" + private_key);
-web3.eth.accounts.wallet.add(account1);
 
 var today;
 
 const Add_doctor = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const [addDoctorForm, setAddDoctorForm] = useState(true);
   const [cancelBtnFlag, setCancelBtnFlag] = useState(true);
   const [otherOption, setOtherOption] = useState(false);
   const [otherOption1, setOtherOption1] = useState(false);
@@ -55,13 +34,6 @@ const Add_doctor = () => {
   const [hospitalName, setHospitalName] = useState("");
 
   const [spinner, setSpinner] = useState(false);
-
-  // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
-  // async function initializeProvider() {
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const signer = provider.getSigner();
-  //   return new ethers.Contract(contractAddress, hospitalABI, signer);
-  // }
 
   // Displays a prompt for the user to select which accounts to connect
   async function requestAccount() {
@@ -152,52 +124,6 @@ const Add_doctor = () => {
           otherD_degree
         )
       ) {
-        // const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-        // const gas = await contract.methods
-        //   .addDoctor(
-        //     doctorWalletAddress,
-        //     `${name},${age},${gender}`,
-        //     phoneNo,
-        //     `${qualification == "other" ? otherQualification : qualification},${
-        //       d_degree == "other" ? otherD_degree : d_degree
-        //     }`,
-        //     `${email},${DOR}`,
-        //     hospitalName
-        //   )
-        //   .estimateGas();
-        // contract.methods
-        //   .addDoctor(
-        //     doctorWalletAddress,
-        //     `${name},${age},${gender}`,
-        //     phoneNo,
-        //     `${qualification == "other" ? otherQualification : qualification},${
-        //       d_degree == "other" ? otherD_degree : d_degree
-        //     }`,
-        //     `${email},${DOR}`,
-        //     hospitalName
-        //   )
-        //   .send({ from: account, gas })
-        //   .on("confirmation", async (conformatinNo, receipt) => {
-        //     console.log(receipt);
-        //     clearStates();
-        //     setCancelBtnFlag(true);
-        //     // navigate(-1);
-        //     setSpinner(false);
-        //     toast.success("Doctor Added!", { id: "doctorAdd" });
-        //   });
-        console.log({
-          // admin_wallet_address: await requestAccount(),
-          doctor_wallet_address: doctorWalletAddress,
-          phoneNo: phoneNo,
-          name: name,
-          email: email,
-          gender: gender,
-          age: age,
-          hospital_name: hospitalName,
-          specialization: qualification,
-          degree: degree,
-          DOR: DOR,
-        });
         fetch(`${process.env.REACT_APP_API_BASE_URL}/doctor/add`, {
           method: "POST",
           headers: {
@@ -227,7 +153,6 @@ const Add_doctor = () => {
         toast.error("Fill all the fileds correctly.", { id: "error" });
       }
     } catch (e) {
-      console.log(e);
       setSpinner(false);
     }
   }
@@ -235,10 +160,10 @@ const Add_doctor = () => {
   const getCount = async () => {
     setSpinner(true);
     try {
-      // const contract = await initializeProvider();
-      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      const val = await contract.methods.GetDocAdd().call();
-      setFormID(val.length);
+      const data = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/doctor/alldoctorAddress`
+      );
+      setFormID(data.length);
     } catch (error) {
       console.error(error);
     }
@@ -248,7 +173,6 @@ const Add_doctor = () => {
   useEffect(() => {
     getCount();
     requestAccount();
-    console.log("account no" + account);
 
     // Date Limit till today (can't enter the tomorrow's date)
     today = new Date();
@@ -299,23 +223,6 @@ const Add_doctor = () => {
       <section className="add_doctor_container">
         <Toaster position="bottom-center" reverseOrder={false} />
         <h1 className="add_doctor_button">Add Doctor</h1>
-        {/* <div className="add_doctor_image">
-          <img src={img1} alt="" />
-        </div> */}
-        {/* <div className="buttons">
-          <img
-            className={
-              cancelBtnFlag == true
-                ? "add_button add_form_active"
-                : "add_button"
-            }
-            onClick={() => {
-              setAddDoctorForm(true);
-              cancel_btn(false);
-            }}
-            src={img2}
-          />
-        </div> */}
 
         <div
           className={
@@ -414,7 +321,6 @@ const Add_doctor = () => {
                   setOtherQualification={setOtherQualification}
                 />
               ) : null}
-              {/* {console.log(qualification)}   */}
             </div>
             <div className="doctor_form_element" id="degree">
               <label>Degree</label>
@@ -444,7 +350,6 @@ const Add_doctor = () => {
             </div>
           </div>
 
-          {/* <div className="doctor_form_element" id="hospitalName"> */}
           <InputBox
             title={"Hospital_Name"}
             type={"text"}
@@ -457,8 +362,6 @@ const Add_doctor = () => {
             value={doctorWalletAddress}
             setDoctorWalletAddress={setDoctorWalletAddress}
           />
-          {/* </div> */}
-          {/* <InputBox title={"Degree"} type={"text"} setName={true} /> */}
           <hr />
           <div className="doctor_form_element" id="doctor_register_date">
             <label>Data of Registration</label>

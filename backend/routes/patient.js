@@ -10,7 +10,10 @@ patientRoute.get(
   "/wallet=:wallet_Address",
   patientController.data_by_walletAddress
 );
+patientRoute.get("/reports/:wallet_address", patientController.getAllReports);
+patientRoute.get("/report/:token", patientController.getParticularReport);
+
 patientRoute.post("/add", patientController.add);
-patientRoute.get("/reports", patientController.getAllReports);
+patientRoute.post("/addreport", patientController.addReport);
 
 export default patientRoute;

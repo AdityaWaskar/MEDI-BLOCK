@@ -34,37 +34,17 @@ const Card = (params) => {
     return `${hours}:${minutes}:${seconds}`;
   }
   return (
-    <div
+    <tr
       className="card"
       key={params.id}
       // onClick={() => (window.location.href = `/patient_page/false`)}
     >
-      <div className="element">
-        <label>Id</label>
-        <span>{params.id}</span>
-      </div>
-      <div className="element">
-        <label>Date</label>
-        <span>{params.date}</span>
-      </div>
-      <div className="element">
-        <label>Name</label>
-        <span>{params.name}</span>
-      </div>
-      <div className="element">
-        <label>Phone No.</label>
-        <span>{params.phone_no}</span>
-      </div>
-      <div className="element">
-        <label>Email</label>
-        <span>{params.email}</span>
-      </div>
-      {/* <td>{params.id}</td>
+      <td>{params.id}</td>
       <td>{params.date}</td>
       <td>{params.name}</td>
       <td>{params.phone_no}</td>
-      <td>{params.email}</td> */}
-      <div className="element btnn">
+      <td>{params.email}</td>
+      <td>
         {/* {!(params.getAccess == params.phone_no) ? ( */}
         {AccessOrNot(params.phone_no) == undefined ? (
           <button
@@ -72,16 +52,14 @@ const Card = (params) => {
               params.setSelectedPhoneNo(params.phone_no);
               console.log(params.phone_no);
               // params.setIsCancle(true);
-              params.setSpinner(true);
               params.onSignup();
-              params.setSpinner(false);
             }}
             className="greenBtn"
           >
             Get Access
           </button>
         ) : (
-          <div className="timerOption btnn">
+          <div className="timerOption">
             <button
               onMouseOut={onmouseout}
               onMouseOver={onmouseover}
@@ -98,14 +76,14 @@ const Card = (params) => {
             </button>
             {timer && (
               <span data-aos="fade">
-                Expires at {toHoursAndMinutes(Cookies.get(params.phone_no))}
+                {toHoursAndMinutes(Cookies.get(params.phone_no))}
               </span>
             )}
           </div>
         )}
-      </div>
+      </td>
       <td>{params.cookieTimer}</td>
-    </div>
+    </tr>
   );
 };
 

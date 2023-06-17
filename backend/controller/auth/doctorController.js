@@ -50,7 +50,7 @@ const doctorController = {
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
       const data = await contract.methods
-        .getDoctorByPhoneNo(req.params.phone_no)
+        .getDoctorByPhoneNo(req.params.phone_No)
         .call();
 
       res.send(data);
@@ -136,7 +136,7 @@ const doctorController = {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
       const allAddress = await contract.methods.getDoctorAddresses().call();
       let allInfo = [];
-      for (let i = 0; i < allAddress.length; i++) {
+      for (let i = 1; i < 3; i++) {
         const doctor = await contract.methods
           .GetDoctorByAddress(allAddress[i])
           .call();

@@ -5,6 +5,7 @@ const ipfsServiceController = {
   // file is uploaded to the IPFS System and get the HASH value
   async sendFileToIPFS(report) {
     if (report) {
+      console.log("REPORt", report);
       try {
         const formData = new FormData();
         formData.append("file", report);

@@ -7,7 +7,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import Home from "../home/Home.jsx";
 import "./login.css";
 import LoginUi from "./LoginUi";
 import { useNavigate } from "react-router";
