@@ -81,7 +81,7 @@ const Doctor_data = (props) => {
               key={id + 1}
               id={id + 1}
               name={data["name"]}
-              data={data["DOR"]}
+              date={data["DOR"]}
               phone_no={data["phoneNo"]}
               email={data["email"]}
             />

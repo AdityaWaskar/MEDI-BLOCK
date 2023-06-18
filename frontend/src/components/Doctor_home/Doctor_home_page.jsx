@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Navigation from "../navigation/Navigation";
-// import Card from "../home/card/Card";
 import Card from "./card/Card";
 import "./doctor_home_page.css";
 import { auth } from "../../firebase.config";

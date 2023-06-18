@@ -19,12 +19,18 @@ import {
   Add_doctor,
 } from "./components";
 
+import Doctor_page from "./components/Doctor_home/DoctorMainPage/Doctor_page";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const createRoute = createBrowserRouter([
   {
     path: "/",
     element: <MainPage />,
+  },
+  {
+    path: "/doctor",
+    element: <Doctor_page />,
   },
   {
     path: "/patientLogin",

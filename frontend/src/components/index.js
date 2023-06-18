@@ -4,7 +4,7 @@ export { default as Patient_home_page } from "./Patient_home/Patient_home_page";
 export { default as Doctor_home_page } from "./Doctor_home/Doctor_home_page";
 export { default as Spinner } from "./spinner/Spinner";
 export { default as Login } from "./login/Login";
-export { default as PatientLogin } from "./Patient_home/Patient_home_page";
+export { default as PatientLogin } from "./login/patient/PatientLogin";
 export { default as Patient_register } from "./Patient_home/Regiter Form/Patient_register";
 export { default as MainPage } from "./Main_Page/MainPage";
 export { default as Services } from "./About_Us/Services";

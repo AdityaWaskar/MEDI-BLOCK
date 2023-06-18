@@ -135,6 +135,7 @@ const doctorController = {
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
       const allAddress = await contract.methods.getDoctorAddresses().call();
+      console.log(allAddress);
       let allInfo = [];
       for (let i = 1; i < 3; i++) {
         const doctor = await contract.methods
@@ -144,10 +145,14 @@ const doctorController = {
       }
 
       const info = [];
+      console.log(allInfo);
+      console.log(";;", allInfo[1]);
+      console.log(";;", allInfo[2]);
       console.log(
         "-----------------------------------------------------------------"
       );
-      for (let i = 1; i < 3; i++) {
+      for (let i = 0; i < allInfo.length  ; i++) {
+        console.log(allInfo[i]);
         const result = await ipfsServiceController.getDataFromIPFS(
           allInfo[i]["0"]
         );
