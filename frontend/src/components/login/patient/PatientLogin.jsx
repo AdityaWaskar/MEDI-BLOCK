@@ -13,6 +13,7 @@ const PatientLogin = () => {
   const [doctorExist, setDoctorExist] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
   const navigate = useNavigate();
 
@@ -49,6 +50,7 @@ const PatientLogin = () => {
         patientInformation = await patientInformation.json();
         setName(patientInformation["name"]);
         setEmail(patientInformation["email"]);
+        setPhone(patientInformation["phoneNo"]);
         setRole("Patient");
       }
 
@@ -118,7 +120,7 @@ const PatientLogin = () => {
       // }
     } else {
       if (role == "Patient") {
-        navigate(`/patient_page/true/asdfdfd/${email}`);
+        navigate(`/patient_page/true/${phone}/${email}`);
       } else if (role == "Doctor") {
         navigate(`/doctor_page/${email}`);
       }
