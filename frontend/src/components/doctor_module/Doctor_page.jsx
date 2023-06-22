@@ -68,7 +68,7 @@ const Doctor_page = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="Doctor_container">
       <Navigation email={params.email} />
       <div className="bgcontain">
         <p className="midHeading">

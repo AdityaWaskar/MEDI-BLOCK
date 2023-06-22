@@ -8,6 +8,7 @@ import Navigation from "../navigation/Navigation";
 import { useNavigate } from "react-router";
 import Spinner from "../spinner/Spinner";
 import Footer from "../footer/Footer";
+import Cookies from "js-cookie";
 
 var today;
 
@@ -146,6 +147,7 @@ const Add_doctor = () => {
           clearStates();
           setCancelBtnFlag(true);
           setSpinner(false);
+          Cookies.remove("doctorData");
           toast.success("Doctor Added!", { id: "doctorAdd" });
           setTimeout(() => navigate(-1), 1000);
         });

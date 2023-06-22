@@ -49,7 +49,9 @@ const Doctor_Profile = (props) => {
       <div className="main">
         <div className="mainLeft">
           <div className="gender">Gender : {doctorInfo?.gender}</div>
-          <div className="hosp">Hospital Name : {doctorInfo?.name}</div>
+          <div className="hosp">
+            Hospital Name : {doctorInfo?.hospital_name}
+          </div>
           <div className="spec">
             Specialization: {doctorInfo?.specialization}
           </div>

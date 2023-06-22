@@ -137,7 +137,7 @@ const doctorController = {
       const allAddress = await contract.methods.getDoctorAddresses().call();
       console.log(allAddress);
       let allInfo = [];
-      for (let i = 1; i < 3; i++) {
+      for (let i = 0; i < allAddress.length; i++) {
         const doctor = await contract.methods
           .GetDoctorByAddress(allAddress[i])
           .call();
@@ -151,7 +151,7 @@ const doctorController = {
       console.log(
         "-----------------------------------------------------------------"
       );
-      for (let i = 0; i < allInfo.length  ; i++) {
+      for (let i = 0; i < allInfo.length; i++) {
         console.log(allInfo[i]);
         const result = await ipfsServiceController.getDataFromIPFS(
           allInfo[i]["0"]

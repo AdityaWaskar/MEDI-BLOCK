@@ -100,14 +100,31 @@ const patientController = {
       const hash_value = await ipfsServiceController.sendJsonToIPFS(json_data);
       console.log("test2", hash_value);
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      const gas = await contract.methods
-        .AddPatient(patient_wallet_address, hash_value, phoneNo)
-        .estimateGas();
-      const response = await contract.methods
-        .AddPatient(patient_wallet_address, hash_value, phoneNo)
-        .send({ from: patient_wallet_address, gas });
-      console.log(response.blockHash);
-      res.send(response);
+      // const gas = await contract.methods
+      //   .AddPatient(patient_wallet_address, hash_value, phoneNo)
+      //   .estimateGas();
+      // const response = await contract.methods
+      //   .AddPatient(patient_wallet_address, hash_value, phoneNo)
+      //   .send({ from: patient_wallet_address, gas });
+      const txObject = {
+        to: contarct_address,
+        from: patient_wallet_address,
+        // nonce: web3.utils.toHex(nonce),
+        gasPrice: web3.utils.toHex(await web3.eth.getGasPrice()),
+        gasLimit: web3.utils.toHex(300000),
+        data: contract.methods
+          .AddPatient(patient_wallet_address, hash_value, phoneNo)
+          .encodeABI(),
+      };
+      const signedTransaction = await web3.eth.accounts.signTransaction(
+        txObject,
+        "0x" + private_key /* Replace with your private key */
+      );
+      const rawTransaction = signedTransaction.rawTransaction;
+      const result = await web3.eth.sendSignedTransaction(rawTransaction);
+
+      console.log(result);
+      res.send(result);
     } catch (error) {
       return next(
         CustomErrorHandler.Forbidden(
@@ -151,8 +168,8 @@ const patientController = {
         report: image,
         date: date,
       });
-      // const jsonHash = await ipfsServiceController.sendJsonToIPFS(_json);
-      const jsonHash = "QmXAf9yeQKAbzhMkH5npK9SLUYDiz9dr2bJeY8iMhCnEJ6";
+      const jsonHash = await ipfsServiceController.sendJsonToIPFS(_json);
+      // const jsonHash = "QmXAf9yeQKAbzhMkH5npK9SLUYDiz9dr2bJeY8iMhCnEJ6";
       console.log("JsonHash", jsonHash);
 
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
@@ -163,7 +180,7 @@ const patientController = {
         gasPrice: web3.utils.toHex(await web3.eth.getGasPrice()),
         gasLimit: web3.utils.toHex(300000),
         data: contract.methods
-          .addMedicalHistory(patient_address, jsonHash)
+          .addMedicalHistory(patient_address, jsonHash, date)
           .encodeABI(),
       };
       const signedTransaction = await web3.eth.accounts.signTransaction(

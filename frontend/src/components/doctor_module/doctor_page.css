@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
-.container{
+.Doctor_container{
     height: 100vh;
 }
  
-.heading{
+.Doctor_container .heading{
     font-weight: 600;
     font-size: 3rem;
 }
-.img-right{
+.Doctor_container .img-right{
     position: fixed;
     top: 2%;
     right: 5%;
@@ -17,27 +17,27 @@
     align-items: center;
 }
 @media screen and (max-width: 575px) {
-    .img-right {
+    .Doctor_container .img-right {
         display: none;
     }
-    .top {
+    .Doctor_container .top {
         display: flex;
         align-items: center;
     }
 }
-.img{
+.Doctor_container .img{
     height: 100px;
     width: 100px;
     background-color: gray;
     border-radius: 50%;
 }
-.img img{
+.Doctor_container .img img{
     height: 100px;
     width: 100px;
     background-color: #fff;
     border-radius: 50%;
 }
-.bgcontain{
+.Doctor_container .bgcontain{
     width: 100%;
     height: 60%;
     background-image: url('../../assets/doctorModule/bg.jpg');
@@ -47,7 +47,7 @@
     left: 0;
     right: 0;
 }
-.midHeading{
+.Doctor_container .midHeading{
     font-family: 'Poppins', sans-serif;
 
     font-size: 3rem;
@@ -58,7 +58,7 @@
     margin-top: 2%;
     margin-bottom: 2%;
 }
-.midSubHeading{
+.Doctor_container .midSubHeading{
     
     font-weight: 600;
     font-size: 2rem;
@@ -68,7 +68,7 @@
     font-family: 'Poppins', sans-serif;
 
 }
-.bottom{
+.Doctor_container .bottom{
     border-radius: 8px;
     background-color: #fff;
     width: 50%;
@@ -83,23 +83,23 @@
     align-items: center;
 }
 @media screen and (max-width: 575px){
-    .bottom{
+    .Doctor_container .bottom{
         display: flex;
         flex-direction: column;
         height: 50%;
         top: 35%;
         gap: 0.2;
     }
-    .bgcontain{
+    .Doctor_container .bgcontain{
         background-size:cover;
     }
-    .box img{
+    .Doctor_container .box img{
         max-width: 150px;
         max-height: 150px;
     }
     
 }
-.box{
+.Doctor_container .box{
     margin-top: 4%;
     width: 25%;
     height: 90%;
@@ -108,11 +108,11 @@
     justify-content: center;
     align-items: center;
 }
-.box img{
+.Doctor_container .box img{
     width: 45%;
     height: 55%;
 }
-.box p{
+.Doctor_container .box p{
     justify-content: center;
     text-align: center;
     font-size: 1.1rem;

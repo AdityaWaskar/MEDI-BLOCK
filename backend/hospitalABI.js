@@ -1,5 +1,115 @@
 export const hospitalABI = [
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_doctorAddress",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "_metaData",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_phoneNo",
+        type: "string",
+      },
+    ],
+    name: "AddDoctor",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "hashValue",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "date",
+        type: "string",
+      },
+    ],
+    name: "addMedicalHistory",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_patientAddress",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "_metaData",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_phoneNo",
+        type: "string",
+      },
+    ],
+    name: "AddPatient",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "date",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "_patientId",
+        type: "address",
+      },
+    ],
+    name: "addpatientsTreatedByDoctor",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "safeTransferFrom",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -55,6 +165,70 @@ export const hospitalABI = [
     type: "event",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "approve",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
+      },
+    ],
+    name: "safeTransferFrom",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "operator",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "approved",
+        type: "bool",
+      },
+    ],
+    name: "setApprovalForAll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -83,142 +257,21 @@ export const hospitalABI = [
     inputs: [
       {
         internalType: "address",
-        name: "_doctorAddress",
+        name: "from",
         type: "address",
       },
-      {
-        internalType: "string",
-        name: "_metaData",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_phoneNo",
-        type: "string",
-      },
-    ],
-    name: "AddDoctor",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
       {
         internalType: "address",
-        name: "_patientAddress",
+        name: "to",
         type: "address",
       },
       {
-        internalType: "string",
-        name: "_metaData",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_phoneNo",
-        type: "string",
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
     ],
-    name: "AddPatient",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_doctorAddress",
-        type: "address",
-      },
-    ],
-    name: "GetDoctorByAddress",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_patientAddress",
-        type: "address",
-      },
-    ],
-    name: "GetPatientByAddress",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_patientAddress",
-        type: "address",
-      },
-    ],
-    name: "PatientExists",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_address",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "hashValue",
-        type: "string",
-      },
-    ],
-    name: "addMedicalHistory",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_patientId",
-        type: "address",
-      },
-    ],
-    name: "addpatientsTreatedByDoctor",
+    name: "transferFrom",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -259,24 +312,6 @@ export const hospitalABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "approve",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -325,30 +360,6 @@ export const hospitalABI = [
         internalType: "bool",
         name: "",
         type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "doctorToPatientIds",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
       },
     ],
     stateMutability: "view",
@@ -413,6 +424,30 @@ export const hospitalABI = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_doctorAddress",
+        type: "address",
+      },
+    ],
+    name: "GetDoctorByAddress",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "string",
         name: "_phoneNo",
         type: "string",
@@ -434,6 +469,19 @@ export const hospitalABI = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getDoctorCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -474,6 +522,30 @@ export const hospitalABI = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_patientAddress",
+        type: "address",
+      },
+    ],
+    name: "GetPatientByAddress",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "string",
         name: "_phoneNo",
         type: "string",
@@ -501,6 +573,19 @@ export const hospitalABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getPatientCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -511,9 +596,40 @@ export const hospitalABI = [
     name: "getpatientsTreatedByDoctor",
     outputs: [
       {
-        internalType: "address[]",
+        components: [
+          {
+            internalType: "string",
+            name: "date",
+            type: "string",
+          },
+          {
+            internalType: "address",
+            name: "wallet_address",
+            type: "address",
+          },
+        ],
+        internalType: "struct Hospital.doctorToPatient[]",
         name: "",
-        type: "address[]",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "walletAdd",
+        type: "address",
+      },
+    ],
+    name: "getReportCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -592,6 +708,25 @@ export const hospitalABI = [
     inputs: [
       {
         internalType: "address",
+        name: "_patientAddress",
+        type: "address",
+      },
+    ],
+    name: "PatientExists",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -610,75 +745,6 @@ export const hospitalABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "safeTransferFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
-    ],
-    name: "safeTransferFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
-      {
-        internalType: "bool",
-        name: "approved",
-        type: "bool",
-      },
-    ],
-    name: "setApprovalForAll",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -743,29 +809,6 @@ export const hospitalABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "transferFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];

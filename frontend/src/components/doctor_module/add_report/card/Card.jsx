@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import "./card.css";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const Card = (params) => {
   };
 
   const goToPatientPage = (number) => {
-    navigate(`/patient_page/false/${number.replace(" ", "")}`);
+    navigate(`/patient_page/false/${number.replace(" ", "")}/${params.email}`);
   };
 
   const onmouseover = () => {
