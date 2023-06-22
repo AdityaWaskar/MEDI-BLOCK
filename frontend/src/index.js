@@ -17,9 +17,10 @@ import {
   MainPage,
   Services,
   Add_doctor,
+  Doctor_page,
+  DoctorServices,
 } from "./components";
-
-import Doctor_page from "./components/Doctor_home/DoctorMainPage/Doctor_page";
+ 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -29,8 +30,12 @@ const createRoute = createBrowserRouter([
     element: <MainPage />,
   },
   {
-    path: "/doctor",
+    path: "/doctor_page/:email",
     element: <Doctor_page />,
+  },
+  {
+    path: "/doctor_page/:email/:service",
+    element: <DoctorServices />,
   },
   {
     path: "/patientLogin",
@@ -57,10 +62,11 @@ const createRoute = createBrowserRouter([
     path: "/patient_page/:role/:patientId/:email",
     element: <Patient_home_page />,
   },
-  {
-    path: "/doctor_page/:email",
-    element: <Doctor_home_page />,
-  },
+  // {
+  //   //remove this route
+  //   path: "/doctor_page/:email",
+  //   element: <Doctor_home_page />,
+  // },
   {
     path: "/about",
     element: <Services />,

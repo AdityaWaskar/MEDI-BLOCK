@@ -1,0 +1,80 @@
+@keyframes reportFormAnimation {
+    0%{
+        top: -10%;
+    }
+    100%{
+        top: 10%;
+    }
+}
+
+.report_form_container::-webkit-scrollbar {
+    display: none;
+  }
+
+.report_form_container{
+    width: 60%;
+    height: 80vh;
+    background-color: #e7e7e7f0;
+    position: absolute;
+    left: 20%;
+    top: 10%;
+    box-shadow: 0px 0px 21px 1px #525252;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    transition: all .5s ease;
+    animation: reportFormAnimation 0.5s;     
+}
+
+.report_form_container .row{
+    display: flex;
+}
+
+.report_form_container .form_sub_title, .report_form_container .form_title
+{
+    font-family: 'Roboto Slab', serif;
+}
+.report_form_container .form_title
+{
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+    width: 100%;
+}
+
+.report_form_container .name{
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.report_form_container .report_btn{
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    gap: 30px;
+    margin-top :3vh;
+}
+
+.report_form_container .report_btn button{
+    padding: 7px 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid black;
+    transition: all .2s ease;
+}
+
+.report_form_container .report_btn .submit_btn:hover{
+    color: white;
+    border-color: #319997;
+    background-color: #319997;
+    transform: scale(1.1);
+}
+
+.report_form_container .report_btn .cancel_btn:hover{
+    color: white;
+    border-color: #d83a3a;
+    background-color: #d83a3a;
+    transform: scale(1.1);
+}

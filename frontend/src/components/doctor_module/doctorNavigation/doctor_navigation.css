@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Monomaniac+One&family=Permanent+Marker&family=Poppins:wght@100;200;300;400&display=swap');
+
+.left{
+    width: 100%;
+    height: 100%;
+    border: none;
+    gap: 1%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 1%;
+    font-family: 'Poppins', sans-serif;
+}
+.left .up{
+    background-color: #EDEDED;
+    flex: 1;
+    border-top-left-radius: 4%;
+}
+.left .down{
+    flex: 1;
+    background-color: #EDEDED;
+    border-bottom-left-radius: 4%;
+}
+.doctor_navigation_container .other{
+    color: #777777;
+    margin-left: 5%;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 15px;
+}
+.doctor_navigation_container .option{
+    width: 70%;
+    margin-top: 10%;
+    /* text-align: center; */
+}
+.doctor_navigation_container .option img{
+    width: 29px;
+    height: 29px;
+    margin-left: 26%;
+}
+.doctor_navigation_container .option p{
+    margin-left: 5%;
+}
+.doctor_navigation_container .option p:hover{
+    color: #E900FD;
+}
+.doctor_navigation_container .profile{
+    height: 10%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.doctor_navigation_container .profile img{
+    width: 38px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin-left: 5%;
+    margin-top: 10%;
+}
+.doctor_navigation_container .profile p{
+    margin-left: 2%;
+    margin-top: 13%;
+    text-align: center;
+    justify-content: center;
+    font-weight: 700;
+    color:#292929;
+}
+.doctor_navigation_container .function{
+    width: 100%;
+    height: 100%;
+    margin-top: 15%;
+}
+.doctor_navigation_container .function span{
+    color: #777777;
+   margin-left: 5%;
+   font-size: 1.2rem;
+   font-weight: 700;
+}
+.doctor_navigation_container .items{
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+}
+.doctor_navigation_container .list{
+    width: 70%;
+    margin-top: 10%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.doctor_navigation_container .list img{
+    width: 29px;
+    height: 29px;
+    margin-left: 5%;
+}
+.doctor_navigation_container .list button{
+    margin-left: 5%;
+    border: none;
+    font-size: 1rem;
+}
+.doctor_navigation_container .list button:hover{
+    color: #E900FD;
+}
+.doctor_navigation_container .list button.active {
+    color: #E900FD; 
+  }
+
+.doctor_navigation_container .lline{
+    width: 100%;
+    margin-top: 50%;
+    border-top: 5px solid #fff;
+}

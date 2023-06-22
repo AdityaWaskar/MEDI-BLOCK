@@ -1,0 +1,52 @@
+.doctor_home_container{
+    height: 100%;
+    background: #ededed; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.doctor_home_container .allCards{ 
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    /* overflow-y:scroll ; */
+    /* max-height: 100px; */
+}
+
+.doctor_home_container .searchbarContainer{ 
+    display: flex;
+    justify-content: center;
+}
+.doctor_home_container .searchbar{
+    display: flex;
+    /* margin: 3% 20%; */
+    height: 40px;
+    width: 40vw;
+}
+
+.doctor_home_container .searchbar input{
+    width: 100%;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border: 1px solid grey;
+    border-right: none;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+}
+
+.doctor_home_container .searchbar button{
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 0 25px;
+    background: white;
+    border: 1px solid grey;
+    border-left: none;
+}
+
+ 

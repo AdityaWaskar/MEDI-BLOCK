@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Monomaniac+One&family=Permanent+Marker&family=Poppins:wght@100;200;300;400&display=swap");
+.rightPatientList {
+  width: 100%;
+  height: 100%;
+  background-color: #ededed;
+  border-top-right-radius: 2%;
+  border-bottom-right-radius: 2%;
+  border: none;
+  margin-right: 1%;
+  font-family: "Poppins", sans-serif;
+}
+.rightPatientList .searchBox {
+  width: 80%;
+  height: 10%;
+  margin-left: 10%;
+  margin-top: 7%;
+  padding-left: 2%;
+  background-color: #f8f3f3;
+  font-size: 1.5rem;
+  font-weight: 400;
+  border-radius: 20px;
+  border: 1px solid #cecece;
+  /* box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.5); */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.rightPatientList .rightMid p {
+  text-align: center;
+  margin-top: 5%;
+  font-size: 2rem;
+  color: #6c6c6c;
+}
+.rightPatientList .pl {
+  width: 80%;
+  height: 55%;
+  margin-left: 10%;
+  background-color: #fff;
+  margin-top: -1.5%;
+  border-radius: 10px;
+  border: 1px solid #a3a3a3;
+}
+.pl .row1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #6c6c6c;
+  font-size: 1.3rem;
+  height: 15%;
+  text-align: center;
+}
+.srno,
+.data,
+.name,
+.phone {
+  flex: 1;
+  text-align: center;
+}
+
+.pl .row2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #6c6c6c;
+  font-size: 1rem;
+  height: 15%;
+}
+.pl .line {
+  width: 100%;
+  border-top: 2px solid #a3a3a3;
+}

@@ -1,0 +1,70 @@
+.patientCard{
+    border: 2px solid rgb(216 216 216);
+    box-shadow: 0px 0px 7px 0px #898989b5;
+    color: #494545; 
+    border-radius: 8px;
+    padding: 7% 3%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 30vw;
+    gap: 20px;
+    position: relative;
+    background: white;
+}
+
+.patientCard .info{
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 2vh;
+    width: 80%;
+}
+
+.patientCard .info .row {
+    display: flex;
+     
+}
+
+.patientCard .info .row .label{
+    flex: 1;
+}
+.patientCard .info .row .value{
+    flex: 1;
+    text-align: left;
+}
+
+.timerOption{
+    flex: 1;
+    text-align: center;
+    width: 80%;
+}
+
+.patientCard .greenBtn, .patientCard .yellowBtn{
+    margin-top: 5px;
+    background: #33b249;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 2px;
+    color: white; 
+    width: 100%;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.patientCard .greenBtn:hover,.patientCard .yellowBtn:hover{
+    cursor: pointer;
+}
+
+.patientCard .yellowBtn{
+    background: #b2b233;
+}
+.patientCard .timerOption span{
+    position: absolute;
+    left: 45%;
+    bottom: 0;
+    font-size: .8rem; 
+}

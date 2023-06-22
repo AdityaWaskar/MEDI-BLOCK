@@ -40,8 +40,8 @@
 .bgcontain{
     width: 100%;
     height: 60%;
-    background-image: url('../../../assets/doctorModule/bg.jpg');
-    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8)), url('../../../assets/doctorModule/bg.jpg');
+    background-image: url('../../assets/doctorModule/bg.jpg');
+    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8)), url('../../assets/doctorModule/bg.jpg');
     background-size:cover;
     position: fixed;
     left: 0;
