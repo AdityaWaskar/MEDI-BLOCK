@@ -113,17 +113,7 @@ nav .menu:hover .active{
     visibility: visible;
     opacity: 1;
 }
-/* 
-nav .menu ul::before{
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    background: #fff;
-    transform: rotate(45deg);
-} */
+ 
 nav .menu ul li{
     list-style: none;
     padding: 10px 0;
@@ -142,22 +132,16 @@ nav .menu ul li .profileLogo{
 nav .menu ul li:hover{
     opacity: 1;
 }
-nav .menu ul li a{
+nav .menu ul li .navigateClass{
     display: inline-block;
     text-decoration:none ;
     color:rgb(104, 104, 104);
     font-weight: 500;
     transition: 0.5s; 
 }
-nav .menu ul li:hover a, nav .menu ul li:hover .profileLogo{
+nav .menu ul li:hover .navigateClass, nav .menu ul li:hover .profileLogo{
     color: #000000;
     font-weight: 500;
+    cursor: pointer;
 }
-/* 
-nav .profileLogo{
-    height: 30px;
-    width: 30px;
-} */
-
-
-
+ 

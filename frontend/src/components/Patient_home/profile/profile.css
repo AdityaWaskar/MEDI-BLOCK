@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Monomaniac+One&family=Permanent+Marker&family=Poppins:wght@100;200;300;400&display=swap");
+.patientProfileContainer {
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+  width: 100%;
+}
+ 
+.patientProfileContainer .img {
+  height: 100px;
+  width: 100px;
+  /* background-color: gray; */
+  border-radius: 50%;
+}
+.patientProfileContainer .img img {
+  height: 100px;
+  width: 100px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+/* main content */
+.patientProfileContainer .mainContant {
+  height: 70%;
+  width: 100%;
+  background-color: #fff;
+  /* background: linear-gradient(to right, #e0ebff, #cfdef3); */
+  position: absolute;
+  /* left: 5%; */
+  top: 25%;
+  border-radius: 20px;
+}
+ .patientProfileContainer .mainContant .heading {
+  width: 100%;
+  height: 25%;
+  background: linear-gradient(to right, #e0ebff, #cfdef3);
+  /* border: 1px solid black; */
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+.patientProfileContainer .mainContant .profileImg {
+  width: 80px;
+  height: 80px;
+  background-color: #ffffff;
+  border: 4px solid black;
+  border-radius: 50%;
+  margin-top: -3%;
+  margin-left: 3%;
+}
+.patientProfileContainer .mainContant .profileImg img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.patientProfileContainer .mainContant .personalInfo {
+  width: 30%;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+.patientProfileContainer .mainContant .personalInfo .name {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-left: 10%;
+}
+.patientProfileContainer .mainContant .personalInfo .email,
+.patientProfileContainer .phone {
+  line-height: 1.5;
+  color: #535353;
+  font-weight: 400;
+  margin-left: 10%;
+}
+.patientProfileContainer .mainContant .data {
+  width: 80%;
+  height: 45%;
+  display: flex;
+  margin-left: 10%;
+}
+.patientProfileContainer .data .leftData {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.patientProfileContainer .data .leftData .email,
+.patientProfileContainer .age,
+.patientProfileContainer .gender,
+.patientProfileContainer .patientAddress {
+    flex: 1 !important;
+    font-size: 1.1rem !important;
+    font-weight: 400 !important;
+    color: #535353 !important;
+}
+.patientProfileContainer .data .rightData {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.patientProfileContainer .data .rightData .phoneNo,
+.patientProfileContainer .address,
+.patientProfileContainer .bloodgr {
+  flex: 1 !important;
+  font-size: 1.1rem !important;
+  font-weight: 400 !important;
+  color: #535353 !important;
+}

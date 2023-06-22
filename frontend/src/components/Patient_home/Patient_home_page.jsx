@@ -24,6 +24,36 @@ const Patient_home_page = () => {
   const [cancel, setCancel] = useState(false); //use of diplaying forms
   const [email, setEmail] = useState("");
   const [count, setCount] = useState(0);
+  const [patientInfo, setPaientInfo] = useState();
+
+  async function requestAccount() {
+    try {
+      const account = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      return account[0];
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const getPatientData = async () => {
+    const account = await requestAccount();
+    const data = Cookies.get(account);
+    if (!data) {
+      const doctorInfo = await patientServices.getpatientByWallet(account);
+      setPaientInfo(doctorInfo);
+      console.log("fafdas" + doctorInfo);
+      const expirationDate = new Date();
+      expirationDate.setTime(expirationDate.getTime() + 15 * 60 * 1000); // Set expiration to 15 minutes from now
+      Cookies.set(account, JSON.stringify(doctorInfo), {
+        expires: expirationDate,
+        path: "/patient_page",
+      });
+    } else {
+      setPaientInfo(JSON.parse(data));
+    }
+  };
 
   const current_second = () => {
     const date = new Date();
@@ -42,14 +72,6 @@ const Patient_home_page = () => {
     console.log(Cookies.get(params.patientId));
     return Cookies.get(params.patientId);
   };
-
-  // Displays a prompt for the user to select which accounts to connect
-  async function requestAccount() {
-    const account = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    return account[0];
-  }
 
   async function getEmail() {
     const address = await requestAccount();
@@ -96,6 +118,7 @@ const Patient_home_page = () => {
     setHigherLimit(today);
     getAllPatientReports();
     getEmail();
+    getPatientData();
   }, []);
 
   useEffect(() => {

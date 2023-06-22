@@ -19,8 +19,8 @@ import {
   Add_doctor,
   Doctor_page,
   DoctorServices,
+  Profile,
 } from "./components";
- 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -61,6 +61,10 @@ const createRoute = createBrowserRouter([
   {
     path: "/patient_page/:role/:patientId/:email",
     element: <Patient_home_page />,
+  },
+  {
+    path: "/patient_page/:role/:patientId/:email/profile",
+    element: <Profile />,
   },
   // {
   //   //remove this route

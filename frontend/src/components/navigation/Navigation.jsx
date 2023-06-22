@@ -4,14 +4,15 @@ import { CgProfile } from "react-icons/cg";
 import { VscSignOut } from "react-icons/vsc";
 import logo from "../Main_Page/logo1.svg";
 import { doctor } from "../../assets/doctorModule";
-import { useNavigation } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 const Navigation = (props) => {
   const [profileActive, setProfileActive] = useState(false);
-  const navigate = useNavigation();
+  const navigate = useNavigate();
+  const params = useParams();
 
-  const navigation = () => {
-    if (props.role === "doctor") {
+  const _navigation = () => {
+    if (params.role === "true") {
       navigate("./profile");
     }
   };
@@ -33,11 +34,15 @@ const Navigation = (props) => {
           <ul className="active">
             <li>
               <CgProfile className="profileLogo" />
-              <a href="#">MY PROFILE </a>
+              <div className="navigateClass" onClick={_navigation}>
+                MY PROFILE
+              </div>
             </li>
             <li>
               <VscSignOut className="profileLogo" />
-              <a href="/">LOG OUT</a>
+              <div className="navigateClass" onClick={_navigation}>
+                LOG OUT
+              </div>
             </li>
           </ul>
         </div>

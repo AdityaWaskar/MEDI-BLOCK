@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./doctor_services.css";
 import Patient_List from "./patient_list/Patient_List";
 import Doctor_Profile from "./profile/Doctor_Profile";
-import { doctor } from "../../assets/doctorModule";
 import Doctor_navigation from "./doctorNavigation/Doctor_navigation";
 import { useParams, useNavigate } from "react-router";
 import Spinner from "../spinner/Spinner";
@@ -17,7 +16,7 @@ const DoctorServices = () => {
 
   const handlePageChange = (page) => {
     if (page === "dashboard") {
-      navigate(`../doctor_page/asdf@`);
+      navigate(`../doctor_page/${params.email}`);
       return;
     }
     navigate(

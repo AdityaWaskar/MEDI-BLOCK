@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Monomaniac+One&family=Permanent+Marker&family=Poppins:wght@100;200;300;400&display=swap');
 
-.left{
+.doctor_navigation_container{
     width: 100%;
     height: 100%;
     border: none;
@@ -10,12 +10,12 @@
     margin-left: 1%;
     font-family: 'Poppins', sans-serif;
 }
-.left .up{
+.doctor_navigation_container .up{
     background-color: #EDEDED;
     flex: 1;
     border-top-left-radius: 4%;
 }
-.left .down{
+.doctor_navigation_container .down{
     flex: 1;
     background-color: #EDEDED;
     border-bottom-left-radius: 4%;
