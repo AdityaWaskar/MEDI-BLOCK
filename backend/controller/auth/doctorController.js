@@ -169,82 +169,16 @@ const doctorController = {
     }
   },
 
-  // async addMedicalReport(req, res, next) {
-  //   const doctor_Address = req.params.doctor_Address;
-  //   try {
-  //     const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-  //     const gas = await contract.methods
-  //       .getMedicalInformation(doctor_Address)
-  //       .estimateGas();
-  //     contract.methods
-  //       .getMedicalInformation(doctor_Address)
-  //       .send({ from: account, gas })
-  //       .on("confirmation", async (conformatinNo, receipt) => {
-  //         res.send(receipt);
-  //       });
-  //   } catch (error) {
-  //     return next(CustomErrorHandler.badRequest("Invalid input!"));
-  //   }
-  // },
-
-  // async getMedicalReport(req, res, next) {
-  //   try {
-  //     const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-  //     const report = await contract.methods
-  //       .getMedicalInformation(req.params.wallet_Address)
-  //       .call();
-  //     res.send(report);
-  //   } catch (error) {
-  //     return next(
-  //       CustomErrorHandler.notFound("Error while retiriving the data!")
-  //     );
-  //   }
-  // },
-
-  async addPatientsTreatedByDoctor(req, res, next) {
-    const patient_Address = req.params.patient_Address;
-    try {
-      const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      const gas = await contract.methods
-        .addpatientsTreatedByDoctor(patient_Address)
-        .estimateGas();
-      contract.methods
-        .addpatientsTreatedByDoctor(patient_Address)
-        .send({ from: account, gas })
-        .on("confirmation", async (conformatinNo, receipt) => {
-          res.send(receipt);
-        });
-    } catch (error) {
-      return next(
-        CustomErrorHandler.badRequest(
-          "Error while sending the data to the server!"
-        )
-      );
-    }
-  },
-
   async getPatientsTreatedByDoctor(req, res, next) {
+    const doctorAddress = req.params.docAddress;
     try {
       const contract = new web3.eth.Contract(hospitalABI, contarct_address);
-      const allPatients = await contract.methods
-        .getpatientsTreatedByDoctor(req.params.doctor_Address)
+      const data = await contract.methods
+        .getpatientsTreatedByDoctor(doctorAddress)
         .call();
-      let allInfo = [];
-      for (let i = 0; i < allPatients.length; i++) {
-        let patientInfo = "xxxxxxxx";
-        patientInfo = await contract.methods
-          .GetPatientByAddress(allPatients[i])
-          .call();
-        allInfo = allInfo.concat(patientInfo);
-      }
-
-      res.send(allInfo);
+      res.send(data);
     } catch (error) {
-      return next(
-        CustomErrorHandler.badRequest(
-          "Unable to retrive the data from the server!"
-        )
-      );
+      console.log("->", error);
     }
   },
 };

@@ -11,6 +11,10 @@ doctorRoute.get(
   "/wallet=:wallet_Address",
   doctorController.data_by_walletAddress
 );
+doctorRoute.get(
+  "/patientListTreatedByDoctor/:docAddress",
+  doctorController.getPatientsTreatedByDoctor
+);
 doctorRoute.post("/add", doctorController.add);
 
 export default doctorRoute;

@@ -1,13 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import doctorServices from "../../../services/doctorServices";
 import "./patient_list.css";
+import Spinner from "../../spinner/Spinner";
 
-const Patient_List = () => {
+const Patient_List = (props) => {
+  const [patientList, setPaitentList] = useState();
+  const [filterData, setFilterData] = useState();
+  const [spinner, setSpinner] = useState(false);
+
+  async function requestAccount() {
+    try {
+      const account = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      return account[0];
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const getPaientList = async () => {
+    setSpinner(true);
+    try {
+      const account = await requestAccount();
+
+      const data = await doctorServices.patientListTreatedByDoctor(account);
+      setPaitentList(data);
+      setFilterData(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getPaientList().then((res) => setSpinner(false));
+  }, []);
+
+  // handle suggestion
+  function handleSearchTermChange(event) {
+    const search = event.target.value;
+    var filteredData = patientList.filter(function (obj) {
+      let data;
+      !search.startsWith("0x")
+        ? (data = obj.phoneNo.startsWith(search))
+        : (data = obj.contract_address.startsWith(search));
+
+      return data;
+    });
+
+    setFilterData(filteredData);
+    if (search.length == 0) {
+      getPaientList();
+    }
+  }
+
   return (
     <div className="rightPatientList">
+      <Spinner active={spinner} />
       <input
         className="searchBox"
         type="text"
-        placeholder="Enter phone no/ contract address"
+        placeholder="Enter Patient Id"
+        onChange={handleSearchTermChange}
       />
       <div className="rightMid">
         <p>Patient List</p>
@@ -20,12 +73,14 @@ const Patient_List = () => {
           <div className="phone">Phone No.</div>
         </div>
         <div class="line"></div>
-        <div className="row2">
-          <div className="srno">01</div>
-          <div className="date">02/02/2024</div>
-          <div className="name">Himanshu Upadhyay</div>
-          <div className="phone">123232343</div>
-        </div>
+        {filterData?.map((record, index) => (
+          <div className="row2" key={index}>
+            <div className="srno">{index + 1}</div>
+            <div className="date">{record.date}</div>
+            <div className="name">{record.name}</div>
+            <div className="phone">{record.phoneNo}</div>
+          </div>
+        ))}
       </div>
     </div>
   );

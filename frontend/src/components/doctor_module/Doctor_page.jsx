@@ -34,16 +34,6 @@ const Doctor_page = () => {
       console.log(e);
     }
   }
-  async function requestAccount() {
-    try {
-      const account = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      return account[0];
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   const getDoctorData = async () => {
     const account = await requestAccount();
