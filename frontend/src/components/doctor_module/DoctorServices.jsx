@@ -7,6 +7,7 @@ import { useParams, useNavigate } from "react-router";
 import Spinner from "../spinner/Spinner";
 import AddReport from "./add_report/AddReport";
 import Navigation from "../navigation/Navigation";
+import Footer from "../footer/Footer";
 
 const DoctorServices = () => {
   const params = useParams();
@@ -21,7 +22,7 @@ const DoctorServices = () => {
     }
     navigate(
       // `${process.env.REACT_FRONT_APP_BASE_URL}doctor/${"asdf@"}/${page}`
-      `../doctor_page/asdf@/${page}`
+      `../doctor_page/${params.email}/${page}`
     );
     setCurrentPage(page);
   };
@@ -40,16 +41,19 @@ const DoctorServices = () => {
   };
 
   return (
-    <div className="mainContainer">
+    <section>
       <Spinner active={spinner} />
       <Navigation email={params.email} />
-      <div className="mainSection">
-        <div className="leftContainer">
-          <Doctor_navigation onPageChange={handlePageChange} />
+      <div className="mainContainer">
+        <div className="mainSection">
+          <div className="leftContainer">
+            <Doctor_navigation onPageChange={handlePageChange} />
+          </div>
+          <div className="rightContainer">{renderRightComponent()}</div>
         </div>
-        <div className="rightContainer">{renderRightComponent()}</div>
       </div>
-    </div>
+      <Footer />
+    </section>
   );
 };
 

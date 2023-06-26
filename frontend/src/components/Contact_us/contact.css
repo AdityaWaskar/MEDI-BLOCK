@@ -1,0 +1,242 @@
+.contactUsContainer{
+    display: flex;
+    margin: 50px auto;
+    width: 75vw; 
+    box-shadow: 0 0 10px rgba(0,0,0,.2);
+    border-radius: 8px;
+    font-family: popins;
+
+}
+
+.contactUsContainer .left{
+    flex: 1; 
+    position: relative;
+}
+
+.contactUsContainer .left #contactleftbg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.contactUsContainer .contactUSCard1{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    padding: 40px;
+}
+
+.contactUsContainer .contactUSCard1 .row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.contactUsContainer .contactUSCard1 .row span{
+    font-weight: 600;
+}
+
+.contactUsContainer .contactUSCard1 .row img{
+    width: 10%;
+}
+
+.contactUsContainer .contactUSCard1 .subText{
+    margin: 30px auto; 
+    text-align: justify;
+    color: gray;
+}
+
+.contactUsContainer .contactUSCard1 button{
+    border: none;
+    background: transparent;
+}
+
+.contactUsContainer .contactUSCard1 button img{ 
+    width: 100%;
+}
+
+.contactUsContainer .right{
+    flex: 2; 
+    padding: 40px 20px;
+}
+
+.contactUsContainer .right .title .maintext{
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.contactUsContainer .right .title .subtext{
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-size: 1rem;
+    color: silver;
+}
+
+/* .wrapper{
+    padding: 30px;
+    box-shadow: 0 0 10px rega(0,0,0,0.1);
+    width: 40%;
+}
+.contactUsContainer form .row .input-data{
+    height: 60px;
+    width: 100%;
+    position: relative;
+    font-size: 17px;
+    border: 2px solid silver;
+    
+}
+
+.contactUsContainer form .row .input-data input{
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 17px;
+}
+
+.contactUsContainer form .row .input-data input:focus ~ label,
+.contactUsContainer form .row .input-data input:valid ~ label{
+    transform: translateY(-28px);
+    font-size: 15px;
+    color: #b598f9;
+}
+
+.contactUsContainer form .row .input-data label{
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    color: grey;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.contactUsContainer .underline{
+    position: absolute;
+    bottom: 0px;
+    height: 2px;
+    width: 100%; 
+}
+
+.contactUsContainer .underline::before{
+    position: absolute;
+    content: ""; 
+    height: 100%;
+    width: 100%;
+    background-color: red;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: trasform 0.3s ease;
+}
+
+.contactUsContainer form .row .input-data input:focus ~ .underline::before,
+.contactUsContainer form .row .input-data input:valid ~ .underline::before{
+    transform: scaleX(1);
+}
+
+*/
+
+.contactUsContainer .wrapper{
+    width: 40%;
+    background: #fff;
+    padding: 15px;
+    border: 2px solid #e4e4e4;
+    border-radius: 4px;
+}
+
+.contactUsContainer .row .w100{
+    width: 100%;
+}
+
+.contactUsContainer .wrapper .input-data{
+  height: 40px;
+  width: 100%;
+  position: relative;
+}
+
+.contactUsContainer .wrapper .input-data input{
+  height: 100%;
+  width: 100%;
+  border: none;
+  font-size: 17px;
+  border-bottom: 2px solid silver;
+}
+
+.contactUsContainer .input-data input:focus ~ label,
+.contactUsContainer .input-data input:valid ~ label{
+  transform: translateY(-20px);
+  font-size: 15px;
+  color: #b598f9;
+}
+
+.contactUsContainer .wrapper .input-data label{
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  color: grey;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.contactUsContainer .input-data .underline{
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  bottom: 0;
+}
+
+.contactUsContainer .input-data .underline:before{
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background: #b598f9;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.contactUsContainer .input-data input:focus ~ .underline:before,
+.contactUsContainer .input-data input:valid ~ .underline:before{
+  transform: scaleX(1);
+}
+
+.contactUsContainer .input-data input:not(:focus) ~ .underline:before 
+{
+  transform: scaleX(0);
+}
+
+
+.contactUsContainer form .row{
+    display: flex;
+    justify-content: space-between; 
+    margin-bottom: 10px;
+}
+
+.contactUsContainer form textarea{
+    border: 2px solid #e4e4e4;
+    width: 100%;
+    padding: 15px;
+    font-size: 15px;
+}
+
+.contactUsContainer form textarea:focus{ 
+    border-bottom: 2px solid #b598f9 ;
+    outline: none;
+}
+
+.contactUsContainer form button{
+    margin-top: 15px;
+    width: 100%;
+    height: 40px;
+    background: #b598f9;
+    color: white;
+    border: none;
+    font-size: inherit;
+    font-weight: 500;
+}
+
+.contactUsContainer button:hover{
+    cursor: pointer;
+}

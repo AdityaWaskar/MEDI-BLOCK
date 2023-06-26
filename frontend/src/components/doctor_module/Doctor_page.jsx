@@ -4,6 +4,7 @@ import { doctor, viewPatient, profile } from "../../assets/doctorModule";
 import { useNavigate, useParams } from "react-router-dom";
 import Navigation from "../navigation/Navigation";
 import { doctorServices } from "../../services";
+import Footer from "../footer/Footer";
 import Cookies from "js-cookie";
 
 const Doctor_page = () => {
@@ -58,32 +59,38 @@ const Doctor_page = () => {
   }, []);
 
   return (
-    <div className="Doctor_container">
+    <section>
       <Navigation email={params.email} />
-      <div className="bgcontain">
-        <p className="midHeading">
-          High Innovative <br /> Profession Dentists
-        </p>
-        <p className="midSubHeading">Welcome, {doctorData?.name}</p>
+      <div className="Doctor_container">
+        <div className="bgcontain">
+          <p className="midHeading">
+            High Innovative <br /> Profession Dentists
+          </p>
+          <p className="midSubHeading">Welcome, {doctorData?.name}</p>
+        </div>
+        <div className="bottom">
+          <div
+            className="addReport box"
+            onClick={() => _onClickEvent("addbox")}
+          >
+            <img src={profile} alt="image" />
+            <p>Add Report</p>
+          </div>
+          <div
+            className="viewPatient box"
+            onClick={() => _onClickEvent("viewPatient")}
+          >
+            <img src={viewPatient} alt="image" />
+            <p>View Patient</p>
+          </div>
+          <div className="profile box" onClick={() => _onClickEvent("profile")}>
+            <img src={doctor} alt="image" />
+            <p>Profile</p>
+          </div>
+        </div>
       </div>
-      <div className="bottom">
-        <div className="addReport box" onClick={() => _onClickEvent("addbox")}>
-          <img src={profile} alt="image" />
-          <p>Add Report</p>
-        </div>
-        <div
-          className="viewPatient box"
-          onClick={() => _onClickEvent("viewPatient")}
-        >
-          <img src={viewPatient} alt="image" />
-          <p>View Patient</p>
-        </div>
-        <div className="profile box" onClick={() => _onClickEvent("profile")}>
-          <img src={doctor} alt="image" />
-          <p>Profile</p>
-        </div>
-      </div>
-    </div>
+      <Footer />
+    </section>
   );
 };
 

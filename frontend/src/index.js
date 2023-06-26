@@ -20,6 +20,7 @@ import {
   Doctor_page,
   DoctorServices,
   Profile,
+  Contact_us,
 } from "./components";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -94,6 +95,10 @@ const createRoute = createBrowserRouter([
   {
     path: "/admin_page/:email/addDoctor",
     element: <Add_doctor />,
+  },
+  {
+    path: "/contact_us",
+    element: <Contact_us />,
   },
 ]);
 root.render(

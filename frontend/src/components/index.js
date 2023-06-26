@@ -12,5 +12,6 @@ export { default as Admin_home_page } from "./Admin_home/Admin_home_page";
 export { default as Doctor_page } from "./doctor_module/Doctor_page";
 export { default as DoctorServices } from "./doctor_module/DoctorServices";
 export { default as Profile } from "./Patient_home/profile/Profile";
+export { default as Contact_us } from "./Contact_us/Contact_us";
 // remove the file
 export { default as Doctor_home_page } from "./Doctor_home/Doctor_home_page";

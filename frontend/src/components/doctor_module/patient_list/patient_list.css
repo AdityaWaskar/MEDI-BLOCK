@@ -63,6 +63,11 @@
   font-size: 1rem;
   height: 15%;
 }
+
+.rightPatientList .pl .row2:hover{
+  cursor: pointer;
+  
+}
 .rightPatientList .pl .line {
   width: 100%;
   border-top: 2px solid #a3a3a3;

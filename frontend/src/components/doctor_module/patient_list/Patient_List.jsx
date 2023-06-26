@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import doctorServices from "../../../services/doctorServices";
 import "./patient_list.css";
 import Spinner from "../../spinner/Spinner";
+import toast, { Toaster } from "react-hot-toast";
 
 const Patient_List = (props) => {
   const [patientList, setPaitentList] = useState();
@@ -49,12 +50,24 @@ const Patient_List = (props) => {
 
     setFilterData(filteredData);
     if (search.length == 0) {
-      getPaientList();
+      getPaientList().then((res) => setSpinner(false));
     }
   }
 
+  const handleCopy = (phoneNo) => {
+    navigator.clipboard
+      .writeText(phoneNo)
+      .then(() => {
+        toast.success("Phone No. copied to clipboard");
+      })
+      .catch((error) => {
+        console.error("Failed to copy text:", error);
+      });
+  };
+
   return (
     <div className="rightPatientList">
+      <Toaster position="bottom-center" reverseOrder={false} />
       <Spinner active={spinner} />
       <input
         className="searchBox"
@@ -72,9 +85,13 @@ const Patient_List = (props) => {
           <div className="name">NAME</div>
           <div className="phone">Phone No.</div>
         </div>
-        <div class="line"></div>
+        <div className="line"></div>
         {filterData?.map((record, index) => (
-          <div className="row2" key={index}>
+          <div
+            className="row2"
+            key={index}
+            onClick={() => handleCopy(record.phoneNo)}
+          >
             <div className="srno">{index + 1}</div>
             <div className="date">{record.date}</div>
             <div className="name">{record.name}</div>

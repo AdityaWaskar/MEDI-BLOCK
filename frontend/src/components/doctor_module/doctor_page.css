@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 .Doctor_container{
-    height: 100vh;
+    /* height: 100vh; */
 }
  
 .Doctor_container .heading{
@@ -107,6 +107,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.Doctor_container .box:hover{
+    cursor: pointer;
 }
 .Doctor_container .box img{
     width: 45%;

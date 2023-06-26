@@ -14,6 +14,8 @@ const Navigation = (props) => {
   const _navigation = () => {
     if (params.role === "true") {
       navigate("./profile");
+    } else {
+      navigate(`../doctor_page/${params.email}/profile`);
     }
   };
   return (
