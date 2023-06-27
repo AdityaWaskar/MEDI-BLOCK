@@ -8,8 +8,7 @@ import {
   Register,
   DetailInfo,
   Admin_home_page,
-  Patient_home_page,
-  Doctor_home_page,
+  Patient_home_page, 
   Spinner,
   Login,
   PatientLogin,
@@ -66,12 +65,7 @@ const createRoute = createBrowserRouter([
   {
     path: "/patient_page/:role/:patientId/:email/profile",
     element: <Profile />,
-  },
-  // {
-  //   //remove this route
-  //   path: "/doctor_page/:email",
-  //   element: <Doctor_home_page />,
-  // },
+  }, 
   {
     path: "/about",
     element: <Services />,

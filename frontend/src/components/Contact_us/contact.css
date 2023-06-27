@@ -75,68 +75,6 @@
     color: silver;
 }
 
-/* .wrapper{
-    padding: 30px;
-    box-shadow: 0 0 10px rega(0,0,0,0.1);
-    width: 40%;
-}
-.contactUsContainer form .row .input-data{
-    height: 60px;
-    width: 100%;
-    position: relative;
-    font-size: 17px;
-    border: 2px solid silver;
-    
-}
-
-.contactUsContainer form .row .input-data input{
-    height: 100%;
-    width: 100%;
-    border: none;
-    font-size: 17px;
-}
-
-.contactUsContainer form .row .input-data input:focus ~ label,
-.contactUsContainer form .row .input-data input:valid ~ label{
-    transform: translateY(-28px);
-    font-size: 15px;
-    color: #b598f9;
-}
-
-.contactUsContainer form .row .input-data label{
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    color: grey;
-    pointer-events: none;
-    transition: all 0.3s ease;
-}
-
-.contactUsContainer .underline{
-    position: absolute;
-    bottom: 0px;
-    height: 2px;
-    width: 100%; 
-}
-
-.contactUsContainer .underline::before{
-    position: absolute;
-    content: ""; 
-    height: 100%;
-    width: 100%;
-    background-color: red;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: trasform 0.3s ease;
-}
-
-.contactUsContainer form .row .input-data input:focus ~ .underline::before,
-.contactUsContainer form .row .input-data input:valid ~ .underline::before{
-    transform: scaleX(1);
-}
-
-*/
-
 .contactUsContainer .wrapper{
     width: 40%;
     background: #fff;
@@ -215,10 +153,10 @@
 }
 
 .contactUsContainer form textarea{
-    border: 2px solid #e4e4e4;
+    border: 3px solid #e4e4e4;
     width: 100%;
     padding: 15px;
-    font-size: 15px;
+    font-size: 17px;
 }
 
 .contactUsContainer form textarea:focus{ 

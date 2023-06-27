@@ -11,10 +11,14 @@ const Navigation = (props) => {
   const about = () => {
     navigate("/about");
   };
+
+  const contact = () => {
+    navigate("/contact_us");
+  };
   return (
     <nav>
       <div className="left">
-        <div id="logo">
+        <div id="logo" onClick={() => navigate("../")}>
           <img src={logo} alt="" />
         </div>
         <div className="title">Medi-block</div>
@@ -28,7 +32,7 @@ const Navigation = (props) => {
         </div>
         <div className="elements">Guidence</div>
       </div>
-      <div className="right">
+      <div className="right" onClick={contact}>
         <div className="elements">Contact Us</div>
       </div>
     </nav>

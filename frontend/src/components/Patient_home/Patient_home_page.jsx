@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import Filter from "./Filter";
 import { BsFillShareFill } from "react-icons/bs";
 import { MdNoteAdd } from "react-icons/md";
-import Report_form from "../Doctor_home/Report_form";
+import Report_form from "../Report_Form/Report_form";
 import Spinner from "../spinner/Spinner";
 import { toast, Toaster } from "react-hot-toast";
 import { doctorServices, patientServices } from "../../services";
@@ -157,10 +157,11 @@ const Patient_home_page = () => {
         )}
         <div className="share_btn">
           {params.role == "true" ? (
-            <>
-              <BsFillShareFill onClick={() => console.log("aditya")} />
-              <span className="msg">Share your details</span>
-            </>
+            // <>
+            //   <BsFillShareFill onClick={() => console.log("aditya")} />
+            //   <span className="msg">Share your details</span>
+            // </>
+            null
           ) : (
             <>
               <MdNoteAdd />
