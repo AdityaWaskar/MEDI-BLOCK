@@ -1,0 +1,18 @@
+.AllCards{
+    width: 100%;   
+    padding: 2% 6%; 
+    box-sizing: border-box;
+}
+
+.AllCards td{
+    text-align: center;
+    padding: 6px 0;
+}
+
+.AllCards tr:hover{
+    cursor: pointer;
+}
+
+.AllCards th{
+    border-bottom: 1px solid black;
+}

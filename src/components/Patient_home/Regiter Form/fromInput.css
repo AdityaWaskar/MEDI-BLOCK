@@ -1,0 +1,31 @@
+.fromInputContainer{
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+}
+
+ .fromInputContainer input{
+    padding: 15px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+   
+.fromInputContainer label{
+    font-size: 12px;
+    color: gray;
+
+}
+
+.fromInputContainer span{
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: none;
+}
+.fromInputContainer input:invalid[focused="true"] {
+    border: 1px solid red;
+}
+.fromInputContainer input:invalid[focused="true"] ~ span{
+    display: block;
+}

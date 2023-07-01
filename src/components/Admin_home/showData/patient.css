@@ -1,0 +1,29 @@
+.patient_data_container .searchbar{
+    display: flex;
+    margin: 3% 20%;
+    height: 40px;
+}
+
+.patient_data_container .searchbar input{
+    width: 100%;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border: 1px solid grey;
+    border-right: none;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+}
+
+.patient_data_container button{
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 0 25px;
+    background: white;
+    border: 1px solid grey;
+    border-left: none;
+}
+
+.searchbar input::-webkit-calendar-picker-indicator {
+    /* display: none; */
+    opacity: 0;
+  }

@@ -1,8 +1,8 @@
 .loginUiContainer{
     height: 100vh;
-    display: flex;
+    /* display: flex; */
     /* justify-con/tent:center   ; */
-    background-color: #f3ede5c7;
+    /* background-color: #f3ede5c7; */
     align-items: center;
     flex-direction: column;
     font-family: 'Prompt', sans-serif;
@@ -56,20 +56,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10vh;
 }
 .loginUiContainer .loginContainer{
     width: 307px;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: transparent;
     padding: 30px 27px;
     border-radius: 21px;
     position: relative;
+    box-shadow: 0 0 9px 0px #bebebe;
+    backdrop-filter: blur(4px);
+    border: 1px solid #afafaf;
 }
 
 .loginUiContainer .loginContainer::before{
     content: '';
-    background-image: url('../../../public/img/login1.png');
+    background-image: url('../../assets/login1.png');
     background-repeat: no-repeat;
     width: 100%;
     height: 100%;
@@ -81,7 +85,7 @@
 
 .loginUiContainer .loginContainer::after{
     content: '';
-    background-image: url('../../../public/img/login2.gif');
+    background-image: url("../../assets//login2.gif");
     background-repeat: no-repeat;
     width: 100%;
     height: 100%;
@@ -97,20 +101,17 @@
 .loginUiContainer .title{
     font-size: 30px;
     font-weight: 500;
-    margin-bottom: 8px;
 }
 
-.loginUiContainer .subTitle{
-    font-size: 17px;
+.loginUiContainer .subTitle{ 
+    font-size: 15px;
     margin: 17px 0;
+    color: grey;
 }
 
 .loginUiContainer .section2{
     display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* width: 100%; */
+    flex-direction: column; 
 }
 
 .loginUiContainer .checkbox label{
@@ -124,17 +125,17 @@
 }
 
 .loginUiContainer input, .loginUiContainer button{
-    /* width: 100%; */
-    width: 273px;
+    width: 100%;
+    /* width: 273px; */
     border-radius: 8px;
     height: 38px;
     border: 1px solid lightgray;
 }
 
-.loginUiContainer .email , .loginUiContainer .pwd{
+/* .loginUiContainer .email , .loginUiContainer .pwd{
     margin: 10px 0;
     padding: 0 5px;
-}
+} */
 
 .loginUiContainer .section2 input{
     padding-left: 25px ;
@@ -170,4 +171,52 @@ input:focus-visible {
     margin-top: 17px;
     font-size: 12px;
     opacity: 0.9;
+}
+
+
+.password-input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .password-input-field {
+    padding-right: 30px;
+    width: 100%;
+  }
+  
+  .password-input-label {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-size: 14px;
+    color: #555;
+    transition: all 0.2s ease-out;
+  }
+  
+  .password-input-field:focus ~ .password-input-label,
+  .password-input-field:not(:placeholder-shown) ~ .password-input-label {
+    top: -35px;
+    font-size: 12px;
+    color: #007bff;
+  }
+  
+  .password-input-icon-container {
+    position: absolute;
+    top: 50%;
+    right: 13px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .password-input-icon {
+    font-size: 15px;
+    color: rgb(101, 101, 101);
+  }
+  
+
+
+.loginContainer .email {
+    margin-bottom: 20px;
+
 }

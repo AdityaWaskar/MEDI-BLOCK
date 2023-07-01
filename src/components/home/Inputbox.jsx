@@ -5,7 +5,7 @@ const Inputbox = (props) => {
   
   return (
     // <div>
-        <div className="element" id={props.title}>
+        <div className="h_element" id={props.title}>
             <label>{props.title}</label>
             <input 
             type={props.type} 

@@ -1,0 +1,104 @@
+nav{
+    padding: 14px 0;
+    display: flex;
+    /* justify-content: space-evenly; */
+    align-items: center;
+}
+
+nav .title{
+    width: 90%;
+    text-align: center;
+    font-size: 3rem;
+}
+
+nav .userInfo{
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+nav .userInfo span{
+    text-align: center;
+}
+
+nav .userPhoto{
+    background-color: #cacacabd;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 60px;
+}
+
+nav .userPhoto img{
+    height: 100%;
+    width: 100%;
+}
+
+.reports{
+    min-height: 55.5vh;
+}
+
+/* icon */
+.share_btn{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    right: 15px;
+    bottom: 50px;
+    transition: all .1s ease;
+    opacity: .5;
+    background-color: #a3e0c6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+}
+
+.share_btn:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.share_btn svg{
+    transform: scaleX(-1);
+    width: 50%;
+    height: 50%;
+    color: rgb(0, 0, 0);
+}
+
+.share_btn .msg{
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    height: 50px;
+    width: 132px;
+    transition: all .5s ease;
+    font-size: 12px;
+    color: lightgray;
+    display: flex;
+    align-items: center;
+}
+
+.share_btn .msg:hover{
+    left: -103px;
+    opacity: 1;
+}
+
+.doctor_home_container .patient_list center p{
+    font-size: 1.2rem;
+    font-family: 'Roboto Slab', serif;
+}
+
+.emptymsg{
+    min-height: 68vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    color: #b2b2b2;
+    font-family: 'Poppins', sans-serif;
+}
